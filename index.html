@@ -5,10 +5,10 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Introduction | Play 中文文档</title>
+        <title> | Play 中文文档</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="The Scala API for Play application developers is available in the play.api package.">
-        <meta name="generator" content="GitBook 2.0.0-beta.1">
+        <meta name="description" content="Play 的 Scala API 在 play.api 包中。">
+        <meta name="generator" content="GitBook 2.0.0-beta.2">
         <meta name="HandheldFriendly" content="true"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
     
 
         
-    <div class="book" data-level="0" data-basepath="." data-revision="Thu Mar 12 2015 01:33:52 GMT+0800 (CST)">
+    <div class="book" data-level="0" data-basepath="." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1085,10 +1085,118 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="play-%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3">Play &#x4E2D;&#x6587;&#x6587;&#x6863;</h1>
-<p>The Scala API for Play application developers is available in the play.api package.</p>
+<p>Play &#x7684; Scala API &#x5728; play.api &#x5305;&#x4E2D;&#x3002;</p>
 <blockquote>
-<p>The API available directly inside the play package (such as play.mvc) is reserved for Java developers. As a Scala developer, look at play.api.mvc.</p>
+<p>play &#x5305;&#x4E2D;&#x7684; API &#x662F;&#x4E3A; Java &#x5F00;&#x53D1;&#x8005;&#x51C6;&#x5907;&#x7684;&#xFF0C;&#x6BD4;&#x5982; play.mvc&#x3002;&#x5BF9;&#x4E8E; Scala &#x5F00;&#x53D1;&#x8005;&#xFF0C;&#x8BF7;&#x4F7F;&#x7528; play.api.mvc&#x3002;</p>
 </blockquote>
+<h2 id="%E5%8F%82%E4%B8%8E%E7%BF%BB%E8%AF%91">&#x53C2;&#x4E0E;&#x7FFB;&#x8BD1;</h2>
+<p>&#x9996;&#x5148;&#xFF0C;&#x4F60;&#x5F97;&#x6709;&#x4E2A; Github &#x8D26;&#x53F7;&#xFF0C;&#x7136;&#x540E;&#xFF1A;</p>
+<ol>
+<li>&#x6253;&#x5F00;<a href="https://github.com/Hawstein/play-for-scala-developers" target="_blank">&#x8FD9;&#x4E2A;&#x9879;&#x76EE;</a>&#xFF0C;&#x731B;&#x6233;&#x300C;Fork&#x300D;&#x6309;&#x94AE;</li>
+<li>&#x628A; Fork &#x5230;&#x4F60;&#x8D26;&#x53F7;&#x4E0B;&#x7684;&#x9879;&#x76EE; Clone &#x5230;&#x672C;&#x5730;&#xFF1A;git clone git@github.com:&#x4F60;&#x7684;&#x8D26;&#x53F7;&#x540D;/play-for-scala-developers.git</li>
+<li>&#x5728;&#x9879;&#x76EE;&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x5206;&#x652F;&#x6765;&#x5DE5;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x65B0;&#x5206;&#x652F;&#x540D;&#x53EB; dev&#xFF0C;&#x5219;&#xFF1A;git branch dev</li>
+<li>&#x5207;&#x6362;&#x5230;&#x65B0;&#x5206;&#x652F;&#xFF1A;git checkout dev</li>
+<li>&#x8FD0;&#x884C; git remote add upstream <a href="https://github.com/Hawstein/play-for-scala-developers.git" target="_blank">https://github.com/Hawstein/play-for-scala-developers.git</a> &#x628A;&#x539F;&#x59CB;&#x9879;&#x76EE;&#x5E93;&#x6DFB;&#x52A0;&#x4E3A;&#x4E0A;&#x6E38;&#x5E93;&#xFF0C;&#x7528;&#x4E8E;&#x540C;&#x6B65;&#x6700;&#x65B0;&#x5185;&#x5BB9;</li>
+<li>&#x5728; dev &#x5206;&#x652F;&#x4E0B;&#x8FDB;&#x884C;&#x7FFB;&#x8BD1;&#x5DE5;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x4F60;&#x5728; ScalaRock.md &#x4E0A;&#x505A;&#x4FEE;&#x6539;&#xFF08;Play Doc&#xFF1A;<a href="https://www.playframework.com/documentation/2.3.x/ScalaHome&#xFF09;" target="_blank">https://www.playframework.com/documentation/2.3.x/ScalaHome&#xFF09;</a></li>
+<li>&#x63D0;&#x4EA4;&#x4F60;&#x7684;&#x5DE5;&#x4F5C;&#xFF1A;git add ScalaRock.md&#xFF0C;&#x7136;&#x540E; git commit -m &apos;&#x7FFB;&#x8BD1; ScalaRock&apos;&#x3002;&#x5728;&#x8FD9;&#x4E9B;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x4F60;&#x90FD;&#x53EF;&#x4EE5;&#x7528; git status &#x67E5;&#x770B;&#x72B6;&#x6001;</li>
+<li>&#x8FD0;&#x884C; git remote update &#x66F4;&#x65B0;</li>
+<li>&#x8FD0;&#x884C; git fetch upstream master &#x62C9;&#x53D6;&#x4E0A;&#x6E38;&#x5E93;&#x7684;&#x66F4;&#x65B0;&#x5230;&#x672C;&#x5730;</li>
+<li>&#x8FD0;&#x884C; git rebase upstream/master &#x5C06;&#x4E0A;&#x6E38;&#x5E93;&#x7684;&#x66F4;&#x65B0;&#x5408;&#x5E76;&#x5230;&#x4F60;&#x7684; dev &#x5206;&#x652F;</li>
+<li>&#x8FD0;&#x884C; git push origin master &#x5C06;&#x4F60;&#x7684;&#x63D0;&#x4EA4; push &#x5230;&#x4F60;&#x7684;&#x5E93;&#x4E2D;</li>
+<li>&#x767B;&#x5F55; Github&#xFF0C;&#x5728;&#x4F60; Fork &#x7684;&#x9879;&#x76EE;&#x9875;&#x6709;&#x4E2A; &#x300C;Pull Request&#x300D;&#x6309;&#x94AE;&#xFF0C;&#x70B9;&#x51FB;&#x5B83;&#xFF0C;&#x586B;&#x5199;&#x4E00;&#x4E9B;&#x8BF4;&#x660E;&#xFF0C;&#x7136;&#x540E;&#x63D0;&#x4EA4;</li>
+<li>&#x91CD;&#x590D;&#x6B65;&#x9AA4; 6&#xFF5E;12</li>
+</ol>
+<p>&#x4E3A;&#x4E86;&#x907F;&#x514D;&#x591A;&#x4EBA;&#x91CD;&#x590D;&#x7FFB;&#x8BD1;&#x540C;&#x4E00;&#x7AE0;&#x8282;&#xFF0C;&#x5728;&#x7FFB;&#x8BD1;&#x524D;&#x5148;&#x8FDB;&#x884C;&#x7AE0;&#x8282;&#x7684;&#x8BA4;&#x9886;&#x3002;&#x53EF;&#x4EE5;&#x5728;&#x5E16;&#x5B50; <a href="http://scalachina.org/topic/5501c59784ddfe6644e8c8d4" target="_blank">http://scalachina.org/topic/5501c59784ddfe6644e8c8d4</a> &#x56DE;&#x590D;&#x91CC;&#x8BA4;&#x9886;&#x76F8;&#x5E94;&#x7AE0;&#x8282;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x52A0; QQ &#x7FA4;&#xFF0C;&#x5728;&#x7FA4;&#x91CC;&#x8BF4;&#x3002;&#x7FA4;&#x53F7;&#xFF1A;312213800&#x3002;&#x6211;&#x4F1A;&#x628A;&#x8BA4;&#x9886;&#x7684;&#x7AE0;&#x8282;&#x66F4;&#x65B0;&#x5230;&#x8FD9;&#x4E2A;&#x5E16;&#x5B50;&#x548C;&#x9879;&#x76EE;&#x7684; README &#x91CC;&#x3002;</p>
+<h2 id="%E6%96%87%E6%A1%A3%E7%9B%AE%E5%BD%95">&#x6587;&#x6863;&#x76EE;&#x5F55;</h2>
+<p>&#x6587;&#x6863;&#x5730;&#x5740;&#xFF1A;<a href="https://www.playframework.com/documentation/2.3.x/ScalaHome" target="_blank">https://www.playframework.com/documentation/2.3.x/ScalaHome</a></p>
+<ul>
+<li><a href="ch01/ScalaActions.htmlnull">HTTP programming</a><ul>
+<li><a href="ch01/ScalaActions.htmlnull">Actions, Controllers and Results</a>    &#x8BA4;&#x9886;&#x4EBA;&#xFF1A;<a href="https://github.com/Hawstein" target="_blank">Hawstein</a></li>
+<li><a href="ch01/ScalaRouting.htmlnull">HTTP routing</a>    &#x8BA4;&#x9886;&#x4EBA;&#xFF1A;<a href="https://github.com/boulevard23" target="_blank">boulevard23</a></li>
+<li><a href="ch01/ScalaResults.htmlnull">Manipulating results</a></li>
+<li><a href="ch01/ScalaSessionFlash.htmlnull">Session and Flash scopes</a></li>
+<li><a href="ch01/ScalaBodyParsers.htmlnull">Body parsers</a></li>
+<li><a href="ch01/ScalaActionsComposition.htmlnull">Actions composition</a></li>
+<li><a href="ch01/ScalaContentNegotiation.htmlnull">Content negotiation</a></li>
+</ul>
+</li>
+<li><a href="ch02/ScalaAsync.htmlnull">Asynchronous HTTP programming</a><ul>
+<li><a href="ch02/ScalaAsync.htmlnull">Handling asynchronous results</a></li>
+<li><a href="ch02/ScalaStream.htmlnull">Streaming HTTP responses</a></li>
+<li><a href="ch02/ScalaComet.htmlnull">Comet sockets</a></li>
+<li><a href="ch02/ScalaWebSockets.htmlnull">WebSockets</a></li>
+</ul>
+</li>
+<li><a href="ch03/ScalaTemplates.htmlnull">The template engine</a><ul>
+<li><a href="ch03/ScalaTemplates.htmlnull">Templates syntax</a></li>
+<li><a href="ch03/ScalaTemplateUseCases.htmlnull">Common use cases</a></li>
+<li><a href="ch03/ScalaCustomTemplateFormat.htmlnull">Custom format addition</a></li>
+</ul>
+</li>
+<li><a href="ch04/ScalaForms.htmlnull">Form submission and validation</a><ul>
+<li><a href="ch04/ScalaForms.htmlnull">Handling form submission</a></li>
+<li><a href="ch04/ScalaCsrf.htmlnull">Protecting against CSRF</a></li>
+<li><a href="ch04/ScalaCustomValidations.htmlnull">Custom Validations</a></li>
+<li><a href="ch04/ScalaCustomFieldConstructors.htmlnull">Custom Field Constructors</a></li>
+</ul>
+</li>
+<li><a href="ch05/ScalaJson.htmlnull">Working with Json</a><ul>
+<li><a href="ch05/ScalaJson.htmlnull">JSON basics</a></li>
+<li><a href="ch05/ScalaJsonHttp.htmlnull">JSON with HTTP</a></li>
+<li><a href="ch05/ScalaJsonCombinators.htmlnull">JSON Reads/Writes/Format Combinators</a></li>
+<li><a href="ch05/ScalaJsonTransformers.htmlnull">JSON Transformers</a></li>
+<li><a href="ch05/ScalaJsonInception.htmlnull">JSON Macro Inception</a></li>
+</ul>
+</li>
+<li><a href="ch06/ScalaXmlRequests.htmlnull">Working with XML</a><ul>
+<li><a href="ch06/ScalaXmlRequests.htmlnull">Handling and serving XML requests</a></li>
+</ul>
+</li>
+<li><a href="ch07/ScalaFileUpload.htmlnull">Handling file upload</a><ul>
+<li><a href="ch07/ScalaFileUpload.htmlnull">Direct upload and multipart/form-data</a></li>
+</ul>
+</li>
+<li><a href="ch08/ScalaDatabase.htmlnull">Accessing an SQL database</a><ul>
+<li><a href="ch08/ScalaDatabase.htmlnull">Configuring and using JDBC</a></li>
+<li><a href="ch08/ScalaAnorm.htmlnull">Using Anorm to access your database</a></li>
+<li><a href="ch08/ScalaDatabaseOthers.htmlnull">Integrating with other database access libraries</a></li>
+</ul>
+</li>
+<li><a href="ch09/ScalaCache.htmlnull">Using the Cache</a><ul>
+<li><a href="ch09/ScalaCache.htmlnull">The Play cache API</a></li>
+</ul>
+</li>
+<li><a href="ch10/ScalaWS.htmlnull">Calling WebServices</a><ul>
+<li><a href="ch10/ScalaWS.htmlnull">The Play WS API</a></li>
+<li><a href="ch10/ScalaOpenID.htmlnull">Connecting to OpenID services</a></li>
+<li><a href="ch10/ScalaOAuth.htmlnull">Accessing resources protected by OAuth</a></li>
+</ul>
+</li>
+<li><a href="ch11/ScalaAkka.htmlnull">Integrating with Akka</a><ul>
+<li><a href="ch11/ScalaAkka.htmlnull">Setting up Actors and scheduling asynchronous tasks</a></li>
+</ul>
+</li>
+<li><a href="ch12/ScalaI18N.htmlnull">Internationalization</a><ul>
+<li><a href="ch12/ScalaI18N.htmlnull">Messages externalisation and i18n</a></li>
+</ul>
+</li>
+<li><a href="ch13/ScalaGlobal.htmlnull">The application Global object</a><ul>
+<li><a href="ch13/ScalaGlobal.htmlnull">Application global settings</a></li>
+<li><a href="ch13/ScalaInterceptors.htmlnull">Intercepting requests</a></li>
+</ul>
+</li>
+<li><a href="ch14/ScalaTestingYourApplication.htmlnull">Testing your application</a><ul>
+<li><a href="ch14/ScalaTestingYourApplication.htmlnull">Testing with ScalaTest</a></li>
+<li><a href="ch14/ScalaFunctionalTestingWithScalaTest.htmlnull">Writing functional tests with ScalaTest</a></li>
+<li><a href="ch14/ScalaTestingWithSpecs2.htmlnull">Testing with specs2</a></li>
+<li><a href="ch14/ScalaFunctionalTestingWithSpecs2.htmlnull">Writing functional tests with specs2</a></li>
+</ul>
+</li>
+<li><a href="ch15/ScalaLogging.htmlnull">Logging</a><ul>
+<li><a href="ch15/ScalaLogging.htmlnull">The Logging API</a></li>
+</ul>
+</li>
+</ul>
 
                     
                     </section>
