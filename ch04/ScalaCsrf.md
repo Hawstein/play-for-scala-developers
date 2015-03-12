@@ -1,0 +1,1 @@
+# Protecting against CSRF
