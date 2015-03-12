@@ -28,9 +28,9 @@ Play 的 Scala API 在 play.api 包中。
 
 文档地址：https://www.playframework.com/documentation/2.3.x/ScalaHome
 
-* [HTTP programming](ch01/ScalaActions.md)    认领人：[Hawstein](https://github.com/Hawstein)
-  * [Actions, Controllers and Results](ch01/ScalaActions.md)    认领人：[boulevard23](https://github.com/boulevard23)
-  * [HTTP routing](ch01/ScalaRouting.md)
+* [HTTP programming](ch01/ScalaActions.md)
+  * [Actions, Controllers and Results](ch01/ScalaActions.md)    认领人：[Hawstein](https://github.com/Hawstein)
+  * [HTTP routing](ch01/ScalaRouting.md)    认领人：[boulevard23](https://github.com/boulevard23)
   * [Manipulating results](ch01/ScalaResults.md)
   * [Session and Flash scopes](ch01/ScalaSessionFlash.md)
   * [Body parsers](ch01/ScalaBodyParsers.md)
