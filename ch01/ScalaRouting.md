@@ -15,7 +15,7 @@
 
 ## 路由文件的语法
 
-Play的路由使用`conf/routes`作为配置文件。这个文件列出了该应用需要的所有路径。每条路径都包含了一个HTTP方法和URI模式，并同时调用了一个Action生成器。
+Play的路由使用`conf/routes`作为配置文件。这个文件列出了该应用需要的所有路径。每条路径都包含了一个HTTP方法和一个URI模式，并同时调用了一个Action生成器。
 
 让我们来看下路径的定义：
 
@@ -64,7 +64,7 @@ GET   /clients/:id           controllers.Clients.show(id: Long)
 
 ### 动态匹配多个路径
 
-如果你想要一个动态部分能够捕捉多个由`/`分隔开的URI路径，你可以用`*id`来定义，这样，匹配的正则表达式则为`.+`：
+如果你想要一个动态部分能够捕捉多个由`/`分隔开的URI路径，你可以用`*id`来定义，此时匹配的正则表达式则为`.+`：
 
 ```scala
 GET   /file/*name            controllers.Application.download(name)
@@ -90,7 +90,7 @@ GET   /items/$id<[0-9]+>     controllers.Items.show(id: Long)
 GET   /                      controllers.Application.homePage()
 ```
 
-如果这个action方法定义了参数，Play会在请求URI中查找所有参数。从URI路径自身中查找，或是在查询语句里查找：
+如果这个action方法定义了参数，Play则会在请求URI中查找所有参数。从URI路径自身查找，或是在查询语句里查找：
 
 ```scala
 # 从路径中抓取参数page
@@ -114,7 +114,7 @@ def show(page: String) = Action {
 
 ### 参数类型
 
-对于类型为`String`的参数来说，可以不用输入该参数。如果你想要Play帮你将传入的参数转换为特定的Scala类型，则必须输入该参数：
+对于类型为`String`的参数来说，可以不用输入该参数。如果你想要Play帮你把传入的参数转换为特定的Scala类型，则必须输入该参数：
 
 ```scala
 GET   /clients/:id           controllers.Clients.show(id: Long)
@@ -166,7 +166,7 @@ GET   /api/list-all         controllers.Api.list(version: Option[String])
 
 路由同样可以通过Scala的方法调用来生成URL。这样做能够将所有的URI模式定义在一个配置文件中，让你在重构应用时更有把握。
 
-Play的路由会为定义在路由配置文件中的每个controller，在`routes`包中生成一个‘反向controller’，其中包含了同样的action方法和签名，不过返回值类型为`play.api.mvc.Call`而非`play.api.mvc.Action`。
+Play的路由会为路由配置文件里定义的每个controller，在`routes`包中生成一个‘反向controller’，其中包含了同样的action方法和签名，不过返回值类型为`play.api.mvc.Call`而非`play.api.mvc.Action`。
 
 `play.api.mvc.Call`定义了一个HTTP调用，并且提供了HTTP请求方法和URI。
 
