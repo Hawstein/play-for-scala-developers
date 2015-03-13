@@ -52,7 +52,7 @@ Action(parse.json) { implicit request =>
 }
 ```
 
-这份手册后面会讲到 Body 解析器（Body Parser）。现在你只需要知道，上面讲到的其它构造 Action 的方法使用的是一个默认的解析器：**任意内容 body 解析器**。
+这份手册后面会讲到 Body 解析器（Body Parser）。现在你只需要知道，上面讲到的其它构造 Action 的方法使用的是一个默认的解析器：**任意内容 body 解析器**（Any content body parser）。
 
 ## Controller 是 action 生成器
 
