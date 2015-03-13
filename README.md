@@ -1,5 +1,7 @@
 # Play 中文文档
 
+[![Join the chat at https://gitter.im/Hawstein/play-for-scala-developers](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Hawstein/play-for-scala-developers?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Play 的 Scala API 在 play.api 包中。
 
 > play 包中的 API 是为 Java 开发者准备的，比如 play.mvc。对于 Scala 开发者，请使用 play.api.mvc。
