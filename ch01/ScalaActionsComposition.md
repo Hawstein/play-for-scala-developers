@@ -4,7 +4,7 @@
 
 ## 自定义action构造器
 
-[之前](ScalaActions.md)，我们已经介绍了几种声明一个action的方法 - 带有请求参数，无请求参数和带有body解析器（body parser）等。事实上还有其他一些方法，我们会在[异步编程](ScalaAsync.md)中介绍。
+[之前](ScalaActions.md)，我们已经介绍了几种声明一个action的方法 - 带有请求参数，无请求参数和带有body解析器（body parser）等。事实上还有其他一些方法，我们会在[异步编程](../ch02/ScalaAsync.md)中介绍。
 
 这些构造action的方法实际上都是有由一个命名为`ActionBuilder`的特性（trait）所定义的，而我们用来声明所有action的`Action`对象只不过是这个特性（trait）的一个实例。通过实现自己的`ActionBuilder`，你可以声明一些可重用的action栈，并以此来构建action。
 
