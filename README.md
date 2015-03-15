@@ -27,3 +27,12 @@ Play 的 Scala API 在 play.api 包中。
 为了避免多人重复翻译同一章节，在翻译前先进行章节的认领。可以在帖子 http://scalachina.org/topic/5501c59784ddfe6644e8c8d4 回复里认领相应章节，也可以加 QQ 群，在群里说。群号：312213800。
 
 认领及完成情况见： http://scalachina.org/topic/5501c59784ddfe6644e8c8d4
+
+## 术语对照表
+
+下面是翻译文档的术语对照表，如有疑义或更好的翻译选择，欢迎提交 Pull Requests。
+
+| 英文        | 中文   |
+| --------   | -----  |
+| controller | 控制器 |
+| type class | 类型类 |
