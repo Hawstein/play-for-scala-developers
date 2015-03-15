@@ -54,7 +54,7 @@ Action(parse.json) { implicit request =>
 
 这份手册后面会讲到 Body 解析器（Body Parser）。现在你只需要知道，上面讲到的其它构造 Action 的方法使用的是一个默认的解析器：**任意内容 body 解析器**（Any content body parser）。
 
-## Controller 是 action 生成器
+## 控制器（Controller）是 action 生成器
 
 一个 `Controller` 就是一个产生 `Action` 值的单例对象。
 
@@ -84,7 +84,7 @@ def hello(name: String) = Action {
 
 ## 简单结果
 
-到目前为止，我们就只对简单结果感兴趣：HTTP 结果。它包含了一个状态码，一组 HTTP 头和发送给 web 客户端的 body。
+到目前为止，我们就只对简单结果感兴趣：HTTP 结果。它包含了一个状态码，一组 HTTP 报头和发送给 web 客户端的 body。
 
 这些结果由 `play.api.mvc.Result` 定义：
 
