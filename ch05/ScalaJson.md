@@ -193,9 +193,9 @@ val json = Json.toJson(place)
 
 作为备选，你可以通过配合模式（combinator pattern）来定义自己的```Writes```转换器。
 
-```
-注意：关于配合模式（combinator pattern）在[JSON Reads/Writes/Formats Combinators](https://www.playframework.com/documentation/2.3.x/ScalaJsonCombinators)一节中有详细介绍。
-```
+
+注意：关于配合模式（combinator pattern）在[JSON Reads/Writes/Formats 选择器](../ch05/ScalaJsonCombinators.md)一节中有详细介绍。
+
 
 ```scala
 import play.api.libs.json._
@@ -341,9 +341,7 @@ val nameOption: Option[String] = nameResult.fold(
 ### 由JsValue转换为模型（model）
 如果要将JsValue转换为模型，你要定义隐式```Reads[T]```转换器，其中T是模型的类型。
 
-```
-注意：此处实现Reads所用的模式和自定义有效性的技术细节在[JSON Reads/Writes/Formats Combinators](https://www.playframework.com/documentation/2.3.x/ScalaJsonCombinators)一节中有详细介绍。
-```
+注意：此处实现Reads所用的模式和自定义有效性的技术细节在[JSON Reads/Writes/Formats 选择器](../ch05/ScalaJsonCombinators.md)一节中有详细介绍。
 
 ```scala
 case class Location(lat: Double, long: Double)
@@ -379,4 +377,4 @@ val residentResult: JsResult[Resident] = (json \ "residents")(1).validate[Reside
 // JsSuccess(Resident(Bigwig,6,Some(Owsla)),)
 ```
 
-**下一节：** [JSON with HTTP](https://www.playframework.com/documentation/2.3.x/ScalaJsonHttp)
+**下一节：** [JSON with HTTP](../ch05/ScalaJsonHttp.md)
