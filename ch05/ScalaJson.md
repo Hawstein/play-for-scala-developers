@@ -51,7 +51,8 @@ JsPath用于表示JsValue内部结构的路径，类似于XPath对XML的意义�
 ## 构造JsValue实例
 
 ### 字符串解析
-```
+
+```scala
 import play.api.libs.json._
 
 val json: JsValue = Json.parse("""
@@ -74,7 +75,8 @@ val json: JsValue = Json.parse("""
 """)
 ```
 ### 类构造器
-```
+
+```scala
 import play.api.libs.json._
 
 val json: JsValue = JsObject(Seq(
@@ -96,7 +98,8 @@ val json: JsValue = JsObject(Seq(
 ```
 
 通过```Json.obj```和```Json.arr```构造可能更简单些。注意大部分值不需要显式得用JsValue类封装，工厂方法会执行隐式转换（接下来是一个例子）。
-```
+
+```scala
 import play.api.libs.json.{JsNull,Json,JsString,JsValue}
 
 val json: JsValue = Json.obj(
@@ -121,7 +124,7 @@ Scala中通过工具方法```Json.toJson[T](T)(implicit writes:Writes[T])```。�
 
 Play框架的JSON库API接口提供了大部分基础类型的隐式```Writes```，例如```Int```，```Double```，```String```和```Boolean```。当然，该JSON库也有针对包含上述基本类型元素的集合的```Writes```转换器。
 
-```
+```scala
 import play.api.libs.json._
 
 // basic types
@@ -136,7 +139,7 @@ val jsonArrayOfStrings = Json.toJson(List("Fiver", "Bigwig"))
 
 如果想把自己定义的模型转换成JsValues，你需要定义隐式的```Writes```转换器，并将它们引入执行环境。
 
-```
+```scala
 import play.api.libs.json._
 
 // basic types
@@ -194,7 +197,7 @@ val json = Json.toJson(place)
 注意：关于配合模式（combinator pattern）在[JSON Reads/Writes/Formats Combinators](https://www.playframework.com/documentation/2.3.x/ScalaJsonCombinators)一节中有详细介绍。
 ```
 
-```
+```scala
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 
@@ -225,20 +228,21 @@ implicit val placeWrites: Writes[Place] = (
 ### Simple path```\```
 将```\```操作符应用于一个```JsValue```可以返回跟相关域对应的属性。下面假设有一个JsObject：
 
-```
+```scala
 val lat = json \ "location" \ "lat"
 // 返回JsNumber(51.235685)
 ```
 ### Recursive path```\\```
 使用```\\```操作符将会递归查找当前对象中以及所有依赖对象中的所有对应域。
-```
+
+```scala
 val names = json \\ "name" 
 // returns Seq(JsString("Watership Down"), JsString("Fiver"), JsString("Bigwig"))
 ```
 ### Index lookup(for JsArrays)
 可以通过索引值从```JsArray```中获取值。
 
-```
+```scala
 val bigwig = (json \ "residents")(1)
 // returns {"name":"Bigwig","age":6,"role":"Owsla"}
 ```
@@ -247,14 +251,14 @@ val bigwig = (json \ "residents")(1)
 ### 字符串工具
 - 微型
 
-```
+```scala
 val minifiedString: String = Json.stringify(json)
 {"name":"Watership Down","location":{"lat":51.235685,"long":-1.309197},"residents":[{"name":"Fiver","age":4,"role":nul
 ```
 
 - 可读的
 
-```
+```scala
 val readableString: String = Json.prettyPrint(json)
 {
   "name" : "Watership Down",
@@ -276,7 +280,7 @@ val readableString: String = Json.prettyPrint(json)
 ### JsValue.as或者Jsvalue.asOpt
 将JsValue对象转换成其他类型的最简单的方法是使用```JsValue.as[T](implicit fjs：Reads[T]):T``` 需要自定义一个类型转换器```Reads[T]```来讲```JsValue```转换成```T```类型的数据(```和Writes[T]相反```)。 跟```Writes```一样，JSON库提供了```Reads```转换器需要的基本类型。
 
-```
+```scala
 val name = (json \ "name").as[String]
 // "Watership Down"
 
@@ -286,7 +290,7 @@ val names = (json \\ "name").map(_.as[String])
 
 如果路径（path）不存在或者转换失败，```as```方法会抛出```JsResultException```异常。更安全的方法是使用```JsValue.asOpt[T](implicit fjs:Reads[T]):Option[T]```
 
-```
+```scala
 val nameOption = (json \ "name").asOpt[String]
 // Some("Watership Down")
 
@@ -303,7 +307,7 @@ val bogusOption = (json \ "bogus").asOpt[String]
 
 可以使用多种模式来处理验证结果:
 
-```
+```scala
 val json = { ... }
 
 val nameResult: JsResult[String] = (json \ "name").validate[String]
@@ -341,7 +345,7 @@ val nameOption: Option[String] = nameResult.fold(
 注意：此处实现Reads所用的模式和自定义有效性的技术细节在[JSON Reads/Writes/Formats Combinators](https://www.playframework.com/documentation/2.3.x/ScalaJsonCombinators)一节中有详细介绍。
 ```
 
-```
+```scala
 case class Location(lat: Double, long: Double)
 case class Resident(name: String, age: Int, role: Option[String])
 case class Place(name: String, location: Location, residents: Seq[Resident])
