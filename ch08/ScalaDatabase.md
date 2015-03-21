@@ -87,8 +87,7 @@ val ds = DB.getDataSource()
 
 val connection = DB.getConnection()
 
-Following code show you a JDBC example very simple, working with MySQL 5.*:
-以下的代码向你展示了一个简单的JDBC如何和MySQL5.*工作的例子：
+以下的代码向你展示了一个简单的JDBC如何和MySQL5.*一起使用的例子：
 
 package controllers
 import play.api.Play.current
@@ -115,7 +114,7 @@ object Application extends Controller {
 }
 
 
-但是你必须调用close()在某一点上的打开的连接返回到连接池。另一种方式是利用Play框架为关闭该连接：
+但是你必须调用close()在某一点上的打开的连接返回到连接池。另一种方式是利用Play框架来关闭该连接：
 
 // 访问“默认”数据库
 
@@ -138,6 +137,7 @@ DB.withConnection("orders") { conn =>
     建议: 每个与此连接相关联的表达式和结果集也会同时关闭
 
 变量是用来设定连接的自动提交为非法的并且对该代码段进行事务管理
+
 DB.withTransaction { conn =>
 
   // 根据你的需求配置连接
