@@ -1,21 +1,21 @@
 # Direct upload and multipart/form-data
 
-##ÔÚ±íµ¥ÖĞÊ¹ÓÃmultipart/form-dataÉÏ´«ÎÄ¼ş
+## åœ¨è¡¨å•ä¸­ä½¿ç”¨multipart/form-dataä¸Šä¼ æ–‡ä»¶
 
-ÔÚWebÓ¦ÓÃÖĞÉÏ´«ÎÄ¼şµÄ±ê×¼·½·¨ÊÇÊ¹ÓÃÒÔ`multipart/form-data`±àÂëµÄ±íµ¥£¬ÕâÑùÄÜÈÃ¸½¼şÊı¾İÓë±ê×¼±íµ¥Êı¾İ»ìºÏÔÚÒ»Æğ¡£Çë×¢Òâ£ºÌá½»±íµ¥Ê±Ö»ÄÜÓÃPOST·½·¨¶ø²»ÄÜÓÃGET¡£
+åœ¨Webåº”ç”¨ä¸­ä¸Šä¼ æ–‡ä»¶çš„æ ‡å‡†æ–¹æ³•æ˜¯ä½¿ç”¨ä»¥ `multipart/form-data` ç¼–ç çš„è¡¨å•ï¼Œè¿™æ ·èƒ½è®©é™„ä»¶æ•°æ®ä¸æ ‡å‡†è¡¨å•æ•°æ®æ··åˆåœ¨ä¸€èµ·ã€‚è¯·æ³¨æ„ï¼šæäº¤è¡¨å•æ—¶åªèƒ½ç”¨POSTæ–¹æ³•è€Œä¸èƒ½ç”¨GETã€‚
 
-Ê×ÏÈ¹¹½¨Ò»¸öHTML±íµ¥£º
+é¦–å…ˆæ„å»ºä¸€ä¸ªHTMLè¡¨å•ï¼š
 
 ```
 @helper.form(action = routes.Application.upload, 'enctype -> "multipart/form-data") {
-    <input type="file" name="picture">    
+    <input type="file" name="picture">
     <p>
         <input type="submit">
-    </p>    
+    </p>
 }
 ```
 
-È»ºóÓÃÀûÓÃ`multipartFormData`body parserÀ´¶¨ÒåÒ»¸ö`upload`¶¯×÷£º
+ç„¶åç”¨åˆ©ç”¨ `multipartFormData` body parseræ¥å®šä¹‰ä¸€ä¸ªuploadåŠ¨ä½œï¼š
 
 ```scala
 def upload = Action(parse.multipartFormData) { request =>
@@ -32,23 +32,21 @@ def upload = Action(parse.multipartFormData) { request =>
 }
 ```
 
-`ref` ÊôĞÔÓÃÓÚ¶Ô`TemporaryFile`½øĞĞËµÃ÷¡£ÕâÊÇ`mutipartFormData`ÌáÈ¡Æ÷´¦ÀíÎÄ¼şÉÏ´«µÄÄ¬ÈÏ·½Ê½¡£
+`ref` å±æ€§ç”¨äºå¯¹ `TemporaryFile` è¿›è¡Œè¯´æ˜ã€‚è¿™æ˜¯ `mutipartFormData` æå–å™¨å¤„ç†æ–‡ä»¶ä¸Šä¼ çš„é»˜è®¤æ–¹å¼ã€‚
 
+æ³¨æ„: ä½ ä¹Ÿå¯ä»¥ä½¿ç”¨ `anyContent` body parserï¼Œå°†å…¶ä½œä¸º `request.body.asMultipartFormData` æ¥æ£€ç´¢ã€‚
 
-**×¢Òâ:** ÄãÒ²¿ÉÒÔÊ¹ÓÃ`anyContent`body parser£¬½«Æä×÷Îª`request.body.asMultipartFormData`À´¼ìË÷¡£
-
-
-×îºó£¬Ìí¼ÓÒ»¸öPOSTÂ·ÓÉ
+æœ€åï¼Œæ·»åŠ ä¸€ä¸ªPOSTè·¯ç”±ï¼š
 
 ```scala
 POST  /          controllers.Application.upload()
 ```
 
-##Ö±½ÓÎÄ¼şÉÏ´« 
+## ç›´æ¥æ–‡ä»¶ä¸Šä¼ 
 
-ÁíÒ»ÖÖÉÏ´«ÎÄ¼şµÄ·½·¨ÊÇÔÚ±íµ¥ÖĞÊ¹ÓÃAjaxÒì²½ÉÏ´«¡£ÔÚÕâÖÖÇé¿öÏÂÇëÇóÄÚÈİ²»ÔÙÊÇ`multipart/form-data`±àÂëÁË£¬¶ø½öÓĞ°üº¬ÎÄ¼şÄÚÈİ±¾Éí¡£
+å¦ä¸€ç§ä¸Šä¼ æ–‡ä»¶çš„æ–¹æ³•æ˜¯åœ¨è¡¨å•ä¸­ä½¿ç”¨Ajaxå¼‚æ­¥ä¸Šä¼ ã€‚åœ¨è¿™ç§æƒ…å†µä¸‹è¯·æ±‚å†…å®¹ä¸å†æ˜¯ `multipart/form-data` ç¼–ç äº†ï¼Œè€Œä»…æœ‰åŒ…å«æ–‡ä»¶å†…å®¹æœ¬èº«ã€‚
 
-ÕâÊ±ÎÒÃÇ¿ÉÒÔÊ¹ÓÃÒ»¸öbody parser½«ÇëÇóÄÚÈİ´æÈëÎÄ¼ş¡£±ÈÈç£¬ ÎÒÃÇÊ¹ÓÃ `temporaryFile` body parser£º
+è¿™æ—¶æˆ‘ä»¬å¯ä»¥ä½¿ç”¨ä¸€ä¸ªbody parserå°†è¯·æ±‚å†…å®¹å­˜å…¥æ–‡ä»¶ã€‚æ¯”å¦‚ï¼Œ æˆ‘ä»¬ä½¿ç”¨ `temporaryFile` body parserï¼š
 
 ```scala
 def upload = Action(parse.temporaryFile) { request =>
@@ -57,10 +55,9 @@ def upload = Action(parse.temporaryFile) { request =>
 }
 ```
 
-##×Ô¶¨Òåbody parser
+## è‡ªå®šä¹‰body parser
 
-Èç¹ûÄã²»Ïë¾­¹ıÁÙÊ±ÎÄ¼ş»º´æ¶øÊÇÖ±½Ó´¦ÀíÉÏ´«µÄÎÄ¼ş£¬Äã¿ÉÒÔ×Ô¼ºĞ´Ò»¸ö`BodyParser`À´¾ö¶¨ÔõÃ´´¦ÀíÕâĞ©´ó¿éµÄÊı¾İ¡£
+å¦‚æœä½ ä¸æƒ³ç»è¿‡ä¸´æ—¶æ–‡ä»¶ç¼“å­˜è€Œæ˜¯ç›´æ¥å¤„ç†ä¸Šä¼ çš„æ–‡ä»¶ï¼Œä½ å¯ä»¥è‡ªå·±å†™ä¸€ä¸ª `BodyParser` æ¥å†³å®šæ€ä¹ˆå¤„ç†è¿™äº›å¤§å—çš„æ•°æ®ã€‚
 
-Èç¹ûÄãÏëÊ¹ÓÃ`multipart/form-data`±àÂë£¬ÄãÈÔ¿ÉÒÔÊ¹ÓÃÄ¬ÈÏµÄ`mutipartFormData`ÌáÈ¡Æ÷£¬ÄãÒª×öµÄ¾ÍÊÇ×Ô¼ºĞ´Ò»¸ö`PartHandler[FilePart[A]]`À´½ÓÊÕ²¿·Öheaders£¬È»ºóÌá¹©Ò»¸ö`Iteratee[Array[Byte], FilePart[A]]`À´Éú³ÉÕıÈ·µÄ `FilePart`¡£
+å¦‚æœä½ æƒ³ä½¿ç”¨ `multipart/form-data` ç¼–ç ï¼Œä½ ä»å¯ä»¥ä½¿ç”¨é»˜è®¤çš„ `mutipartFormData` æå–å™¨ï¼Œä½ è¦åšçš„å°±æ˜¯è‡ªå·±å†™ä¸€ä¸ª `PartHandler[FilePart[A]]` æ¥æ¥æ”¶éƒ¨åˆ† headersï¼Œç„¶åæä¾›ä¸€ä¸ª `Iteratee[Array[Byte]`, `FilePart[A]]`æ¥ç”Ÿæˆæ­£ç¡®çš„ `FilePart`ã€‚
 
-**ÏÂÒ»½Ú£º** [Accessing an SQL database](../ch8/ScalaDatabase.md)

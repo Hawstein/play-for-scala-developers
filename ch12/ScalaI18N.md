@@ -1,56 +1,55 @@
 # Messages externalisation and i18n
 
-##Ö¸¶¨Ó¦ÓÃÖ§³ÖÓïÑÔ
-Äã¿ÉÒÔ°´**ISO 639-2** ±ê×¼ÓïÑÔ´úÂë»òÕß**ISO 3166-1 alpha-2**±ê×¼¹ú¼Ò´úÂëÀ´Ö¸¶¨Ó¦ÓÃÖ§³ÖÓïÑÔ£¬Æ©Èç`fr`»òÕß`en-US`¡£
+## æŒ‡å®šåº”ç”¨æ”¯æŒè¯­è¨€
 
-ÓïÑÔÖ¸¶¨ÐÅÏ¢´æ·ÅÔÚÓ¦ÓÃµÄ `conf/application.conf`ÎÄ¼þÖÐ£º
+ä½ å¯ä»¥æŒ‰ **ISO 639-2** æ ‡å‡†è¯­è¨€ä»£ç æˆ–è€… **ISO 3166-1 alpha-2** æ ‡å‡†å›½å®¶ä»£ç æ¥æŒ‡å®šåº”ç”¨æ”¯æŒè¯­è¨€ï¼Œè­¬å¦‚ `fr` æˆ–è€… `en-US`ã€‚
+
+è¯­è¨€æŒ‡å®šä¿¡æ¯å­˜æ”¾åœ¨åº”ç”¨çš„ `conf/application.conf` æ–‡ä»¶ä¸­ï¼š
 
 ```scala
 application.langs="en,en-US,fr"
 ```
 
-##Íâ²¿»¯ÐÅÏ¢£¨Externalizing messages£©
+## å¤–éƒ¨åŒ–ä¿¡æ¯ï¼ˆExternalizing messagesï¼‰
 
-Äã¿ÉÒÔÔÚ`conf/messages.xxx`ÎÄ¼þÖÐÍâ²¿»¯£¨externalize£©ÐÅÏ¢¡£
+ä½ å¯ä»¥åœ¨ `conf/messages.xxx` æ–‡ä»¶ä¸­å¤–éƒ¨åŒ–ï¼ˆexternalizeï¼‰ä¿¡æ¯ã€‚
 
-`conf/messages`ÎÄ¼þÄ¬ÈÏÊÊÅäËùÓÐÓïÑÔ¡£Äã¿ÉÒÔÌí¼ÓÄãËùÖ¸¶¨ÓïÑÔËù¶ÔÓ¦µÄÎÄ¼þ£¬Æ©Èç`conf/messages.fr`»ò`conf/messages.en-US`¡£
+`conf/messages` æ–‡ä»¶é»˜è®¤é€‚é…æ‰€æœ‰è¯­è¨€ã€‚ä½ å¯ä»¥æ·»åŠ ä½ æ‰€æŒ‡å®šè¯­è¨€æ‰€å¯¹åº”çš„æ–‡ä»¶ï¼Œè­¬å¦‚ `conf/messages.fr` æˆ– `conf/messages.en-US`ã€‚
 
-Äã¿ÉÒÔÀûÓÃ`play.api.i18n.Messages`¶ÔÏó¼ì³ö(retrieve)ÐÅÏ¢£º
+ä½ å¯ä»¥åˆ©ç”¨ `play.api.i18n.Messages` å¯¹è±¡æ£€å‡º(retrieve)ä¿¡æ¯ï¼š
+
 
 ```scala
 val title = Messages("home.title")
 ```
 
-ËùÓÐ¹ú¼Ê»¯Ïà¹ØµÄAPI¶¼ÒþÊ½µ÷ÓÃ`play.api.i18n.Lang`²ÎÊý£¬ÆäÖÐ²ÎÊýµÄÖµ¸ù¾Ýµ±Ç°»·¾³¸ø³ö¡£Äã¿ÉÒÔ×Ô¼ºÏÔÊ½µØÖ¸¶¨£º
+æ‰€æœ‰å›½é™…åŒ–ç›¸å…³çš„APIéƒ½éšå¼è°ƒç”¨ `play.api.i18n.Lang` å‚æ•°ï¼Œå…¶ä¸­å‚æ•°çš„å€¼æ ¹æ®å½“å‰çŽ¯å¢ƒç»™å‡ºã€‚ä½ å¯ä»¥è‡ªå·±æ˜¾å¼åœ°æŒ‡å®šï¼š
 
 ```scala
 val title = Messages("home.title")(Lang("fr"))
 ```
 
-**×¢Òâ:**Èç¹ûÄãÔÚµ±Ç°·¶Î§·¢³öÒ»¸öÒþÊ½ÇëÇó£¬³ÌÐò»á¸ù¾ÝÍ·²¿µÄ `Accept-Language`´ÓÓ¦ÓÃÖ§³ÖÓïÑÔÆ¥ÅäÒ»¸ö£¬È»ºóÒþÊ½µØ·µ»Ø¸øÄãÒ»¸ö`Lang`²ÎÊý¡£ÄãÓ¦µ±ÏñÕâÑùÔÚÄ£°åÎÄ¼þÖÐÌí¼Ó`Lang`±äÁ¿£º `@()(implicit lang: Lang)`¡£
+æ³¨æ„ï¼šå¦‚æžœä½ åœ¨å½“å‰èŒƒå›´å‘å‡ºä¸€ä¸ªéšå¼è¯·æ±‚ï¼Œç¨‹åºä¼šæ ¹æ®å¤´éƒ¨çš„ `Accept-Language` ä»Žåº”ç”¨æ”¯æŒè¯­è¨€åŒ¹é…ä¸€ä¸ªï¼Œç„¶åŽéšå¼åœ°è¿”å›žç»™ä½ ä¸€ä¸ª `Lang` å‚æ•°ã€‚ä½ åº”å½“åƒè¿™æ ·åœ¨æ¨¡æ¿æ–‡ä»¶ä¸­æ·»åŠ  `Lang` å˜é‡ï¼š `@()(implicit lang: Lang)`ã€‚
 
+## æ¶ˆæ¯æ ¼å¼
 
-##ÏûÏ¢¸ñÊ½
-
-ÏûÏ¢Ê¹ÓÃ `java.text.MessageFormat`¿âÀ´¶¨Òå¸ñÊ½£¬Æ©ÈçÄãµÄÏûÏ¢ÕâÑù¶¨Òå£º
+æ¶ˆæ¯ä½¿ç”¨ `java.text.MessageFormat` åº“æ¥å®šä¹‰æ ¼å¼ï¼Œè­¬å¦‚ä½ çš„æ¶ˆæ¯è¿™æ ·å®šä¹‰ï¼š
 
 ```
 files.summary=The disk {1} contains {0} file(s).
 ```
-ÄÇÃ´Äã¿ÉÒÔÕâÑùÖ¸¶¨²ÎÊý£º
+
+é‚£ä¹ˆä½ å¯ä»¥è¿™æ ·æŒ‡å®šå‚æ•°ï¼š
 
 ```
 Messages("files.summary", d.files.length, d.name)
 ```
 
-##¹ØÓÚµ¥ÒýºÅ
+## å…³äºŽå•å¼•å·
 
+ç”±äºŽæˆ‘ä»¬ä½¿ç”¨ `java.text.MessageFormat` æ¥å®šä¹‰æ¶ˆæ¯æ ¼å¼ï¼Œæ‰€ä»¥è¦æ³¨æ„çš„æ˜¯å•å¼•å·ä¼šè¢«ä½œä¸ºè½¬æ„å­—ç¬¦ã€‚
 
-ÓÉÓÚÎÒÃÇÊ¹ÓÃ`java.text.MessageFormat`À´¶¨ÒåÏûÏ¢¸ñÊ½£¬ËùÒÔÒª×¢ÒâµÄÊÇµ¥ÒýºÅ»á±»×÷Îª×ªÒâ×Ö·û¡£
-
-Æ©ÈçÄã¶¨ÒåÁËÈçÏÂÒ»¶ÎÏûÏ¢£º
-
-±ÈÈç£¬Äã¿ÉÄÜ»á¶¨ÒåÕâÑùÒ»¶ÎÐÅÏ¢£º
+è­¬å¦‚ä½ å®šä¹‰äº†å¦‚ä¸‹ä¸€æ®µæ¶ˆæ¯ï¼š
 
 ```scala
 info.error=You aren''t logged in!
@@ -60,7 +59,7 @@ info.error=You aren''t logged in!
 example.formatting=When using MessageFormat, '''{0}''' is replaced with the first parameter.
 ```
 
-ÄãÓ¦ÆÚÍûÈçÏÂ½á¹û£º
+ä½ åº”æœŸæœ›å¦‚ä¸‹ç»“æžœï¼š
 
 ```scala
 Messages("info.error") == "You aren't logged in!"
@@ -70,14 +69,12 @@ Messages("info.error") == "You aren't logged in!"
 Messages("example.formatting") == "When using MessageFormat, '{0}' is replaced with the first parameter."
 ```
 
-##´ÓHTTPÇëÇóÖÐÌáÈ¡Ö§³ÖÓïÑÔ
+## ä»Ž HTTP è¯·æ±‚ä¸­æå–æ”¯æŒè¯­è¨€
 
-Äã¿ÉÒÔ£¨ÏñÕâÑù£©´Ó¸ø¶¨µÄHTTPÇëÇóÌáÈ¡³öÖ§³ÖÓïÑÔ£º
+ä½ å¯ä»¥ï¼ˆåƒè¿™æ ·ï¼‰ä»Žç»™å®šçš„HTTPè¯·æ±‚æå–å‡ºæ”¯æŒè¯­è¨€ï¼š
 
 ```
 def index = Action { request =>
   Ok("Languages: " + request.acceptLanguages.map(_.code).mkString(", "))
 }
 ```
-
-**ÏÂÒ»½Ú£º** [The application Global object](../ch13/ScalaGlobal.md)
