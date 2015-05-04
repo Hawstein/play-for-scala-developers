@@ -1,6 +1,6 @@
 # JSON Transformers
 
-> 注意，这一节的内容最早由 Pascal Voitot 发表在 [mandubian.com](http://mandubian.com/2012/10/29/unveiling-play-2-dot-1-json-api-part3-json-transformers/) 上。
+> 注意，这一节的内容最早由 Pascal Voitot 发表在 [mandubian.com](http://mandubian.com/2012/10/29/unveiling-play-2-dot-1-json-api-part3-json-transformers/) 上。（文章太旧，请带着批判的眼光去读。）
 
 现在已经知道如何验证 JSON，以及如何将 JSON 转成任意结构或将任意结构转成 JSON。但当我开始用那些组合子来写 web 应用，我立即遇到了这样的情况：从网络中读取 JSON，验证它然后再将它转成 JSON。
 
