@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="14.4" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="14.4" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,7 +1087,582 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="writing-functional-tests-with-specs2">Writing functional tests with specs2</h1>
+<h1 id="writing-functional-tests-with-specs2">Writing functional tests with specs2</h1>
+<h1 id="%E9%80%9A%E8%BF%87scalatest%E7%BC%96%E5%86%99%E5%8A%9F%E8%83%BD%E6%80%A7%E6%B5%8B%E8%AF%95">&#x901A;&#x8FC7;ScalaTest&#x7F16;&#x5199;&#x529F;&#x80FD;&#x6027;&#x6D4B;&#x8BD5;</h1>
+<p>Play&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x7C7B;&#x548C;&#x7B80;&#x6D01;&#x7684;&#x65B9;&#x6CD5;&#x6765;&#x5E2E;&#x52A9;&#x5B9E;&#x73B0;&#x529F;&#x80FD;&#x6027;&#x6D4B;&#x8BD5;&#x3002;&#x5927;&#x591A;&#x6570;&#x53EF;&#x4EE5;&#x5728;play.api.test&#x5305;&#x6216;Helpers&#x5BF9;&#x8C61;&#x4E2D;&#x627E;&#x5230;&#x3002;<a href="http://doc.scalatest.org/plus-play/1.0.0/index.html#org.scalatestplus.play.package" target="_blank">ScalaTest + Play</a>&#x96C6;&#x6210;&#x5E93;&#x4F4D;ScalaTest&#x6784;&#x5EFA;&#x4E86;&#x8FD9;&#x79CD;&#x6D4B;&#x8BD5;&#x652F;&#x6301;&#x3002;</p>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4EE5;&#x4E0B;&#x7684;&#x6A21;&#x5757;&#x5BFC;&#x5165;&#x6765;&#x8BBF;&#x95EE;&#x6240;&#x6709;&#x7684;Play&#x7684;&#x5185;&#x5EFA;&#x6D4B;&#x8BD5;&#x652F;&#x6301;&#x548C;ScalaTest + Play:</p>
+<pre><code>import org.scalatest._
+import play.api.test._
+import play.api.test.Helpers._
+import org.scalatestplus.play._
+</code></pre><h2 id="fakeapplication">FakeApplication</h2>
+<p>Play&#x7ECF;&#x5E38;&#x6027;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x8FD0;&#x884C;&#x7684;Application&#x4F5C;&#x4E3A;&#x4E0A;&#x4E0B;&#x6587;&#xFF1A;&#x5176;&#x901A;&#x5E38;&#x901A;&#x8FC7;play.api.Play.current&#x63D0;&#x4F9B;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x4E3A;&#x6D4B;&#x8BD5;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x73AF;&#x5883;&#xFF0C;Play&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;FakeApplication&#x7C7B;&#x5176;&#x53EF;&#x4EE5;&#x548C;&#x4E00;&#x4E2A;&#x4E0D;&#x540C;&#x7684;Global&#x5BF9;&#x8C61;&#xFF0C;&#x9644;&#x52A0;&#x914D;&#x7F6E;&#x6216;&#x9644;&#x52A0;&#x7684;&#x63D2;&#x4EF6;&#x4E00;&#x8D77;&#x88AB;&#x914D;&#x7F6E;&#x3002;</p>
+<pre><code>val fakeApplicationWithGlobal = FakeApplication(withGlobal = Some(new GlobalSettings() {
+      override def onStart(app: Application) { println(&quot;Hello world!&quot;) }
+}))
+</code></pre><p>&#x5982;&#x679C;&#x6240;&#x6709;&#x6216;&#x5927;&#x591A;&#x6570;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x9700;&#x8981;&#x4E00;&#x4E2A;FakeApplication,&#x5E76;&#x4E14;&#x5B83;&#x4EEC;&#x53EF;&#x4EE5;&#x5171;&#x4EAB;&#x76F8;&#x540C;&#x7684;FakeApplication,&#x4E0E;OneAppPerSuite&#x7279;&#x6027;&#x6DF7;&#x5408;&#x4F7F;&#x7528;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5B9A;&#x5236;FakeApplication&#x6765;&#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x5C55;&#x793A;&#x7684;&#x90A3;&#x6837;&#x91CD;&#x5199;PP:</p>
+<pre><code>class ExampleSpec extends PlaySpec with OneAppPerSuite {
+    //&#x91CD;&#x5199;app&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication&#x3002;
+      implicit override lazy val app: FakeApplication =
+    FakeApplication(
+          additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)
+    )
 
+      &quot;The OneAppPerSuite trait&quot; must {
+        &quot;provide a FakeApplication&quot; in {
+              app.configuration.getString(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+            }
+            &quot;start the FakeApplication&quot; in {
+                  Play.maybeApplication mustBe Some(app)
+                }
+              }
+    }
+</code></pre><p>&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x53BB;&#x83B7;&#x53D6;&#x5B83;&#x81EA;&#x5DF1;&#x7684;FakeApplication&#x800C;&#x4E0D;&#x662F;&#x5171;&#x4EAB;&#x76F8;&#x540C;&#x7684;&#xFF0C;&#x8BF7;&#x4F7F;&#x7528;OneAppPerTest&#x6765;&#x66FF;&#x4EE3;&#xFF1A;</p>
+<pre><code>class ExampleSpec extends PlaySpec with OneAppPerTest {
+    //&#x91CD;&#x5199;app&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication&#x3002;
+      implicit override def newAppForTest(td: TestData): FakeApplication =
+    FakeApplication(
+          additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)
+        )
+
+      &quot;The OneAppPerTest trait&quot; must {
+        &quot;provide a new FakeApplication for each test&quot; in {
+              app.configuration.getString(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+        }
+        &quot;start the FakeApplication&quot; in {
+              Play.maybeApplication mustBe Some(app)
+            }
+          }
+    }&#xFF0C;
+</code></pre><p>ScalaTest + Play&#x63D0;&#x4F9B;&#x4E86;OneAppPerSuite&#x548C;OneAppPerTest&#x7684;&#x539F;&#x56E0;&#x662F;&#x6765;&#x5141;&#x8BB8;&#x4F60;&#x53BB;&#x9009;&#x62E9;&#x5171;&#x4EAB;&#x6027;&#x7B56;&#x7565;&#x6765;&#x8BA9;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x6700;&#x5FEB;&#x7684;&#x8FD0;&#x884C;&#x3002;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x8BA9;&#x5E94;&#x7528;&#x72B6;&#x6001;&#x5728;&#x6210;&#x529F;&#x7684;&#x6D4B;&#x8BD5;&#x4E4B;&#x95F4;&#x4FDD;&#x6301;&#xFF0C;&#x4F60;&#x5C06;&#x9700;&#x8981;&#x4F7F;&#x7528;OneAppPerSuite.&#x5982;&#x679C;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x6E05;&#x7A7A;&#x7684;&#x72B6;&#x6001;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;OneAppPerTest&#x6216;&#x4F7F;&#x7528;OneAppPerSuite,&#x4F46;&#x9700;&#x8981;&#x5728;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x7ED3;&#x675F;&#x6765;&#x6E05;&#x7406;&#x72B6;&#x6001;&#x3002;&#x751A;&#x81F3;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x96C6;&#x5C06;&#x5C3D;&#x53EF;&#x80FD;&#x5FEB;&#x7684;&#x8FD0;&#x884C;&#x591A;&#x4E2A;&#x6D4B;&#x8BD5;&#x7C7B;&#x5171;&#x4EAB;&#x8FD9;&#x4E2A;&#x76F8;&#x540C;&#x7684;&#x5E94;&#x7528;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x4E3B;&#x96C6;&#x5408;&#x8D77;&#x4E0E;OneAppPerSuite&#x6DF7;&#x7528;&#x548C;&#x5185;&#x5D4C;&#x7684;&#x96C6;&#x5408;&#x5176;&#x548C;ConfiguredApp&#x6DF7;&#x7528;&#xFF0C;&#x6B63;&#x5982;&#x5728;<a href="http://doc.scalatest.org/plus-play/1.0.0/index.html#org.scalatestplus.play.ConfiguredApp" target="_blank">ConfiguredApp&#x7684;&#x6587;&#x6863;</a>&#x4E2D;&#x7684;&#x4F8B;&#x5B50;&#x5C55;&#x793A;&#x7684;&#x90A3;&#x6837;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4EFB;&#x610F;&#x7B56;&#x7565;&#x6765;&#x5B9E;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x96C6;&#x6700;&#x5FEB;&#x7684;&#x8FD0;&#x884C;&#x3002;</p>
+<h2 id="%E5%92%8C%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%80%E8%B5%B7%E6%B5%8B%E8%AF%95">&#x548C;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x4E00;&#x8D77;&#x6D4B;&#x8BD5;</h2>
+<p>&#x6709;&#x65F6;&#x5019;&#x4F60;&#x60F3;&#x4F7F;&#x7528;&#x771F;&#x7684;HTTP&#x6808;&#x6765;&#x8FDB;&#x884C;&#x6D4B;&#x8BD5;&#x3002;&#x5982;&#x679C;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x6D4B;&#x8BD5;&#x80FD;&#x591F;&#x91CD;&#x7528;&#x8FD9;&#x4E2A;&#x76F8;&#x540C;&#x7684;&#x670D;&#x52A1;&#x5668;&#x5B9E;&#x4F8B;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0E;OneServerPerSuite&#x4E00;&#x8D77;&#x6DF7;&#x7528;&#xFF08;&#x5176;&#x5C06;&#x4E3A;&#x8FD9;&#x4E2A;&#x96C6;&#x5408;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x65B0;&#x7684;FakeApplication&#xFF09;&#xFF1A;</p>
+<pre><code>class ExampleSpec extends PlaySpec with OneServerPerSuite {
+    // &#x91CD;&#x5199;app&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication&#x3002;
+      implicit override lazy val app: FakeApplication =
+    FakeApplication(
+          additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;),
+          withRoutes = {
+            case (&quot;GET&quot;, &quot;/&quot;) =&gt; Action { Ok(&quot;ok&quot;) }
+          }
+    )
+
+  &quot;test server logic&quot; in {
+    val myPublicAddress =  s&quot;localhost:$port&quot;
+    val testPaymentGatewayURL = s&quot;http://$myPublicAddress&quot;
+    //&#x8FD9;&#x4E2A;&#x6D4B;&#x8BD5;&#x652F;&#x4ED8;&#x7F51;&#x5173;&#x5728;&#x5B83;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x503C;&#x4E4B;&#x524D;&#x9700;&#x8981;&#x9488;&#x5BF9;&#x8FD9;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x7684;&#x4E00;&#x4E2A;&#x56DE;&#x8C03;...
+    val callbackURL = s&quot;http://$myPublicAddress/callback&quot;
+    // &#x4ECE;play.api.test.FutureAwaits&#x4E2D;&#x7B49;&#x5F85;&#x8C03;&#x7528;
+    val response = await(WS.url(testPaymentGatewayURL).withQueryString(&quot;callbackURL&quot; -&gt; callbackURL).get())
+
+    response.status mustBe (OK)
+      }
+}
+</code></pre><p>&#x5982;&#x679C;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E0D;&#x540C;&#x7684;&#x670D;&#x52A1;&#x5668;&#x5B9E;&#x4F8B;&#xFF0C;&#x8BF7;&#x4F7F;&#x7528;OneServerPerTest&#x6765;&#x4EE3;&#x66FF;&#xFF08;&#x5176;&#x5C06;&#x540C;&#x65F6;&#x4E3A;&#x8FD9;&#x4E2A;&#x6D4B;&#x8BD5;&#x96C6;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x65B0;&#x7684;FakeApplication&#xFF09;:</p>
+<pre><code>class ExampleSpec extends PlaySpec with OneServerPerTest {
+    //&#x91CD;&#x5199;newAppForTest&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication.
+      override def newAppForTest(testData: TestData): FakeApplication =
+            new FakeApplication(
+              additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;),
+              withRoutes = {
+                case (&quot;GET&quot;, &quot;/&quot;) =&gt; Action { Ok(&quot;ok&quot;) }
+              }
+        )
+
+      &quot;The OneServerPerTest trait&quot; must {
+            &quot;test server logic&quot; in {
+                  val myPublicAddress =  s&quot;localhost:$port&quot;
+                  val testPaymentGatewayURL = s&quot;http://$myPublicAddress&quot;
+                //&#x6D4B;&#x8BD5;&#x652F;&#x4ED8;&#x7F51;&#x5173;&#x5728;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x7ED3;&#x679C;&#x4E4B;&#x524D;&#x9700;&#x8981;&#x9488;&#x5BF9;&#x8FD9;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x7684;&#x4E00;&#x4E2A;&#x56DE;&#x8C03;...
+                  val callbackURL = s&quot;http://$myPublicAddress/callback&quot;
+                  // await is from play.api.test.FutureAwaits
+                  val response = await(WS.url(testPaymentGatewayURL).withQueryString(&quot;callbackURL&quot; -&gt; callbackURL).get())
+
+                  response.status mustBe (OK)
+                }
+              }
+        }
+</code></pre><p>OneServerPerSuite&#x548C;OneServerPerTest&#x7279;&#x6027;&#x4E3A;&#x8BE5;&#x670D;&#x52A1;&#x5668;&#x8FD0;&#x884C;&#x4E3A;port&#x57DF;&#x63D0;&#x4F9B;&#x4E86;port&#x53F7;&#x3002;&#x5176;&#x9ED8;&#x8BA4;&#x662F;19001&#xFF0C;&#x751A;&#x81F3;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x91CD;&#x5199;&#x7AEF;&#x53E3;&#x6216;&#x8BBE;&#x5B9A;&#x7CFB;&#x7EDF;&#x5C5E;&#x6027;testserver.port&#x6765;&#x66F4;&#x6539;&#x3002;&#x5176;&#x5C06;&#x975E;&#x5E38;&#x6709;&#x7528;&#x5F53;&#x4E0E;&#x6301;&#x7EED;&#x96C6;&#x6210;&#x670D;&#x52A1;&#x5668;&#x96C6;&#x6210;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x56E0;&#x6B64;&#x7AEF;&#x53E3;&#x53EF;&#x4EE5;&#x88AB;&#x52A8;&#x6001;&#x7684;&#x4E3A;&#x6BCF;&#x4E2A;&#x6784;&#x5EFA;&#x6240;&#x4FDD;&#x7559;&#x3002;</p>
+<p>&#x4F60;&#x540C;&#x65F6;&#x53EF;&#x4EE5;&#x5982;&#x4E4B;&#x524D;&#x4F8B;&#x5B50;&#x6240;&#x5C55;&#x793A;&#x7684;&#x90A3;&#x6837;&#x901A;&#x8FC7;&#x91CD;&#x5199;app&#x6765;&#x81EA;&#x5B9A;&#x4E49;FakeApplication.</p>
+<p>&#x6700;&#x540E;&#xFF0C;&#x5982;&#x679C;&#x5141;&#x8BB8;&#x591A;&#x4E2A;&#x6D4B;&#x8BD5;&#x7C7B;&#x6765;&#x5171;&#x4EAB;&#x8FD9;&#x4E2A;&#x76F8;&#x540C;&#x7684;&#x670D;&#x52A1;&#x5668;&#x5C06;&#x4F1A;&#x7ED9;&#x4F60;&#x6BD4;OneServerPerSuite&#x6216;OneServerPerTest&#x65B9;&#x5F0F;&#x66F4;&#x597D;&#x7684;&#x6027;&#x80FD;&#xFF0C;&#x6B63;&#x5982;<a href="http://doc.scalatest.org/plus-play/1.0.0/index.html#org.scalatestplus.play.ConfiguredServer" target="_blank">ConfiguredServer&#x6587;&#x6863;</a>&#x4E2D;&#x7684;&#x4F8B;&#x5B50;&#x6240;&#x5C55;&#x793A;&#x7684;&#x90A3;&#x6837;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x4E3B;&#x6D4B;&#x8BD5;&#x96C6;&#x5176;&#x4E0E;OneServePerSuite&#x6DF7;&#x7528;&#x548C;&#x5D4C;&#x5165;&#x5F0F;&#x6D4B;&#x8BD5;&#x96C6;&#x5176;&#x4E0E;ConfiguredServer&#x6DF7;&#x7528;&#x3002;</p>
+<h2 id="%E5%92%8C%E4%B8%80%E4%B8%AA%E7%BD%91%E9%A1%B5%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%80%E8%B5%B7%E6%B5%8B%E8%AF%95">&#x548C;&#x4E00;&#x4E2A;&#x7F51;&#x9875;&#x6D4F;&#x89C8;&#x5668;&#x4E00;&#x8D77;&#x6D4B;&#x8BD5;</h2>
+<p>ScalaTest + Play&#x5E93;&#x6784;&#x57FA;&#x4E8E;<a href="http://doc.scalatest.org/2.1.5/index.html#org.scalatest.selenium.WebBrowser" target="_blank">Selenium DSL</a>&#x6784;&#x5EFA;&#x4EE5;&#x4F7F;&#x5176;&#x7B80;&#x5355;&#x7684;&#x4ECE;&#x7F51;&#x9875;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x6D4B;&#x8BD5;&#x4F60;&#x7684;Play&#x5E94;&#x7528;&#x3002;
+&#x6DF7;&#x5408;OneBrowserPerSuite&#x5230;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x4E2D;&#x4EE5;&#x4FBF;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x76F8;&#x540C;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x6765;&#x8FD0;&#x884C;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x4E2D;&#x6240;&#x6709;&#x7684;&#x6D4B;&#x8BD5;&#x3002;&#x4F60;&#x5C06;&#x540C;&#x65F6;&#x9700;&#x8981;&#x4E0E;&#x4E00;&#x4E2A;BrowserFactory&#x7279;&#x6027;&#x5176;&#x5C06;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;Selenium web&#x9A71;&#x52A8;&#x6DF7;&#x7528;&#xFF1A;ChromeFactory, FirefoxFactory, HtmlUnitFactory, InternetExplorerFactory, SafariFactory&#x4E4B;&#x4E00;&#x3002;</p>
+<p>&#x66F4;&#x8FDB;&#x4E00;&#x6B65;&#x4E3A;&#x4E86;&#x6DF7;&#x5408;&#x5165;&#x4E00;&#x4E2A;BrowserFactory&#xFF0C;&#x4F60;&#x5C06;&#x9700;&#x8981;&#x6DF7;&#x5408;&#x8FDB;&#x4E00;&#x4E2A;ServerProvider&#x7279;&#x6027;&#x5176;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;TestServer: ChromeFactory, FirefoxFactory, HtmlUnitFactory, InternetExplorerFactory, SafariFactory&#x4E4B;&#x4E00;&#x3002;</p>
+<p>&#x6BD4;&#x5982;&#xFF0C;&#x4EE5;&#x4E0B;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x6DF7;&#x5408;&#x8FDB;OneServerPerSuite&#x548C;HtmUnitFactory:</p>
+<pre><code>class ExampleSpec extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite with HtmlUnitFactory {
+    //&#x91CD;&#x5199;app&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication.
+  implicit override lazy val app: FakeApplication =
+    FakeApplication(
+          additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;),
+          withRoutes = {
+            case (&quot;GET&quot;, &quot;/testing&quot;) =&gt;
+              Action(
+                Results.Ok(
+                  &quot;&lt;html&gt;&quot; +
+                &quot;&lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;&quot; +
+                &quot;&lt;body&gt;&quot; +
+                &quot;&lt;input type=&apos;button&apos; name=&apos;b&apos; value=&apos;Click Me&apos; onclick=&apos;document.title=\&quot;scalatest\&quot;&apos; /&gt;&quot; +
+                &quot;&lt;/body&gt;&quot; +
+                &quot;&lt;/html&gt;&quot;
+                ).as(&quot;text/html&quot;)
+              )
+          }
+    )
+
+  &quot;The OneBrowserPerTest trait&quot; must {
+    &quot;provide a web driver&quot; in {
+          go to (s&quot;http://localhost:$port/testing&quot;)
+          pageTitle mustBe &quot;Test Page&quot;
+          click on find(name(&quot;b&quot;)).value
+          eventually { pageTitle mustBe &quot;scalatest&quot; }
+        }
+      }
+}
+</code></pre><p>&#x5982;&#x679C;&#x4F60;&#x7684;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x5B9E;&#x4F8B;&#xFF0C;&#x8BF7;&#x4F7F;&#x7528;OneBrowserPerTest&#x6765;&#x66FF;&#x4EE3;&#x3002;&#x6BD4;&#x5982;OneBrowserPerSuite,&#x4F60;&#x5C06;&#x9700;&#x8981;&#x540C;&#x65F6;&#x4E0E;&#x4E00;&#x4E2A;ServerProvider&#x548C;BrowserFactory&#x6765;&#x6DF7;&#x7528;:</p>
+<pre><code>class ExampleSpec extends PlaySpec with OneServerPerTest with OneBrowserPerTest with HtmlUnitFactory {
+    //&#x91CD;&#x5199;newAppForTest&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication.
+      override def newAppForTest(testData: TestData): FakeApplication =
+        new FakeApplication(
+              additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;),
+              withRoutes = {
+                case (&quot;GET&quot;, &quot;/testing&quot;) =&gt;
+                      Action(
+                        Results.Ok(
+                              &quot;&lt;html&gt;&quot; +
+                            &quot;&lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;&quot; +
+                            &quot;&lt;body&gt;&quot; +
+                            &quot;&lt;input type=&apos;button&apos; name=&apos;b&apos; value=&apos;Click Me&apos; onclick=&apos;document.title=\&quot;scalatest\&quot;&apos; /&gt;&quot; +
+                            &quot;&lt;/body&gt;&quot; +
+                            &quot;&lt;/html&gt;&quot;
+                        ).as(&quot;text/html&quot;)
+                      )
+                  }
+            )
+
+  &quot;The OneBrowserPerTest trait&quot; must {
+    &quot;provide a web driver&quot; in {
+          go to (s&quot;http://localhost:$port/testing&quot;)
+          pageTitle mustBe &quot;Test Page&quot;
+          click on find(name(&quot;b&quot;)).value
+          eventually { pageTitle mustBe &quot;scalatest&quot; }
+        }
+      }
+}
+</code></pre><p>&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x591A;&#x4E2A;&#x6D4B;&#x8BD5;&#x7C7B;&#x6765;&#x5171;&#x4EAB;&#x8FD9;&#x4E2A;&#x76F8;&#x540C;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x5B9E;&#x4F8B;&#xFF0C;&#x6DF7;&#x5408;OneBrowserPerSuite&#x8FDB;&#x4E00;&#x4E2A;&#x4E3B;&#x6D4B;&#x8BD5;&#x96C6;&#x548C;&#x6DF7;&#x5408;ConfiguredBrowser&#x8FDB;&#x591A;&#x4E2A;&#x5185;&#x5D4C;&#x7684;&#x6D4B;&#x8BD5;&#x96C6;&#x3002;&#x5185;&#x5D4C;&#x7684;&#x6D4B;&#x8BD5;&#x96C6;&#x5C06;&#x4E00;&#x8D77;&#x5171;&#x4EAB;&#x76F8;&#x540C;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x3002;&#x8BF7;&#x53C2;&#x8003;<a href="http://doc.scalatest.org/plus-play/1.0.0/index.html#org.scalatestplus.play.ConfiguredBrowser" target="_blank">ConfiguredBrowser&#x7279;&#x6027;&#x7684;&#x6587;&#x6863;</a>&#x4E2D;&#x7684;&#x4F8B;&#x5B50;&#x3002;</p>
+<h2 id="%E5%9C%A8%E5%A4%9A%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8C%E7%9B%B8%E5%90%8C%E7%9A%84%E6%B5%8B%E8%AF%95">&#x5728;&#x591A;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8FD0;&#x884C;&#x76F8;&#x540C;&#x7684;&#x6D4B;&#x8BD5;</h2>
+<p>&#x5982;&#x679C;&#x4F60;&#x60F3;&#x5728;&#x591A;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;&#xFF0C;&#x4EE5;&#x4FDD;&#x8BC1;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x53EF;&#x4EE5;&#x5728;&#x6240;&#x6709;&#x4F60;&#x652F;&#x6301;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x6B63;&#x5E38;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;AllBrowserPerSuite&#x6216;AllBrowsersPerTest&#x7279;&#x6027;&#x3002;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x90FD;&#x58F0;&#x660E;&#x4E86;&#x4E00;&#x4E2A;IndexedSeq[BrowserInfo]&#x7279;&#x6027;&#x548C;&#x4E00;&#x4E2A;&#x62BD;&#x8C61;&#x7684;sharedTests&#x65B9;&#x6CD5;&#x5176;&#x62E5;&#x6709;&#x4E00;&#x4E2A;BrowerInfo.browsers&#x57DF;&#x6307;&#x5B9A;&#x4E86;&#x90A3;&#x4E2A;&#x6D4F;&#x89C8;&#x5668;&#x4F60;&#x60F3;&#x8BA9;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x5728;&#x5176;&#x4E2D;&#x8FD0;&#x884C;&#x3002;&#x9ED8;&#x8BA4;&#x7684;&#x662F;Chrome, Firefox, Internet Explorer, HtmlUnit&#x548C;Safari. &#x4F60;&#x53EF;&#x4EE5;&#x91CD;&#x5199;browsers&#x5982;&#x679C;&#x9ED8;&#x8BA4;&#x7684;&#x4E0D;&#x7B26;&#x5408;&#x4F60;&#x7684;&#x9700;&#x6C42;.&#x4F60;&#x5728;sharedTests&#x65B9;&#x6CD5;&#x4E2D;&#x5D4C;&#x5165;&#x4F60;&#x60F3;&#x5728;&#x591A;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8FD0;&#x884C;&#x7684;&#x6D4B;&#x8BD5;&#xFF0C;&#x5C06;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x540D;&#x5B57;&#x7F6E;&#x4E8E;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x540D;&#x7684;&#x540E;&#x9762;&#xFF08;&#x6D4F;&#x89C8;&#x5668;&#x540D;&#x5B57;&#x662F;&#x53EF;&#x7528;&#x7684;&#x4ECE;BrowserInfo&#x4F20;&#x5165;&#x8FDB;sharedTests.&#xFF09;&#x8FD9;&#x91CC;&#x6709;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;AllBrowsersPerSuite&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code>class ExampleSpec extends PlaySpec with OneServerPerSuite with AllBrowsersPerSuite {
+    //&#x91CD;&#x5199;App&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication.
+      implicit override lazy val app: FakeApplication =
+        FakeApplication(
+              additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;),
+              withRoutes = {
+                case (&quot;GET&quot;, &quot;/testing&quot;) =&gt;
+                  Action(
+                    Results.Ok(
+                          &quot;&lt;html&gt;&quot; +
+                        &quot;&lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;&quot; +
+                        &quot;&lt;body&gt;&quot; +
+                        &quot;&lt;input type=&apos;button&apos; name=&apos;b&apos; value=&apos;Click Me&apos; onclick=&apos;document.title=\&quot;scalatest\&quot;&apos; /&gt;&quot; +
+                        &quot;&lt;/body&gt;&quot; +
+                        &quot;&lt;/html&gt;&quot;
+                    ).as(&quot;text/html&quot;)
+                  )
+              }
+        )
+
+      def sharedTests(browser: BrowserInfo) = {
+        &quot;The AllBrowsersPerSuite trait&quot; must {
+              &quot;provide a web driver &quot; + browser.name in {
+                go to (s&quot;http://localhost:$port/testing&quot;)
+                pageTitle mustBe &quot;Test Page&quot;
+                click on find(name(&quot;b&quot;)).value
+                eventually { pageTitle mustBe &quot;scalatest&quot; }
+              }
+        }
+      }
+}
+</code></pre><p>&#x6240;&#x6709;&#x88AB;sharedTests&#x6240;&#x58F0;&#x660E;&#x7684;&#x6D4B;&#x8BD5;&#x5C06;&#x88AB;&#x5728;browsers&#x57DF;&#x4E2D;&#x63D0;&#x5230;&#x7684;&#x6240;&#x6709;&#x6D4F;&#x89C8;&#x5668;&#x4E00;&#x8D77;&#x8FD0;&#x884C;&#xFF0C;&#x53EA;&#x8981;&#x5B83;&#x4EEC;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x7CFB;&#x7EDF;&#x4E2D;&#x662F;&#x53EF;&#x7528;&#x7684;&#x3002;&#x4E3A;&#x4EFB;&#x4F55;&#x6D4F;&#x89C8;&#x5668;&#x5176;&#x4E0D;&#x5B58;&#x5728;&#x4E8E;&#x5BA2;&#x6237;&#x7AEF;&#x7CFB;&#x7EDF;&#x7684;&#x6D4B;&#x8BD5;&#x5C06;&#x4F1A;&#x81EA;&#x52A8;&#x88AB;&#x53D6;&#x6D88;&#x3002;&#x6CE8;&#x610F;&#x4F60;&#x9700;&#x8981;&#x624B;&#x52A8;&#x7684;&#x4E3A;&#x6D4B;&#x8BD5;&#x540D;&#x79F0;&#x8FFD;&#x52A0;browser.name&#x4EE5;&#x4FDD;&#x969C;&#x8FD9;&#x4E2A;&#x96C6;&#x5408;&#x5185;&#x7684;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;&#x540D;&#x5B57;&#xFF08;ScalaTest&#x9700;&#x8981;&#x5B83;&#xFF09;.&#x5982;&#x679C;&#x4F60;&#x4FDD;&#x7559;&#x5176;&#x7A7A;&#x767D;&#xFF0C;&#x5F53;&#x4F60;&#x8FD0;&#x884C;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#x5C06;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x91CD;&#x590D;&#x6D4B;&#x8BD5;&#x540D;&#x5B57;&#x7684;&#x9519;&#x8BEF;&#x3002;</p>
+<p>AllBrowsersPerSuite &#x5C06;&#x4E3A;&#x6BCF;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5355;&#x72EC;&#x7684;&#x5B9E;&#x4F8B;&#x5E76;&#x4E3A;&#x5728;sharedTests&#x4E2D;&#x58F0;&#x660E;&#x7684;&#x6240;&#x6709;&#x6D4B;&#x8BD5;&#x4E2D;&#x4F7F;&#x7528;&#x3002;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x8981;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x53BB;&#x62E5;&#x6709;&#x5B83;&#x81EA;&#x5DF1;&#x7684;&#xFF0C;&#x5168;&#x65B0;&#x54C1;&#x724C;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x5B9E;&#x4F8B;&#xFF0C;&#x8BF7;&#x4F7F;&#x7528;AllBrowsersPerTest&#x6765;&#x66FF;&#x4EE3;&#xFF1A;</p>
+<pre><code>class ExampleSpec extends PlaySpec with OneServerPerSuite with AllBrowsersPerTest {
+    //&#x91CD;&#x5199;app&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication.
+      implicit override lazy val app: FakeApplication =
+        FakeApplication(
+              additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;),
+              withRoutes = {
+                case (&quot;GET&quot;, &quot;/testing&quot;) =&gt;
+                  Action(
+                    Results.Ok(
+                          &quot;&lt;html&gt;&quot; +
+                        &quot;&lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;&quot; +
+                        &quot;&lt;body&gt;&quot; +
+                        &quot;&lt;input type=&apos;button&apos; name=&apos;b&apos; value=&apos;Click Me&apos; onclick=&apos;document.title=\&quot;scalatest\&quot;&apos; /&gt;&quot; +
+                        &quot;&lt;/body&gt;&quot; +
+                            &quot;&lt;/html&gt;&quot;
+                    ).as(&quot;text/html&quot;)
+                  )
+              }
+        )
+
+      def sharedTests(browser: BrowserInfo) = {
+            &quot;The AllBrowsersPerTest trait&quot; must {
+              &quot;provide a web driver&quot;  + browser.name in {
+                go to (s&quot;http://localhost:$port/testing&quot;)
+                pageTitle mustBe &quot;Test Page&quot;
+                click on find(name(&quot;b&quot;)).value
+                eventually { pageTitle mustBe     &quot;scalatest&quot; }
+              }
+            }
+      }
+}
+</code></pre><p>&#x5C3D;&#x7BA1;AllBrowserPerSuite&#x548C;AllBrowsersPerTest&#x90FD;&#x4F1A;&#x9488;&#x5BF9;&#x4E0D;&#x63D0;&#x4F9B;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x7C7B;&#x578B;&#x800C;&#x53D6;&#x6D88;&#x6D4B;&#x8BD5;&#xFF0C;&#x8FD9;&#x4E9B;&#x6D4B;&#x8BD5;
+&#x4ECD;&#x5C06;&#x5728;&#x8F93;&#x51FA;&#x4E2D;&#x663E;&#x793A;&#x4E3A;&#x88AB;&#x53D6;&#x6D88;&#x3002;&#x4E3A;&#x4E86;&#x6E05;&#x7406;&#x8FD9;&#x4E9B;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5982;&#x4E0B;&#x4F8B;&#x5B50;&#x6240;&#x793A;&#x6765;&#x901A;&#x8FC7;&#x91CD;&#x5199;browsers&#x6765;&#x6392;&#x9664;&#x90A3;&#x4E9B;&#x6C38;&#x8FDC;&#x4E0D;&#x4F1A;&#x88AB;&#x652F;&#x6301;&#x7684;&#x7F51;&#x9875;&#x6D4F;&#x89C8;&#x5668;&#xFF1A;</p>
+<pre><code>class ExampleOverrideBrowsersSpec extends PlaySpec with OneServerPerSuite with AllBrowsersPerSuite {
+
+      override lazy val browsers =
+        Vector(
+          FirefoxInfo(firefoxProfile),
+          ChromeInfo
+        )
+    //&#x91CD;&#x5199;app&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication.
+      implicit override lazy val app: FakeApplication =
+        FakeApplication(
+              additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;),
+              withRoutes = {
+                case (&quot;GET&quot;, &quot;/testing&quot;) =&gt;
+                  Action(
+                    Results.Ok(
+                          &quot;&lt;html&gt;&quot; +
+                            &quot;&lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;&quot; +
+                         &quot;&lt;body&gt;&quot; +
+                        &quot;&lt;input type=&apos;button&apos; name=&apos;b&apos; value=&apos;Click Me&apos; onclick=&apos;document.title=\&quot;scalatest\&quot;&apos; /&gt;&quot; +
+                        &quot;&lt;/body&gt;&quot; +
+                        &quot;&lt;/html&gt;&quot;
+                        ).as(&quot;text/html&quot;)
+                      )
+                  }
+            )
+
+      def sharedTests(browser: BrowserInfo) = {
+        &quot;The AllBrowsersPerSuite trait&quot; must {
+              &quot;provide a web driver&quot;  + browser.name in {
+                        go to (s&quot;http://localhost:$port/testing&quot;)
+                    pageTitle mustBe &quot;Test Page&quot;
+                    click on find(name(&quot;b&quot;)).value
+                    eventually { pageTitle mustBe &quot;scalatest&quot; }
+                  }
+            }
+          }
+    }
+</code></pre><p>&#x4E4B;&#x524D;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x4EC5;&#x5C06;&#x5C1D;&#x8BD5;&#x548C;Firefox&#xFF0C;chrome&#x4E00;&#x8D77;&#x8FD0;&#x884C;&#x5171;&#x4EAB;&#x7684;&#x6D4B;&#x8BD5;&#xFF08;&#x5E76;&#x81EA;&#x52A8;&#x5316;&#x7684;&#x53D6;&#x6D88;&#x6D4B;&#x8BD5;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D4F;&#x89C8;&#x5668;&#x662F;&#x4E0D;&#x53EF;&#x7528;&#x7684;&#xFF09;&#x3002;</p>
+<h2 id="playspec">PlaySpec</h2>
+<p>PlaySpec&#x4E3A;Play&#x6D4B;&#x8BD5;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x4FBF;&#x6377;&#x7684;&#x201C;&#x8D85;&#x96C6;&#x201D;ScalaTest&#x57FA;&#x7840;&#x7C7B;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6269;&#x5C55;
+PlaySpec&#x6765;&#x81EA;&#x52A8;&#x5F97;&#x5230;WordSpec, MustMatchers, OptionValues, &#x548C; WsScalaTestClient&#xFF1A;</p>
+<pre><code>class ExampleSpec extends PlaySpec with OneServerPerSuite with  ScalaFutures with IntegrationPatience {
+    //&#x91CD;&#x5199;app&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E0D;&#x4EC5;&#x6709;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x7684;FakeApplication.
+      implicit override lazy val app: FakeApplication =
+        FakeApplication(
+              additionalConfiguration = Map(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;),
+              withRoutes = {
+                case (&quot;GET&quot;, &quot;/testing&quot;) =&gt;
+                  Action(
+                    Results.Ok(
+                          &quot;&lt;html&gt;&quot; +
+                        &quot;&lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;&quot; +
+                        &quot;&lt;body&gt;&quot; +
+                        &quot;&lt;input type=&apos;button&apos; name=&apos;b&apos; value=&apos;Click Me&apos; onclick=&apos;document.title=\&quot;scalatest\&quot;&apos; /&gt;&quot; +
+                        &quot;&lt;/body&gt;&quot; +
+                        &quot;&lt;/html&gt;&quot;
+                        ).as(&quot;text/html&quot;)
+                      )
+                  }
+            )    
+      &quot;WsScalaTestClient&apos;s&quot; must {
+
+        &quot;wsUrl works correctly&quot; in {
+              val futureResult = wsUrl(&quot;/testing&quot;).get
+              val body = futureResult.futureValue.body
+              val expectedBody =
+                &quot;&lt;html&gt;&quot; +
+                  &quot;&lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;&quot; +
+                  &quot;&lt;body&gt;&quot; +
+                  &quot;&lt;input type=&apos;button&apos; name=&apos;b&apos; value=&apos;Click Me&apos; onclick=&apos;document.title=\&quot;scalatest\&quot;&apos; /&gt;&quot; +
+                  &quot;&lt;/body&gt;&quot; +
+                  &quot;&lt;/html&gt;&quot;
+                  assert(body == expectedBody)
+            }
+
+        &quot;wsCall works correctly&quot; in {
+          val futureResult = wsCall(Call(&quot;get&quot;, &quot;/testing&quot;)).get
+          val body = futureResult.futureValue.body
+          val expectedBody =
+            &quot;&lt;html&gt;&quot; +
+              &quot;&lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;&quot; +
+              &quot;&lt;body&gt;&quot; +
+              &quot;&lt;input type=&apos;button&apos; name=&apos;b&apos; value=&apos;Click Me&apos; onclick=&apos;document.title=\&quot;scalatest\&quot;&apos; /&gt;&quot; +
+              &quot;&lt;/body&gt;&quot; +
+              &quot;&lt;/html&gt;&quot;
+          assert(body == expectedBody)
+        }
+      }
+}
+</code></pre><p>&#x4F60;&#x53EF;&#x4EE5;&#x5C06;&#x4EFB;&#x4F55;&#x4E4B;&#x524D;&#x63D0;&#x5230;&#x7684;&#x7279;&#x6027;&#x6DF7;&#x5408;&#x8FDB;PlaySpec.
+&#x5728;&#x4E4B;&#x524D;&#x4F8B;&#x5B50;&#x4E2D;&#x6240;&#x5C55;&#x793A;&#x7684;&#x90A3;&#x4E9B;&#x6D4B;&#x8BD5;&#x7C7B;&#x4E2D;&#xFF0C;&#x6D4B;&#x8BD5;&#x7C7B;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x6216;&#x5927;&#x591A;&#x6570;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x76F8;&#x540C;&#x7684;&#x6837;&#x5F0F;&#x3002;&#x8FD9;&#x4E2A;&#x5F88;&#x5E38;&#x89C1;&#x4F46;&#x4E0D;&#x603B;&#x662F;&#x8FD9;&#x6837;&#x3002;&#x5982;&#x679C;&#x76F8;&#x540C;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x4E2D;&#x4E0D;&#x540C;&#x7684;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E0D;&#x540C;&#x7684;&#x6837;&#x5F0F;&#xFF0C;&#x4E0E;&#x7279;&#x6027;MixedFixtures&#x6DF7;&#x7528;&#x3002;&#x7136;&#x540E;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x65E0;&#x53C2;&#x529F;&#x80FD;: App, Server, Chrome, Firefox, HtmlUnit, InternetExplorer, &#x6216; Safari&#x4E4B;&#x4E00;&#x6765;&#x7ED9;&#x4E88;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x5668;&#x9700;&#x8981;&#x7684;&#x6837;&#x5F0F;.
+&#x4F60;&#x4E0D;&#x53EF;&#x4EE5;&#x6DF7;&#x5408;MixedFixtures&#x8FDB;PlaySpec&#x3002;&#x56E0;&#x4E3A;MixedFixtures&#x9700;&#x8981;&#x4E00;&#x4E2A;ScalaTest fixture.Suite&#x4F46;PlaySpec&#x4EC5;&#x4EC5;&#x662F;&#x4E00;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x96C6;&#x5408;&#x3002;&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x9488;&#x5BF9;&#x6DF7;&#x5408;&#x6837;&#x5F0F;&#x7684;&#x4E00;&#x4E2A;&#x7B80;&#x6D01;&#x7684;&#x57FA;&#x7840;&#x7C7B;&#x3002;&#x901A;&#x8FC7;&#x6269;&#x5C55;MixedPlaySpec&#x6765;&#x66FF;&#x4EE3;&#x3002;&#x8FD9;&#x91CC;&#x662F;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code>// MixedPlaySpec &#x5DF2;&#x7ECF;&#x6DF7;&#x5408;&#x8FDB;MixedFixtures
+class ExampleSpec extends MixedPlaySpec {
+// &#x4E00;&#x4E9B;&#x5E2E;&#x52A9;&#x5668;&#x65B9;&#x6CD5;
+      def fakeApp[A](elems: (String, String)*) = FakeApplication(additionalConfiguration = Map(elems:_*),
+        withRoutes = {
+              case (&quot;GET&quot;, &quot;/testing&quot;) =&gt;
+            Action(
+                  Results.Ok(
+                    &quot;&lt;html&gt;&quot; +
+                      &quot;&lt;head&gt;&lt;title&gt;Test Page&lt;/title&gt;&lt;/head&gt;&quot; +
+                      &quot;&lt;body&gt;&quot; +
+                      &quot;&lt;input type=&apos;button&apos; name=&apos;b&apos; value=&apos;Click Me&apos; onclick=&apos;document.title=\&quot;scalatest\&quot;&apos; /&gt;&quot; +
+                      &quot;&lt;/body&gt;&quot; +
+                      &quot;&lt;/html&gt;&quot;
+                  ).as(&quot;text/html&quot;)
+            )
+        })
+      def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
+// &#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x8FDB;&#x9700;&#x8981;&#x4E00;&#x4E2A;FakeApplication&#xFF0C;&#x4F7F;&#x7528;&quot;new APP&quot;&#xFF1A;
+      &quot;The App function&quot; must {
+        &quot;provide a FakeApplication&quot; in new App(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          app.configuration.getString(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+        }
+        &quot;make the FakeApplication available implicitly&quot; in new App(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+              getConfig(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+        }
+        &quot;start the FakeApplication&quot; in new App(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+              Play.maybeApplication mustBe Some(app)
+        }
+      }
+// &#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E00;&#x4E2A;FakeApplicaiton&#x5E76;&#x8FD0;&#x884C;TestServer,&#x8BF7;&#x4F7F;&#x7528;&quot;new Server&quot;:
+  &quot;The Server function&quot; must {
+    &quot;provide a FakeApplication&quot; in new Server(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;))     {
+          app.configuration.getString(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+        }
+    &quot;make the FakeApplication available implicitly&quot; in new Server(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          getConfig(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;start the FakeApplication&quot; in new Server(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          Play.maybeApplication mustBe Some(app)
+    }
+    import Helpers._
+    &quot;send 404 on a bad request&quot; in new Server {
+          import java.net._
+          val url = new URL(&quot;http://localhost:&quot; + port + &quot;/boom&quot;)
+          val con = url.openConnection().asInstanceOf[HttpURLConnection]
+          try con.getResponseCode mustBe 404
+          finally con.disconnect()
+    }
+  }
+
+// &#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E00;&#x4E2A;FakeApplication,&#x8FD0;&#x884C;TestServer&#xFF0C;&#x548C;Selenium HtmlUnit&#x9A71;&#x52A8;&#x8BF7;&#x4F7F;&#x7528;&quot;new HtmlUnit&quot;&#xFF1A;
+  &quot;The HtmlUnit function&quot; must {
+    &quot;provide a FakeApplication&quot; in new HtmlUnit(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+      app.configuration.getString(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;make the FakeApplication available implicitly&quot; in new HtmlUnit(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          getConfig(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;start the FakeApplication&quot; in new HtmlUnit(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          Play.maybeApplication mustBe Some(app)
+    }
+    import Helpers._
+    &quot;send 404 on a bad request&quot; in new HtmlUnit {
+          import java.net._
+          val url = new URL(&quot;http://localhost:&quot; + port + &quot;/boom&quot;)
+          val con = url.openConnection().asInstanceOf[HttpURLConnection]
+          try con.getResponseCode mustBe 404
+          finally con.disconnect()
+    }
+    &quot;provide a web driver&quot; in new HtmlUnit(fakeApp()) {
+         go to (&quot;http://localhost:&quot; + port + &quot;/testing&quot;)
+          pageTitle mustBe &quot;Test Page&quot;
+          click on find(name(&quot;b&quot;)).value
+          eventually { pageTitle mustBe &quot;scalatest&quot; }
+    }
+  }
+
+// &#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E00;&#x4E2A;FakeApplication,&#x8FD0;&#x884C;TestServer,&#x548C;Selenium Firefox&#x9A71;&#x52A8;&#x8BF7;&#x4F7F;&#x7528;&quot;new Firefox&quot;&#xFF1A;
+  &quot;The Firefox function&quot; must {
+    &quot;provide a FakeApplication&quot; in new Firefox(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+      app.configuration.getString(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;make the FakeApplication available implicitly&quot; in new Firefox(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          getConfig(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;start the FakeApplication&quot; in new Firefox(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          Play.maybeApplication mustBe Some(app)
+    }
+    import Helpers._
+    &quot;send 404 on a bad request&quot; in new Firefox {
+          import java.net._
+          val url = new URL(&quot;http://localhost:&quot; + port + &quot;/boom&quot;)
+          val con = url.openConnection().asInstanceOf[HttpURLConnection]
+          try con.getResponseCode mustBe 404
+          finally con.disconnect()
+    }
+    &quot;provide a web driver&quot; in new Firefox(fakeApp()) {
+          go to (&quot;http://localhost:&quot; + port + &quot;/testing&quot;)
+          pageTitle mustBe &quot;Test Page&quot;
+          click on find(name(&quot;b&quot;)).value
+          eventually { pageTitle mustBe &quot;scalatest&quot; }
+    }
+  }
+
+// // &#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E00;&#x4E2A;FakeApplication,&#x8FD0;&#x884C;TestServer,&#x548C;Selenium Safari&#x9A71;&#x52A8;&#x8BF7;&#x4F7F;&#x7528;&quot;new Safari&quot;&#xFF1A;
+  &quot;The Safari function&quot; must {
+    &quot;provide a FakeApplication&quot; in new Safari(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          app.configuration.getString(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;make the FakeApplication available implicitly&quot; in new Safari(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          getConfig(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;start the FakeApplication&quot; in new Safari(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          Play.maybeApplication mustBe Some(app)
+    }
+    import Helpers._
+    &quot;send 404 on a bad request&quot; in new Safari {
+          import java.net._
+          val url = new URL(&quot;http://localhost:&quot; + port + &quot;/boom&quot;)
+          val con = url.openConnection().asInstanceOf[HttpURLConnection]
+          try con.getResponseCode mustBe 404
+          finally con.disconnect()
+    }
+    &quot;provide a web driver&quot; in new Safari(fakeApp()) {
+          go to (&quot;http://localhost:&quot; + port + &quot;/testing&quot;)
+          pageTitle mustBe &quot;Test Page&quot;
+          click on find(name(&quot;b&quot;)).value
+          eventually { pageTitle mustBe &quot;scalatest&quot; }
+    }
+  }
+
+// &#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E00;&#x4E2A;FakeApplication,&#x8FD0;&#x884C;TestServer,&#x548C;Selenium Chrome&#x9A71;&#x52A8;&#x8BF7;&#x4F7F;&#x7528;&quot;new Chrome&quot;&#xFF1A;
+  &quot;The Chrome function&quot; must {
+    &quot;provide a FakeApplication&quot; in new Chrome(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          app.configuration.getString(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;make the FakeApplication available implicitly&quot; in new Chrome(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          getConfig(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;start the FakeApplication&quot; in new Chrome(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          Play.maybeApplication mustBe Some(app)
+    }
+    import Helpers._
+    &quot;send 404 on a bad request&quot; in new Chrome {
+          import java.net._
+          val url = new URL(&quot;http://localhost:&quot; + port + &quot;/boom&quot;)
+          val con = url.openConnection().asInstanceOf[HttpURLConnection]
+          try con.getResponseCode mustBe 404
+          finally con.disconnect()
+    }
+    &quot;provide a web driver&quot; in new Chrome(fakeApp()) {
+          go to (&quot;http://localhost:&quot; + port + &quot;/testing&quot;)
+          pageTitle mustBe &quot;Test Page&quot;
+          click on find(name(&quot;b&quot;)).value
+          eventually { pageTitle mustBe &quot;scalatest&quot; }
+    }
+  }
+
+// &#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x4E00;&#x4E2A;FakeApplication,&#x8FD0;&#x884C;TestServer,&#x548C;Selenium InternetExplorer&#x9A71;&#x52A8;&#x8BF7;&#x4F7F;&#x7528;&quot;new InternetExplorer&quot;&#xFF1A;
+  &quot;The InternetExplorer function&quot; must {
+    &quot;provide a FakeApplication&quot; in new InternetExplorer(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          app.configuration.getString(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;make the FakeApplication available implicitly&quot; in new InternetExplorer(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+          getConfig(&quot;ehcacheplugin&quot;) mustBe Some(&quot;disabled&quot;)
+    }
+    &quot;start the FakeApplication&quot; in new InternetExplorer(fakeApp(&quot;ehcacheplugin&quot; -&gt; &quot;disabled&quot;)) {
+      Play.maybeApplication mustBe Some(app)
+    }
+    import Helpers._
+    &quot;send 404 on a bad request&quot; in new InternetExplorer {
+          import java.net._
+          val url = new URL(&quot;http://localhost:&quot; + port + &quot;/boom&quot;)
+          val con = url.openConnection().asInstanceOf[HttpURLConnection]
+          try con.getResponseCode mustBe 404
+          finally con.disconnect()
+    }
+    &quot;provide a web driver&quot; in new InternetExplorer(fakeApp()) {
+          go to (&quot;http://localhost:&quot; + port + &quot;/testing&quot;)
+          pageTitle mustBe &quot;Test Page&quot;
+          click on find(name(&quot;b&quot;)).value
+          eventually { pageTitle mustBe &quot;scalatest&quot; }
+    }
+  }
+
+// &#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x4E0D;&#x9700;&#x8981;&#x4EFB;&#x4F55;&#x7684;&#x7279;&#x6B8A;&#x6837;&#x5F0F;&#xFF0C;&#x4EC5;&#x9700;&#x8981;&#x5199;&#x6210;&quot;in { () =&gt; ... &quot;
+  &quot;Any old thing&quot; must {
+    &quot;be doable without much boilerplate&quot; in { () =&gt;
+       1 + 1 mustEqual 2
+     }
+  }
+}
+</code></pre><h2 id="%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%AA%E6%A8%A1%E6%9D%BF">&#x6D4B;&#x8BD5;&#x4E00;&#x4E2A;&#x6A21;&#x677F;</h2>
+<p>&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#x662F;&#x4E00;&#x4E2A;&#x6807;&#x51C6;&#x7684;Scala&#x529F;&#x80FD;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4ECE;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x4E2D;&#x6267;&#x884C;&#x5B83;&#xFF0C;&#x5E76;&#x68C0;&#x6D4B;&#x7ED3;&#x679C;&#xFF1A;</p>
+<pre><code>&quot;render index template&quot; in new App {
+      val html = views.html.index(&quot;Coco&quot;)
+
+      contentAsString(html) must include (&quot;Hello Coco&quot;)
+}
+</code></pre><h2 id="%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%AA%E6%8E%A7%E5%88%B6%E5%99%A8">&#x6D4B;&#x8BD5;&#x4E00;&#x4E2A;&#x63A7;&#x5236;&#x5668;</h2>
+<p>You can call any Action code by providing a FakeRequest:
+&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;FakRequest&#x6765;&#x8C03;&#x7528;&#x4EFB;&#x4F55;Action&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code>import scala.concurrent.Future
+
+import org.scalatest._
+import org.scalatestplus.play._
+
+import play.api.mvc._
+import play.api.test._
+import play.api.test.Helpers._
+
+class ExampleControllerSpec extends PlaySpec with Results {
+
+      class TestController() extends Controller with ExampleController
+
+      &quot;Example Page#index&quot; should {
+        &quot;should be valid&quot; in {
+              val controller = new TestController()
+              val result: Future[SimpleResult] = controller.index().apply(FakeRequest())
+              val bodyText: String = contentAsString(result)
+              bodyText mustBe &quot;ok&quot;
+            }
+          }
+    }
+</code></pre><p>&#x6280;&#x672F;&#x4E0A;&#x8BB2;&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x4F60;&#x4E0D;&#x9700;&#x8981;WithApption,&#x5C3D;&#x7BA1;&#x4F7F;&#x7528;&#x5B83;&#x5E76;&#x4E0D;&#x4F1A;&#x4EA7;&#x751F;&#x4EFB;&#x4F55;&#x4E0D;&#x5229;&#x5F71;&#x54CD;&#x3002;</p>
+<p>&#x6D4B;&#x8BD5;&#x4E00;&#x4E2A;&#x8DEF;&#x7531;</p>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8BA9;Router&#x6765;&#x505A;&#x800C;&#x4E0D;&#x662F;&#x4F60;&#x81EA;&#x5DF1;&#x6765;&#x8C03;&#x7528;Action&#xFF1A;</p>
+<pre><code>&quot;respond to the index Action&quot; in new App(fakeApplication) {
+      val Some(result) = route(FakeRequest(GET, &quot;/Bob&quot;))
+
+      status(result) mustEqual OK
+      contentType(result) mustEqual Some(&quot;text/html&quot;)
+      charset(result) mustEqual Some(&quot;utf-8&quot;)
+      contentAsString(result) must include (&quot;Hello Bob&quot;)
+}
+</code></pre><h2 id="%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%AA%E6%A8%A1%E5%9D%97">&#x6D4B;&#x8BD5;&#x4E00;&#x4E2A;&#x6A21;&#x5757;</h2>
+<p>&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;SQL&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4F7F;&#x7528;inMemoryDatabase&#x6765;&#x7528;&#x4E00;&#x4E2A;H2&#x6570;&#x636E;&#x5E93;&#x7684;&#x5185;&#x5B58;&#x5B9E;&#x4F8B;&#x66FF;&#x6362;&#x6570;&#x636E;&#x5E93;&#x8FDE;&#x63A5;&#x3002;</p>
+<pre><code>val appWithMemoryDatabase = FakeApplication(additionalConfiguration = inMemoryDatabase(&quot;test&quot;))
+&quot;run an application&quot; in new App(appWithMemoryDatabase) {
+
+      val Some(macintosh) = Computer.findById(21)
+
+      macintosh.name mustEqual &quot;Macintosh&quot;
+      macintosh.introduced.value mustEqual &quot;1984-01-24&quot;
+}
+</code></pre><h2 id="%E6%B5%8B%E8%AF%95ws%E8%B0%83%E7%94%A8">&#x6D4B;&#x8BD5;WS&#x8C03;&#x7528;</h2>
+<p>&#x5982;&#x679C;&#x4F60;&#x6B63;&#x5728;&#x8C03;&#x7528;&#x4E00;&#x4E2A;&#x7F51;&#x9875;&#x670D;&#x52A1;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;WSTestClinet.&#x8FD9;&#x91CC;&#x4E24;&#x4E2A;&#x8C03;&#x7528;&#x53EF;&#x7528;&#xFF0C;wsCall&#x548C;wsUrl&#x5176;&#x5C06;&#x5206;&#x522B;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x8C03;&#x7528;&#x6216;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x6CE8;&#x610F;&#x4ED6;&#x4EEC;&#x671F;&#x671B;&#x5728;WithApplication&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x91CC;&#x88AB;&#x8C03;&#x7528;&#x3002;</p>
+<pre><code>wsCall(controllers.routes.Application.index()).get()
+
+wsUrl(&quot;http://localhost:9000&quot;).get()
+</code></pre>
                     
                     </section>
                 

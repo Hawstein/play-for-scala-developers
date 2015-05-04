@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="3.3" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="3.3" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,50 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="custom-format-addition">Custom format addition</h1>
+<p>&#x5185;&#x5EFA;&#x7684;&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x652F;&#x6301;&#x5E38;&#x89C1;&#x7684;&#x6A21;&#x677F;&#x683C;&#x5F0F;&#xFF08;HTML&#xFF0C;XML &#x7B49;&#xFF09;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x6709;&#x9700;&#x8981;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x975E;&#x5E38;&#x5BB9;&#x6613;&#x5730;&#x589E;&#x52A0;&#x5BF9;&#x81EA;&#x5B9A;&#x4E49;&#x683C;&#x5F0F;&#x7684;&#x652F;&#x6301;&#x3002;&#x4E0B;&#x9762;&#x603B;&#x7ED3;&#x4E86;&#x6DFB;&#x52A0;&#x81EA;&#x5B9A;&#x4E49;&#x683C;&#x5F0F;&#x652F;&#x6301;&#x7684;&#x6B65;&#x9AA4;&#x3002;</p>
+<h2 id="%E6%A8%A1%E6%9D%BF%E5%8C%96%E6%A6%82%E8%BF%B0">&#x6A21;&#x677F;&#x5316;&#x6982;&#x8FF0;</h2>
+<p>&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x901A;&#x8FC7;&#x5C06;&#x6A21;&#x677F;&#x4E2D;&#x7684;&#x9759;&#x6001;&#x548C;&#x52A8;&#x6001;&#x5185;&#x5BB9;&#x7EC4;&#x5408;&#x5230;&#x4E00;&#x8D77;&#x6765;&#x6784;&#x5EFA;&#x6700;&#x7EC8;&#x7ED3;&#x679C;&#x3002;&#x8003;&#x8651;&#x5982;&#x4E0B;&#x6A21;&#x677F;&#xFF1A;</p>
+<pre><code class="lang-html">foo @bar baz
+</code></pre>
+<p>&#x5B83;&#x7531;&#x4E24;&#x4E2A;&#x9759;&#x6001;&#x90E8;&#x5206;&#xFF08;<code>foo</code> &#x548C; <code>baz</code>&#xFF09;&#x548C;&#x4E00;&#x4E2A;&#x52A8;&#x6001;&#x90E8;&#x5206;&#xFF08;<code>bar</code>&#xFF09;&#x7EC4;&#x6210;&#x3002;&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x5C06;&#x8FD9;&#x4E9B;&#x62FC;&#x63A5;&#x8D77;&#x6765;&#x6784;&#x5EFA;&#x6700;&#x7EC8;&#x7ED3;&#x679C;&#x3002;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x4E3A;&#x4E86;&#x907F;&#x514D;&#x8DE8;&#x7AD9;&#x70B9;&#x811A;&#x672C;&#x653B;&#x51FB;&#xFF0C;<code>bar</code> &#x7684;&#x503C;&#x5728;&#x62FC;&#x63A5;&#x5230;&#x5176;&#x5B83;&#x7ED3;&#x679C;&#x4E4B;&#x524D;&#x53EF;&#x4EE5;&#x5148;&#x8FDB;&#x884C;&#x8F6C;&#x4E49;&#x3002;&#x8F6C;&#x4E49;&#x8FC7;&#x7A0B;&#x4E0E;&#x5177;&#x4F53;&#x7684;&#x683C;&#x5F0F;&#x76F8;&#x5173;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5BF9;&#x4E8E; HTML &#x683C;&#x5F0F;&#xFF0C;&quot;&lt;&quot; &#x8F6C;&#x4E49;&#x7684;&#x7ED3;&#x679C;&#x662F; &quot;&lt;&quot;&#x3002;</p>
+<p>&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x662F;&#x5982;&#x4F55;&#x77E5;&#x9053;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#x7684;&#x683C;&#x5F0F;&#x7684;&#x5462;&#xFF1F;&#x5B83;&#x4F1A;&#x68C0;&#x67E5;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x6269;&#x5C55;&#x540D;&#xFF0C;&#x4F8B;&#x5982;&#x8BE5;&#x6587;&#x4EF6;&#x7684;&#x6269;&#x5C55;&#x540D;&#x662F; <code>.scala.html</code>&#xFF0C;&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x5C31;&#x4F1A;&#x628A;&#x8BE5;&#x6587;&#x4EF6;&#x4E0E; HTML &#x683C;&#x5F0F;&#x5173;&#x8054;&#x8D77;&#x6765;&#x3002;</p>
+<p>&#x6700;&#x540E;&#xFF0C;&#x4F60;&#x7684;&#x6A21;&#x677F;&#x6587;&#x4EF6;&#x9700;&#x8981;&#x4F5C;&#x4E3A; HTTP &#x54CD;&#x5E94;&#x7684;&#x4E3B;&#x4F53;&#xFF0C;&#x56E0;&#x6B64;&#x4F60;&#x8FD8;&#x9700;&#x8981;&#x5B9A;&#x4E49;&#x5982;&#x4F55;&#x7528;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#x7684;&#x7ED3;&#x679C;&#x6765;&#x6784;&#x5EFA; Play &#x8FD4;&#x56DE;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x7ED3;&#x679C;&#x3002;</p>
+<p>&#x7EFC;&#x4E0A;&#x6240;&#x8FF0;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x8BA9; Play &#x652F;&#x6301;&#x4F60;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x7684;&#x6A21;&#x677F;&#x683C;&#x5F0F;&#xFF0C;&#x9700;&#x8981;&#x505A;&#x4EE5;&#x4E0B;&#x51E0;&#x4EF6;&#x4E8B;&#xFF1A;</p>
+<ul>
+<li>&#x4E3A;&#x8BE5;&#x683C;&#x5F0F;&#x5B9E;&#x73B0;&#x6587;&#x672C;&#x6574;&#x5408;&#x8FC7;&#x7A0B;</li>
+<li>&#x5C06;&#x4F60;&#x5B9A;&#x4E49;&#x7684;&#x683C;&#x5F0F;&#x4E0E;&#x67D0;&#x4E00;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#x5173;&#x8054;&#x8D77;&#x6765;</li>
+<li>&#x6700;&#x540E;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x544A;&#x8BC9; Play &#x5982;&#x4F55;&#x628A;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#x7684;&#x7ED3;&#x679C;&#x4F5C;&#x4E3A; HTTP &#x54CD;&#x5E94;&#x4F53;&#x53D1;&#x9001;&#x51FA;&#x53BB;</li>
+</ul>
+<h2 id="%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%A8%A1%E6%9D%BF%E6%A0%BC%E5%BC%8F">&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#x683C;&#x5F0F;</h2>
+<p>&#x5B9E;&#x73B0; <code>play.twirl.api.Format[A]</code> trait&#xFF0C;&#x8BE5; trait &#x5305;&#x542B;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#xFF1A;<code>raw(text: String): A</code> &#x548C; <code>escape(text: String): A</code>&#xFF0C;&#x5206;&#x522B;&#x7528;&#x4E8E;&#x6574;&#x5408;&#x6A21;&#x677F;&#x7684;&#x9759;&#x6001;&#x548C;&#x52A8;&#x6001;&#x90E8;&#x5206;&#x3002;</p>
+<p>&#x7C7B;&#x578B;&#x53C2;&#x6570; <code>A</code> &#x5B9A;&#x4E49;&#x4E86;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#x540E;&#x7684;&#x7ED3;&#x679C;&#x7C7B;&#x578B;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x5BF9;&#x4E8E; HTML &#x6A21;&#x677F;&#xFF0C;&#x8BE5;&#x7C7B;&#x578B;&#x662F; <code>HTML</code>&#x3002;&#x8BE5;&#x7C7B;&#x578B;&#x5FC5;&#x987B;&#x662F; <code>play.twirl.api.Appendable[A]</code> trait &#x7684;&#x5B50;&#x7C7B;&#xFF0C;&#x8BE5; trait &#x5B9A;&#x4E49;&#x4E86;&#x5982;&#x4F55;&#x628A;&#x5404;&#x90E8;&#x5206;&#x62FC;&#x63A5;&#x5728;&#x4E00;&#x8D77;&#x3002;</p>
+<p>&#x65B9;&#x4FBF;&#x8D77;&#x89C1;&#xFF0C;Play &#x63D0;&#x4F9B;&#x4E86; <code>play.twirl.api.BufferedContent[A]</code> &#x62BD;&#x8C61;&#x7C7B;&#xFF0C;&#x5B83;&#x5B9E;&#x73B0;&#x4E86; <code>play.twirl.api.Appendable[A]</code> trait&#xFF0C;&#x4F7F;&#x7528; <code>StringBuilder</code> &#x6765;&#x6784;&#x5EFA;&#x5B83;&#x7684;&#x7ED3;&#x679C;&#x3002;&#x5B83;&#x8FD8;&#x5B9E;&#x73B0;&#x4E86; <code>play.twirl.api.Content</code> trait&#xFF0C;&#x56E0;&#x6B64; Play &#x77E5;&#x9053;&#x5982;&#x4F55;&#x5C06;&#x5B83;&#x4F5C;&#x4E3A; HTTP &#x54CD;&#x5E94;&#x4F53;&#x8FDB;&#x884C;&#x5E8F;&#x5217;&#x5316;&#xFF08;&#x8BE6;&#x60C5;&#x53C2;&#x89C1;&#x672C;&#x8282;&#x6700;&#x540E;&#x4E00;&#x90E8;&#x5206;&#xFF09;&#x3002;</p>
+<p>&#x7B80;&#x800C;&#x8A00;&#x4E4B;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x5199;&#x4E24;&#x4E2A;&#x7C7B;&#xFF1A;&#x4E00;&#x4E2A;&#x5B9A;&#x4E49;&#x7ED3;&#x679C;&#xFF08;&#x5B9E;&#x73B0; <code>play.twirl.api.Appendable[A]</code>&#xFF09;&#xFF0C;&#x53E6;&#x4E00;&#x4E2A;&#x5B9A;&#x4E49;&#x6587;&#x672C;&#x6574;&#x5408;&#x8FC7;&#x7A0B;&#xFF08;&#x5B9E;&#x73B0; <code>play.twirl.api.Format[A]</code>&#xFF09;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x4E0B;&#x9762;&#x662F;&#x5BF9; HTML &#x683C;&#x5F0F;&#x7684;&#x5B9A;&#x4E49;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-comment">// The `Html` result type. We extend `BufferedContent[Html]` rather than just `Appendable[Html]` so</span>
+<span class="hljs-comment">// Play knows how to make an HTTP result from a `Html` value</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Html</span>(</span>buffer: <span class="hljs-type">StringBuilder</span>) <span class="hljs-keyword">extends</span> <span class="hljs-type">BufferedContent</span>[<span class="hljs-type">Html</span>](buffer) {
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">contentType</span> =</span> <span class="hljs-type">MimeTypes</span>.<span class="hljs-type">HTML</span>
+}
+
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">HtmlFormat</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Format</span>[</span><span class="hljs-type">Html</span>] {
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">raw</span>(</span>text: <span class="hljs-type">String</span>): <span class="hljs-type">Html</span> = &#x2026;
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">escape</span>(</span>text: <span class="hljs-type">String</span>): <span class="hljs-type">Html</span> = &#x2026;
+}
+</code></pre>
+<h2 id="%E5%B0%86%E8%AF%A5%E6%A0%BC%E5%BC%8F%E4%B8%8E%E6%9F%90%E4%B8%80%E6%96%87%E4%BB%B6%E6%89%A9%E5%B1%95%E5%90%8D%E5%85%B3%E8%81%94%E8%B5%B7%E6%9D%A5">&#x5C06;&#x8BE5;&#x683C;&#x5F0F;&#x4E0E;&#x67D0;&#x4E00;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#x5173;&#x8054;&#x8D77;&#x6765;</h2>
+<p>&#x5728;&#x7F16;&#x8BD1;&#x6574;&#x4E2A;&#x9879;&#x76EE;&#x6E90;&#x7801;&#x4E4B;&#x524D;&#xFF0C;&#x6A21;&#x677F;&#x6587;&#x4EF6;&#x4F1A;&#x5728;&#x6784;&#x5EFA;&#x8FC7;&#x7A0B;&#x4E2D;&#x88AB;&#x7F16;&#x8BD1;&#x6210; <code>.scala</code> &#x6587;&#x4EF6;&#x3002;<code>TwirlKeys.templateFormats</code> &#x662F;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x4E3A; <code>Map[String, String]</code> &#x7684; sbt &#x914D;&#x7F6E;&#x9879;&#xFF0C;&#x5B9A;&#x4E49;&#x4E86;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#x4E0E;&#x6A21;&#x677F;&#x683C;&#x5F0F;&#x4E4B;&#x95F4;&#x7684;&#x6620;&#x5C04;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5982;&#x679C; Play &#x4E0D;&#x652F;&#x6301; HTML &#x683C;&#x5F0F;&#xFF0C;&#x4F60;&#x5C31;&#x9700;&#x8981;&#x5728;&#x6784;&#x5EFA;&#x6587;&#x4EF6;&#x4E2D;&#x5199;&#x5165;&#x4E0B;&#x9762;&#x7684;&#x914D;&#x7F6E;&#x6765;&#x5173;&#x8054; <code>.scala.html</code> &#x6587;&#x4EF6;&#x548C; <code>play.twirl.api.HtmlFormat</code> &#x683C;&#x5F0F;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">TwirlKeys</span>.templateFormats += (<span class="hljs-string">&quot;html&quot;</span> -&gt; <span class="hljs-string">&quot;my.HtmlFormat.instance&quot;</span>)
+</code></pre>
+<p>&#x6CE8;&#x610F;&#xFF0C;&#x7BAD;&#x5934;&#x53F3;&#x8FB9;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x4E3A; <code>play.twirl.api.Format[_]</code> &#x7684;&#x503C;&#x7684;&#x5168;&#x9650;&#x5B9A;&#x540D;&#x3002;</p>
+<h2 id="%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%B8%B2%E6%9F%93%E7%BB%93%E6%9E%9C%E6%9E%84%E5%BB%BA-http-%E7%BB%93%E6%9E%9C">&#x7528;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#x7ED3;&#x679C;&#x6784;&#x5EFA; HTTP &#x7ED3;&#x679C;</h2>
+<p>&#x7C7B;&#x578B; <code>A</code> &#x7684;&#x503C;&#x5982;&#x679C;&#x53EF;&#x4EE5;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#x4E3A;&#x7C7B;&#x578B; <code>play.api.http.Writeable[A]</code> &#x7684;&#x503C;&#xFF0C;&#x5219; Play &#x53EF;&#x4EE5;&#x5C06; <code>A</code> &#x7684;&#x4EFB;&#x610F;&#x503C;&#x5199;&#x5165; HTTP &#x54CD;&#x5E94;&#x4F53;&#x4E2D;&#x3002;&#x56E0;&#x6B64;&#x4F60;&#x6240;&#x9700;&#x8981;&#x505A;&#x7684;&#x5C31;&#x662F;&#x4E3A;&#x4F60;&#x6A21;&#x677F;&#x7684;&#x7ED3;&#x679C;&#x7C7B;&#x578B; <code>A</code> &#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#x7684;&#x503C;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x4EE5;&#x4E0B;&#x5C55;&#x793A;&#x4E86;&#x5982;&#x4F55;&#x4E3A; HTTP &#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x8FD9;&#x6837;&#x7684;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">writableHttp</span>(</span><span class="hljs-keyword">implicit</span> codec: <span class="hljs-type">Codec</span>): <span class="hljs-type">Writeable</span>[<span class="hljs-type">Http</span>] =
+  <span class="hljs-type">Writeable</span>[<span class="hljs-type">Http</span>](result =&gt; codec.encode(result.body), <span class="hljs-type">Some</span>(<span class="hljs-type">ContentTypes</span>.<span class="hljs-type">HTTP</span>))
+</code></pre>
+<blockquote>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x5982;&#x679C;&#x4F60;&#x7684;&#x6A21;&#x677F;&#x7ED3;&#x679C;&#x7C7B;&#x578B;&#x6269;&#x5C55;&#x4E86; <code>play.twirl.api.BufferedContent</code>&#xFF0C;&#x4F60;&#x5C31;&#x53EA;&#x9700;&#x8981;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x7684; <code>play.api.http.ContentTypeOf</code> &#x503C;&#xFF1A;
+<code>implicit def contentTypeHttp(implicit codec: Codec): ContentTypeOf[Http] = ContentTypeOf[Http](Some(ContentTypes.HTTP))</code></p>
+</blockquote>
 
                     
                     </section>

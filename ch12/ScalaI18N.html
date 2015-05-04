@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="12.1" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="12.1" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,7 +1087,44 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="messages-externalisation-and-i18n">Messages externalisation and i18n</h1>
-
+<h2 id="%E6%8C%87%E5%AE%9A%E5%BA%94%E7%94%A8%E6%94%AF%E6%8C%81%E8%AF%AD%E8%A8%80">&#x6307;&#x5B9A;&#x5E94;&#x7528;&#x652F;&#x6301;&#x8BED;&#x8A00;</h2>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x6309; <strong>ISO 639-2</strong> &#x6807;&#x51C6;&#x8BED;&#x8A00;&#x4EE3;&#x7801;&#x6216;&#x8005; <strong>ISO 3166-1 alpha-2</strong> &#x6807;&#x51C6;&#x56FD;&#x5BB6;&#x4EE3;&#x7801;&#x6765;&#x6307;&#x5B9A;&#x5E94;&#x7528;&#x652F;&#x6301;&#x8BED;&#x8A00;&#xFF0C;&#x8B6C;&#x5982; <code>fr</code> &#x6216;&#x8005; <code>en-US</code>&#x3002;</p>
+<p>&#x8BED;&#x8A00;&#x6307;&#x5B9A;&#x4FE1;&#x606F;&#x5B58;&#x653E;&#x5728;&#x5E94;&#x7528;&#x7684; <code>conf/application.conf</code> &#x6587;&#x4EF6;&#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-scala">application.langs=<span class="hljs-string">&quot;en,en-US,fr&quot;</span>
+</code></pre>
+<h2 id="%E5%A4%96%E9%83%A8%E5%8C%96%E4%BF%A1%E6%81%AF%EF%BC%88externalizing-messages%EF%BC%89">&#x5916;&#x90E8;&#x5316;&#x4FE1;&#x606F;&#xFF08;Externalizing messages&#xFF09;</h2>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x5728; <code>conf/messages.xxx</code> &#x6587;&#x4EF6;&#x4E2D;&#x5916;&#x90E8;&#x5316;&#xFF08;externalize&#xFF09;&#x4FE1;&#x606F;&#x3002;</p>
+<p><code>conf/messages</code> &#x6587;&#x4EF6;&#x9ED8;&#x8BA4;&#x9002;&#x914D;&#x6240;&#x6709;&#x8BED;&#x8A00;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x6DFB;&#x52A0;&#x4F60;&#x6240;&#x6307;&#x5B9A;&#x8BED;&#x8A00;&#x6240;&#x5BF9;&#x5E94;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x8B6C;&#x5982; <code>conf/messages.fr</code> &#x6216; <code>conf/messages.en-US</code>&#x3002;</p>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x5229;&#x7528; <code>play.api.i18n.Messages</code> &#x5BF9;&#x8C61;&#x68C0;&#x51FA;(retrieve)&#x4FE1;&#x606F;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">title</span> =</span> <span class="hljs-type">Messages</span>(<span class="hljs-string">&quot;home.title&quot;</span>)
+</code></pre>
+<p>&#x6240;&#x6709;&#x56FD;&#x9645;&#x5316;&#x76F8;&#x5173;&#x7684;API&#x90FD;&#x9690;&#x5F0F;&#x8C03;&#x7528; <code>play.api.i18n.Lang</code> &#x53C2;&#x6570;&#xFF0C;&#x5176;&#x4E2D;&#x53C2;&#x6570;&#x7684;&#x503C;&#x6839;&#x636E;&#x5F53;&#x524D;&#x73AF;&#x5883;&#x7ED9;&#x51FA;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x663E;&#x5F0F;&#x5730;&#x6307;&#x5B9A;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">title</span> =</span> <span class="hljs-type">Messages</span>(<span class="hljs-string">&quot;home.title&quot;</span>)(<span class="hljs-type">Lang</span>(<span class="hljs-string">&quot;fr&quot;</span>))
+</code></pre>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x5982;&#x679C;&#x4F60;&#x5728;&#x5F53;&#x524D;&#x8303;&#x56F4;&#x53D1;&#x51FA;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x8BF7;&#x6C42;&#xFF0C;&#x7A0B;&#x5E8F;&#x4F1A;&#x6839;&#x636E;&#x5934;&#x90E8;&#x7684; <code>Accept-Language</code> &#x4ECE;&#x5E94;&#x7528;&#x652F;&#x6301;&#x8BED;&#x8A00;&#x5339;&#x914D;&#x4E00;&#x4E2A;&#xFF0C;&#x7136;&#x540E;&#x9690;&#x5F0F;&#x5730;&#x8FD4;&#x56DE;&#x7ED9;&#x4F60;&#x4E00;&#x4E2A; <code>Lang</code> &#x53C2;&#x6570;&#x3002;&#x4F60;&#x5E94;&#x5F53;&#x50CF;&#x8FD9;&#x6837;&#x5728;&#x6A21;&#x677F;&#x6587;&#x4EF6;&#x4E2D;&#x6DFB;&#x52A0; <code>Lang</code> &#x53D8;&#x91CF;&#xFF1A; <code>@()(implicit lang: Lang)</code>&#x3002;</p>
+<h2 id="%E6%B6%88%E6%81%AF%E6%A0%BC%E5%BC%8F">&#x6D88;&#x606F;&#x683C;&#x5F0F;</h2>
+<p>&#x6D88;&#x606F;&#x4F7F;&#x7528; <code>java.text.MessageFormat</code> &#x5E93;&#x6765;&#x5B9A;&#x4E49;&#x683C;&#x5F0F;&#xFF0C;&#x8B6C;&#x5982;&#x4F60;&#x7684;&#x6D88;&#x606F;&#x8FD9;&#x6837;&#x5B9A;&#x4E49;&#xFF1A;</p>
+<pre><code>files.summary=The disk {1} contains {0} file(s).
+</code></pre><p>&#x90A3;&#x4E48;&#x4F60;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x6307;&#x5B9A;&#x53C2;&#x6570;&#xFF1A;</p>
+<pre><code>Messages(&quot;files.summary&quot;, d.files.length, d.name)
+</code></pre><h2 id="%E5%85%B3%E4%BA%8E%E5%8D%95%E5%BC%95%E5%8F%B7">&#x5173;&#x4E8E;&#x5355;&#x5F15;&#x53F7;</h2>
+<p>&#x7531;&#x4E8E;&#x6211;&#x4EEC;&#x4F7F;&#x7528; <code>java.text.MessageFormat</code> &#x6765;&#x5B9A;&#x4E49;&#x6D88;&#x606F;&#x683C;&#x5F0F;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#x5355;&#x5F15;&#x53F7;&#x4F1A;&#x88AB;&#x4F5C;&#x4E3A;&#x8F6C;&#x610F;&#x5B57;&#x7B26;&#x3002;</p>
+<p>&#x8B6C;&#x5982;&#x4F60;&#x5B9A;&#x4E49;&#x4E86;&#x5982;&#x4E0B;&#x4E00;&#x6BB5;&#x6D88;&#x606F;&#xFF1A;</p>
+<pre><code class="lang-scala">info.error=<span class="hljs-type">You</span> aren&apos;<span class="hljs-symbol">&apos;t</span> logged in!
+</code></pre>
+<pre><code class="lang-scala">example.formatting=<span class="hljs-type">When</span> using <span class="hljs-type">MessageFormat</span>, &apos;&apos;&apos;{<span class="hljs-number">0</span>}&apos;&apos;&apos; is replaced <span class="hljs-keyword">with</span> the first parameter.
+</code></pre>
+<p>&#x4F60;&#x5E94;&#x671F;&#x671B;&#x5982;&#x4E0B;&#x7ED3;&#x679C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">Messages</span>(<span class="hljs-string">&quot;info.error&quot;</span>) == <span class="hljs-string">&quot;You aren&apos;t logged in!&quot;</span>
+</code></pre>
+<pre><code class="lang-scala"><span class="hljs-type">Messages</span>(<span class="hljs-string">&quot;example.formatting&quot;</span>) == <span class="hljs-string">&quot;When using MessageFormat, &apos;{0}&apos; is replaced with the first parameter.&quot;</span>
+</code></pre>
+<h2 id="%E4%BB%8E-http-%E8%AF%B7%E6%B1%82%E4%B8%AD%E6%8F%90%E5%8F%96%E6%94%AF%E6%8C%81%E8%AF%AD%E8%A8%80">&#x4ECE; HTTP &#x8BF7;&#x6C42;&#x4E2D;&#x63D0;&#x53D6;&#x652F;&#x6301;&#x8BED;&#x8A00;</h2>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#xFF08;&#x50CF;&#x8FD9;&#x6837;&#xFF09;&#x4ECE;&#x7ED9;&#x5B9A;&#x7684;HTTP&#x8BF7;&#x6C42;&#x63D0;&#x53D6;&#x51FA;&#x652F;&#x6301;&#x8BED;&#x8A00;&#xFF1A;</p>
+<pre><code>def index = Action { request =&gt;
+  Ok(&quot;Languages: &quot; + request.acceptLanguages.map(_.code).mkString(&quot;, &quot;))
+}
+</code></pre>
                     
                     </section>
                 

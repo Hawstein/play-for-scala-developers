@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="2.4" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="2.4" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,157 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="websockets">WebSockets</h1>
+<p><a href="http://en.wikipedia.org/wiki/WebSocket" target="_blank">WebSocket</a> &#x662F;&#x4E00;&#x79CD;&#x53EF;&#x4EE5;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x5185;&#x4F7F;&#x7528;&#x7684; socket&#xFF0C;&#x5B83;&#x57FA;&#x4E8E;&#x4E00;&#x79CD;&#x652F;&#x6301;&#x5168;&#x53CC;&#x5DE5;&#x901A;&#x4FE1;&#x7684;&#x534F;&#x8BAE;&#x3002;&#x53EA;&#x8981;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x548C;&#x5BA2;&#x6237;&#x7AEF;&#x4E4B;&#x95F4;&#x5B58;&#x5728;&#x4E00;&#x4E2A;&#x6D3B;&#x8DC3;&#x7684; WebSocket &#x8FDE;&#x63A5;&#xFF0C;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x5C31;&#x53EF;&#x4EE5;&#x5728;&#x4EFB;&#x610F;&#x65F6;&#x523B;&#x6536;&#x53D1;&#x4FE1;&#x606F;&#x3002;</p>
+<p>&#x517C;&#x5BB9; HTML5 &#x7684;&#x73B0;&#x4EE3; web &#x6D4F;&#x89C8;&#x5668;&#x901A;&#x8FC7; JavaScript WebSocket API &#x53EF;&#x4EE5;&#x539F;&#x751F;&#x652F;&#x6301; WebSocket&#x3002;&#x7136;&#x800C;&#xFF0C;WebSocket &#x5E76;&#x4E0D;&#x53EA;&#x5C40;&#x9650;&#x4E8E;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x6709;&#x8BB8;&#x591A; WebSocket &#x5BA2;&#x6237;&#x7AEF;&#x5E93;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x670D;&#x52A1;&#x5668;&#x95F4;&#x901A;&#x4FE1;&#xFF0C;&#x6216;&#x8005;&#x63D0;&#x4F9B;&#x7ED9;&#x539F;&#x751F;&#x7684;&#x79FB;&#x52A8;&#x5E94;&#x7528;&#x6765;&#x4F7F;&#x7528;&#x3002;&#x5728;&#x8FD9;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#x4F7F;&#x7528; WebSocket &#x6709;&#x4E00;&#x4E2A;&#x5F88;&#x5927;&#x7684;&#x4F18;&#x52BF;&#xFF0C;&#x5C31;&#x662F;&#x590D;&#x7528; Play &#x670D;&#x52A1;&#x5668;&#x5DF2;&#x7ECF;&#x4F7F;&#x7528;&#x7684; TCP &#x7AEF;&#x53E3;&#x3002;</p>
+<h2 id="%E5%A4%84%E7%90%86-websocket">&#x5904;&#x7406; WebSocket</h2>
+<p>&#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#xFF0C;&#x6211;&#x4EEC;&#x90FD;&#x662F;&#x7528; <code>Action</code> &#x5B9E;&#x4F8B;&#x6765;&#x5904;&#x7406;&#x6807;&#x51C6;&#x7684; HTTP &#x8BF7;&#x6C42;&#xFF0C;&#x7136;&#x540E;&#x8FD4;&#x56DE;&#x6807;&#x51C6;&#x7684; HTTP &#x54CD;&#x5E94;&#x3002;WebSocket &#x5219;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#xFF0C;&#x5B83;&#x65E0;&#x6CD5;&#x901A;&#x8FC7;&#x6807;&#x51C6;&#x7684; <code>Action</code> &#x6765;&#x5904;&#x7406;&#x3002;</p>
+<p>Play &#x63D0;&#x4F9B;&#x4E86;&#x4E24;&#x79CD;&#x4E0D;&#x540C;&#x7684;&#x5185;&#x5EFA;&#x673A;&#x5236;&#x6765;&#x5904;&#x7406; WebSocket&#x3002;&#x7B2C;&#x4E00;&#x79CD;&#x4F7F;&#x7528; actor&#xFF0C;&#x7B2C;&#x4E8C;&#x79CD;&#x4F7F;&#x7528; iteratee&#x3002;&#x8FD9;&#x4E24;&#x79CD;&#x673A;&#x5236;&#x90FD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; Play &#x4E3A; WebSocket &#x63D0;&#x4F9B;&#x7684;&#x6784;&#x5EFA;&#x5668;&#x6765;&#x4F7F;&#x7528;&#x3002;</p>
+<h2 id="%E7%94%A8-actor-%E5%A4%84%E7%90%86-websocket">&#x7528; actor &#x5904;&#x7406; WebSocket</h2>
+<p>&#x60F3;&#x7528; actor &#x6765;&#x5904;&#x7406; WebSocket&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4E00;&#x4E2A; <code>akka.actor.Props</code> &#x5BF9;&#x8C61;&#x6765;&#x63CF;&#x8FF0; actor&#xFF0C;&#x5F53; WebSocket &#x8FDE;&#x63A5;&#x5EFA;&#x7ACB;&#x8D77;&#x6765;&#x540E;&#xFF0C;Play &#x5E94;&#x8BE5;&#x521B;&#x5EFA;&#x8FD9;&#x4E2A; actor&#x3002;Play &#x4F1A;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A; <code>akka.actor.ActorRef</code> &#x7528;&#x4E8E;&#x5411;&#x5B83;&#x53D1;&#x9001;&#x6D88;&#x606F;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x7528;&#x5B83;&#xFF08;&#x5373;&#x4E0B;&#x9762;&#x7684; out&#xFF09;&#x6765;&#x521B;&#x5EFA; <code>Props</code> &#x5BF9;&#x8C61;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.mvc._
+<span class="hljs-keyword">import</span> play.api.<span class="hljs-type">Play</span>.current
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">socket</span> =</span> <span class="hljs-type">WebSocket</span>.acceptWithActor[<span class="hljs-type">String</span>, <span class="hljs-type">String</span>] { request =&gt; out =&gt;
+  <span class="hljs-type">MyWebSocketActor</span>.props(out)
+}
+</code></pre>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x5411;&#x5B83;&#x53D1;&#x9001;&#x6D88;&#x606F;&#x7684; actor &#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> akka.actor._
+
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">MyWebSocketActor</span> {</span>
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">props</span>(</span>out: <span class="hljs-type">ActorRef</span>) = <span class="hljs-type">Props</span>(<span class="hljs-keyword">new</span> <span class="hljs-type">MyWebSocketActor</span>(out))
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyWebSocketActor</span>(</span>out: <span class="hljs-type">ActorRef</span>) <span class="hljs-keyword">extends</span> <span class="hljs-type">Actor</span> {
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">receive</span> =</span> {
+    <span class="hljs-keyword">case</span> msg: <span class="hljs-type">String</span> =&gt;
+      out ! (<span class="hljs-string">&quot;I received your message: &quot;</span> + msg)
+  }
+}
+</code></pre>
+<p>&#x4EFB;&#x4F55;&#x4ECE;&#x5BA2;&#x6237;&#x7AEF;&#x6536;&#x5230;&#x7684;&#x4FE1;&#x606F;&#x90FD;&#x4F1A;&#x88AB;&#x53D1;&#x9001;&#x5230; actor&#xFF08;&#x5373; out&#xFF09;&#xFF0C;&#x4EFB;&#x4F55;&#x53D1;&#x9001;&#x7ED9; Play &#x63D0;&#x4F9B;&#x7684; actor &#x7684;&#x4FE1;&#x606F;&#x90FD;&#x4F1A;&#x88AB;&#x53D1;&#x9001;&#x5230;&#x5BA2;&#x6237;&#x7AEF;&#x3002;&#x4E0A;&#x9762;&#x7684; actor &#x5C31;&#x7B80;&#x5355;&#x5730;&#x5C06;&#x5B83;&#x6536;&#x5230;&#x7684;&#x4FE1;&#x606F;&#x5728;&#x524D;&#x9762;&#x52A0;&#x4E0A; <code>I reveived your message:</code>&#xFF0C;&#x7136;&#x540E;&#x8FD4;&#x56DE;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#x3002;</p>
+<h3 id="%E6%A3%80%E6%B5%8B-websocket-%E4%BD%95%E6%97%B6%E5%85%B3%E9%97%AD">&#x68C0;&#x6D4B; WebSocket &#x4F55;&#x65F6;&#x5173;&#x95ED;</h3>
+<p>&#x5982;&#x679C; WebSocket &#x5DF2;&#x7ECF;&#x5173;&#x95ED;&#xFF0C;Play &#x4F1A;&#x81EA;&#x52A8;&#x505C;&#x6389; actor&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5B9E;&#x73B0; <code>postStop</code> &#x65B9;&#x6CD5;&#x6765;&#x6E05;&#x7406; WebSocket &#x53EF;&#x80FD;&#x4F7F;&#x7528;&#x7684;&#x8D44;&#x6E90;&#x3002;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">postStop</span>(</span>) = {
+  someResource.close()
+}
+</code></pre>
+<h3 id="%E5%85%B3%E9%97%AD-websocket">&#x5173;&#x95ED; WebSocket</h3>
+<p>&#x5F53;&#x5904;&#x7406; WebSocket &#x7684; actor &#x7EC8;&#x6B62;&#x65F6;&#xFF0C;Play &#x4F1A;&#x81EA;&#x52A8;&#x5173;&#x95ED; WebSocket&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x53D1;&#x9001;&#x4E00;&#x4E2A; <code>PoisonPill</code> &#x7ED9;&#x4F60;&#x81EA;&#x5DF1;&#x7684; actor &#x6765;&#x5173;&#x95ED; WebSocket&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> akka.actor.<span class="hljs-type">PoisonPill</span>
+
+self ! <span class="hljs-type">PoisonPill</span>
+</code></pre>
+<h3 id="%E6%8B%92%E7%BB%9D-websocket-%E8%AF%B7%E6%B1%82">&#x62D2;&#x7EDD; WebSocket &#x8BF7;&#x6C42;</h3>
+<p>&#x6709;&#x65F6;&#x5019;&#x4F60;&#x53EF;&#x80FD;&#x60F3;&#x62D2;&#x7EDD;&#x4E00;&#x4E2A; WebSocket &#x8BF7;&#x6C42;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x5FC5;&#x987B;&#x662F;&#x6388;&#x6743;&#x7528;&#x6237;&#x624D;&#x80FD;&#x8FDE;&#x63A5; WebSocket&#xFF0C;&#x6216;&#x8005; WebSocket &#x6240;&#x5173;&#x8054;&#x5230;&#x7684;&#x8D44;&#x6E90;&#x4E0D;&#x5B58;&#x5728;&#x3002;Play &#x63D0;&#x4F9B;&#x4E86; <code>tryAcceptWithActor</code> &#x6765;&#x5904;&#x7406;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#xFF0C;&#x5141;&#x8BB8;&#x4F60;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x7ED3;&#x679C;&#xFF08;&#x5982; forbidden &#x6216; not found&#xFF09;&#xFF0C;&#x6216;&#x662F;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5904;&#x7406; WebSocket &#x7684; actor&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> scala.concurrent.<span class="hljs-type">Future</span>
+<span class="hljs-keyword">import</span> play.api.mvc._
+<span class="hljs-keyword">import</span> play.api.<span class="hljs-type">Play</span>.current
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">socket</span> =</span> <span class="hljs-type">WebSocket</span>.tryAcceptWithActor[<span class="hljs-type">String</span>, <span class="hljs-type">String</span>] { request =&gt;
+  <span class="hljs-type">Future</span>.successful(request.session.get(<span class="hljs-string">&quot;user&quot;</span>) <span class="hljs-keyword">match</span> {
+    <span class="hljs-keyword">case</span> <span class="hljs-type">None</span> =&gt; <span class="hljs-type">Left</span>(<span class="hljs-type">Forbidden</span>)
+    <span class="hljs-keyword">case</span> <span class="hljs-type">Some</span>(_) =&gt; <span class="hljs-type">Right</span>(<span class="hljs-type">MyWebSocketActor</span>.props)
+  })
+}
+</code></pre>
+<h3 id="%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BF%A1%E6%81%AF">&#x5904;&#x7406;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x4FE1;&#x606F;</h3>
+<p>&#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#xFF0C;&#x6211;&#x4EEC;&#x770B;&#x5230;&#x7684;&#x90FD;&#x662F;&#x5728;&#x5904;&#x7406; <code>String</code> &#x4FE1;&#x606F;&#x3002;&#x5176;&#x5B9E;&#xFF0C;Play &#x4E5F;&#x63D0;&#x4F9B;&#x4E86;&#x5185;&#x5EFA;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x5904;&#x7406; <code>Array[Byte]</code> &#x548C; <code>JsValue</code> &#x4FE1;&#x606F;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x8FD9;&#x4E9B;&#x4F5C;&#x4E3A;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x7ED9; WebSocket &#x6784;&#x5EFA;&#x65B9;&#x6CD5;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.mvc._
+<span class="hljs-keyword">import</span> play.api.libs.json._
+<span class="hljs-keyword">import</span> play.api.<span class="hljs-type">Play</span>.current
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">socket</span> =</span> <span class="hljs-type">WebSocket</span>.acceptWithActor[<span class="hljs-type">JsValue</span>, <span class="hljs-type">JsValue</span>] { request =&gt; out =&gt;
+  <span class="hljs-type">MyWebSocketActor</span>.props(out)
+}
+</code></pre>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x5DF2;&#x7ECF;&#x6CE8;&#x610F;&#x5230;&#x4E86;&#xFF0C;&#x4E0A;&#x9762;&#x6709;&#x4E24;&#x4E2A;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#xFF08;&#x90FD;&#x662F; JsValue&#xFF09;&#xFF0C;&#x8FD9;&#x5141;&#x8BB8;&#x6211;&#x4EEC;&#x5C06;&#x63A5;&#x6536;&#x8FDB;&#x6765;&#x7684;&#x4FE1;&#x606F;&#x4E0E;&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x7684;&#x4FE1;&#x606F;&#x5B9A;&#x4E49;&#x4E3A;&#x4E0D;&#x540C;&#x7684;&#x7C7B;&#x578B;&#x3002;&#x8FD9;&#x901A;&#x5E38;&#x5BF9;&#x4E8E;&#x4F4E;&#x7EA7;&#x7C7B;&#x578B;&#x6765;&#x8BF4;&#x662F;&#x6CA1;&#x4EC0;&#x4E48;&#x7528;&#x7684;&#xFF0C;&#x4F46;&#x5F53;&#x4F60;&#x60F3;&#x628A;&#x4FE1;&#x606F;&#x8F6C;&#x6362;&#x6210;&#x9AD8;&#x7EA7;&#x7C7B;&#x578B;&#x65F6;&#xFF0C;&#x5B83;&#x5C31;&#x975E;&#x5E38;&#x6709;&#x7528;&#x4E86;&#x3002;</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x6211;&#x4EEC;&#x60F3;&#x63A5;&#x6536; JSON &#x7C7B;&#x578B;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x7136;&#x540E;&#x628A;&#x5B83;&#x89E3;&#x6790;&#x6210; <code>InEvent</code> &#x7C7B;&#x578B;&#xFF0C;&#x518D;&#x628A;&#x8FD4;&#x56DE;&#x7684;&#x4FE1;&#x606F;&#x8F6C;&#x6210; <code>OutEvent</code> &#x7C7B;&#x578B;&#x3002;&#x6211;&#x4EEC;&#x8981;&#x505A;&#x7684;&#x7B2C;&#x4E00;&#x4EF6;&#x4E8B;&#x662F;&#x4E3A; <code>InEvent</code> &#x548C; <code>OutEvent</code> &#x521B;&#x5EFA; JSON &#x683C;&#x5F0F;&#xFF08;&#x7528;&#x4E8E;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.json._
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">inEventFormat</span> =</span> <span class="hljs-type">Json</span>.format[<span class="hljs-type">InEvent</span>]
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">outEventFormat</span> =</span> <span class="hljs-type">Json</span>.format[<span class="hljs-type">OutEvent</span>]
+</code></pre>
+<p>&#x63A5;&#x7740;&#xFF0C;&#x6211;&#x4EEC;&#x4E3A;&#x8FD9;&#x4E24;&#x4E2A;&#x7C7B;&#x578B;&#x521B;&#x5EFA; WebSocket <code>FrameFormatter</code>&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.mvc.<span class="hljs-type">WebSocket</span>.<span class="hljs-type">FrameFormatter</span>
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">inEventFrameFormatter</span> =</span> <span class="hljs-type">FrameFormatter</span>.jsonFrame[<span class="hljs-type">InEvent</span>]
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">outEventFrameFormatter</span> =</span> <span class="hljs-type">FrameFormatter</span>.jsonFrame[<span class="hljs-type">OutEvent</span>]
+</code></pre>
+<p>&#x6700;&#x7EC8;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728; WebSocket &#x4E2D;&#x4F7F;&#x7528;&#x8FD9;&#x4E24;&#x4E2A;&#x7C7B;&#x578B;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.mvc._
+<span class="hljs-keyword">import</span> play.api.<span class="hljs-type">Play</span>.current
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">socket</span> =</span> <span class="hljs-type">WebSocket</span>.acceptWithActor[<span class="hljs-type">InEvent</span>, <span class="hljs-type">OutEvent</span>] { request =&gt; out =&gt;
+  <span class="hljs-type">MyWebSocketActor</span>.props(out)
+}
+</code></pre>
+<p>&#x73B0;&#x5728;&#xFF0C;&#x5728;&#x6211;&#x4EEC;&#x7684; actor &#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x63A5;&#x6536;&#x5230;&#x7C7B;&#x578B;&#x4E3A; <code>InEvent</code> &#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x800C;&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x7684;&#x4FE1;&#x606F;&#x7C7B;&#x578B;&#x4E3A; <code>OutEvent</code>&#x3002;</p>
+<h2 id="%E7%94%A8-iteratee-%E5%A4%84%E7%90%86-websocket">&#x7528; iteratee &#x5904;&#x7406; WebSocket</h2>
+<p>actor &#x662F;&#x4E00;&#x79CD;&#x66F4;&#x597D;&#x7684;&#x62BD;&#x8C61;&#x6765;&#x5904;&#x7406;&#x79BB;&#x6563;&#x4FE1;&#x606F;&#xFF0C;&#x800C; iteratee &#x662F;&#x4E00;&#x79CD;&#x66F4;&#x597D;&#x7684;&#x62BD;&#x8C61;&#x6765;&#x5904;&#x7406;&#x6D41;&#x3002;</p>
+<p>&#x5904;&#x7406; WebSocket &#x8BF7;&#x6C42;&#xFF0C;&#x4F7F;&#x7528; <code>WebSocket</code> &#x800C;&#x4E0D;&#x662F; <code>Action</code>&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.mvc._
+<span class="hljs-keyword">import</span> play.api.libs.iteratee._
+<span class="hljs-keyword">import</span> play.api.libs.concurrent.<span class="hljs-type">Execution</span>.<span class="hljs-type">Implicits</span>.defaultContext
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">socket</span> =</span> <span class="hljs-type">WebSocket</span>.using[<span class="hljs-type">String</span>] { request =&gt;
+
+  <span class="hljs-comment">// Log events to the console</span>
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">in</span> =</span> <span class="hljs-type">Iteratee</span>.foreach[<span class="hljs-type">String</span>](println).map { _ =&gt;
+    println(<span class="hljs-string">&quot;Disconnected&quot;</span>)
+  }
+
+  <span class="hljs-comment">// Send a single &apos;Hello!&apos; message</span>
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">out</span> =</span> <span class="hljs-type">Enumerator</span>(<span class="hljs-string">&quot;Hello!&quot;</span>)
+
+  (in, out)
+}
+</code></pre>
+<p><code>WebSocket</code> &#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x521D;&#x59CB;&#x5316; WebSocket &#x8FDE;&#x63A5;&#x7684; HTTP &#x8BF7;&#x6C42;&#x7684;&#x62A5;&#x5934;&#xFF0C;&#x5141;&#x8BB8;&#x4F60;&#x83B7;&#x53D6;&#x6807;&#x51C6;&#x62A5;&#x5934;&#x548C;&#x4F1A;&#x8BDD;&#x6570;&#x636E;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x5B83;&#x65E0;&#x6743;&#x8BBF;&#x95EE;&#x8BF7;&#x6C42;&#x4F53;&#x6216;&#x662F; HTTP &#x54CD;&#x5E94;&#x3002;</p>
+<p>&#x5F53;&#x4F60;&#x901A;&#x8FC7;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x6765;&#x6784;&#x5EFA; WebSocket &#x65F6;&#xFF0C;&#x4F60;&#x5FC5;&#x987B;&#x540C;&#x65F6;&#x8FD4;&#x56DE; <code>in</code> &#x548C; <code>out</code> &#x4E24;&#x4E2A;&#x901A;&#x9053;&#x3002;</p>
+<ul>
+<li><code>in</code> &#x901A;&#x9053;&#x7684;&#x7C7B;&#x578B;&#x662F; <code>Iteratee[A,Unit]</code>&#xFF08;&#x5176;&#x4E2D; <code>A</code> &#x662F;&#x6D88;&#x606F;&#x7C7B;&#x578B;&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x7528;&#x7684;&#x662F; <code>String</code>&#xFF09;&#xFF0C;&#x5BF9;&#x4E8E;&#x6BCF;&#x6761;&#x4F20;&#x6765;&#x7684;&#x6D88;&#x606F;&#xFF0C;&#x5B83;&#x90FD;&#x4F1A;&#x88AB;&#x901A;&#x77E5;&#x5230;&#x3002;&#x5F53;&#x5BA2;&#x6237;&#x7AEF;&#x7684; socket &#x5173;&#x95ED;&#x540E;&#xFF0C;&#x5B83;&#x4F1A;&#x6536;&#x5230; <code>EOF</code>&#x3002;</li>
+<li><code>out</code> &#x901A;&#x9053;&#x7684;&#x7C7B;&#x578B;&#x662F; <code>Enumerator[A]</code>&#xFF0C;&#x5B83;&#x4F1A;&#x4EA7;&#x751F;&#x53D1;&#x9001;&#x7ED9; Web &#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x6D88;&#x606F;&#x3002;&#x5B83;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x53D1;&#x9001; <code>EOF</code> &#x5728;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#x3002;</li>
+</ul>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684; iteratee&#xFF0C;&#x5B83;&#x4F1A;&#x5728;&#x63A7;&#x5236;&#x53F0;&#x6253;&#x5370;&#x6BCF;&#x6761;&#x6D88;&#x606F;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x679A;&#x4E3E;&#x5668;&#xFF08;enumerator&#xFF09;&#x6765;&#x53D1;&#x9001;&#x4E00;&#x4E2A; <code>Hello!</code> &#x6D88;&#x606F;&#x3002;</p>
+<blockquote>
+<p>&#x5C0F;&#x8D34;&#x58EB;&#xFF1A;&#x4F60;&#x53EF;&#x4EE5;&#x5728;<a href="http://websocket.org/echo.html" target="_blank">&#x8FD9;&#x91CC;</a>&#x6D4B;&#x8BD5; WebSocket&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x628A; location &#x8BBE;&#x7F6E;&#x4E3A; <code>ws://localhost:9000</code> &#x5373;&#x53EF;&#x3002;</p>
+</blockquote>
+<p>&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x76F4;&#x63A5;&#x5FFD;&#x7565;&#x8F93;&#x5165;&#x6570;&#x636E;&#xFF0C;&#x5728;&#x53D1;&#x9001;&#x5B8C; <strong>Hello!</strong> &#x6D88;&#x606F;&#x540E;&#x5C31;&#x5173;&#x95ED; socket&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.mvc._
+<span class="hljs-keyword">import</span> play.api.libs.iteratee._
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">socket</span> =</span> <span class="hljs-type">WebSocket</span>.using[<span class="hljs-type">String</span>] { request =&gt;
+
+  <span class="hljs-comment">// Just ignore the input</span>
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">in</span> =</span> <span class="hljs-type">Iteratee</span>.ignore[<span class="hljs-type">String</span>]
+
+  <span class="hljs-comment">// Send a single &apos;Hello!&apos; message and close</span>
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">out</span> =</span> <span class="hljs-type">Enumerator</span>(<span class="hljs-string">&quot;Hello!&quot;</span>).andThen(<span class="hljs-type">Enumerator</span>.eof)
+
+  (in, out)
+}
+</code></pre>
+<p>&#x4E0B;&#x9762;&#x662F;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x5176;&#x4E2D;&#x8F93;&#x5165;&#x6570;&#x636E;&#x88AB;&#x6253;&#x5370;&#x5230;&#x6807;&#x51C6;&#x8F93;&#x51FA;&#xFF0C;&#x7136;&#x540E;&#x5229;&#x7528;  <code>Concurrent.broadcast</code> &#x5E7F;&#x64AD;&#x5230;&#x5BA2;&#x6237;&#x7AEF;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.mvc._
+<span class="hljs-keyword">import</span> play.api.libs.iteratee._
+<span class="hljs-keyword">import</span> play.api.libs.concurrent.<span class="hljs-type">Execution</span>.<span class="hljs-type">Implicits</span>.defaultContext
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">socket</span> =</span>  <span class="hljs-type">WebSocket</span>.using[<span class="hljs-type">String</span>] { request =&gt;
+
+  <span class="hljs-comment">// Concurrent.broadcast returns (Enumerator, Concurrent.Channel)</span>
+  <span class="hljs-function"><span class="hljs-keyword">val</span> (</span>out, channel) = <span class="hljs-type">Concurrent</span>.broadcast[<span class="hljs-type">String</span>]
+
+  <span class="hljs-comment">// log the message to stdout and send response back to client</span>
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">in</span> =</span> <span class="hljs-type">Iteratee</span>.foreach[<span class="hljs-type">String</span>] {
+    msg =&gt; println(msg)
+      <span class="hljs-comment">// the Enumerator returned by Concurrent.broadcast subscribes to the channel and will</span>
+      <span class="hljs-comment">// receive the pushed messages</span>
+      channel push(<span class="hljs-string">&quot;I received your message: &quot;</span> + msg)
+  }
+  (in,out)
+}
+</code></pre>
 
                     
                     </section>

@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="1.3" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="1.3" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,67 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="manipulating-results">Manipulating results</h1>
+<h2 id="%E6%94%B9%E5%8F%98%E9%BB%98%E8%AE%A4%E7%9A%84-content-type">&#x6539;&#x53D8;&#x9ED8;&#x8BA4;&#x7684; Content-Type</h2>
+<p>Content-Type &#x80FD;&#x591F;&#x4ECE;&#x4F60;&#x6240;&#x6307;&#x5B9A;&#x7684;&#x54CD;&#x5E94;&#x4F53;&#x7684; Scala &#x503C;&#x81EA;&#x52A8;&#x63A8;&#x65AD;&#x51FA;&#x6765;&#x3002;</p>
+<p>&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">textResult</span> =</span> <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Hello World!&quot;</span>)
+</code></pre>
+<p>&#x5C06;&#x4F1A;&#x81EA;&#x52A8;&#x8BBE;&#x7F6E; <code>Content-Type</code> &#x62A5;&#x5934;&#x4E3A; <code>text/plain</code>&#xFF0C; &#x800C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">xmlResult</span> =</span> <span class="hljs-type">Ok</span>(&lt;message&gt;<span class="hljs-type">Hello</span> <span class="hljs-type">World</span>!&lt;/message&gt;)
+</code></pre>
+<p>&#x4F1A;&#x8BBE;&#x7F6E; Content-Type &#x62A5;&#x5934;&#x4E3A; <code>application/xml</code>&#x3002;</p>
+<blockquote>
+<p>&#x63D0;&#x793A;&#xFF1A;&#x8FD9;&#x662F;&#x7531; <code>play.api.http.ContentTypeOf</code> &#x7C7B;&#x578B;&#x7C7B;&#xFF08;type class&#xFF09;&#x5B8C;&#x6210;&#x7684;&#x3002;</p>
+</blockquote>
+<p>&#x8FD9;&#x76F8;&#x5F53;&#x6709;&#x7528;&#xFF0C;&#x4F46;&#x662F;&#x6709;&#x65F6;&#x5019;&#x4F60;&#x60F3;&#x53BB;&#x6539;&#x53D8;&#x5B83;&#x3002;&#x53EA;&#x9700;&#x8981;&#x8C03;&#x7528; Result &#x7684; <code>as(newContentType)</code> &#x65B9;&#x6CD5;&#x6765;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x3001;&#x7C7B;&#x4F3C;&#x7684;&#x3001;&#x5177;&#x6709;&#x4E0D;&#x540C; <code>Content-Type</code> &#x62A5;&#x5934;&#x7684; Result&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">htmlResult</span> =</span> <span class="hljs-type">Ok</span>(&lt;h1&gt;<span class="hljs-type">Hello</span> <span class="hljs-type">World</span>!&lt;/h1&gt;).as(<span class="hljs-string">&quot;text/html&quot;</span>)
+</code></pre>
+<p>&#x6216;&#x8005;&#x7528;&#x4E0B;&#x9762;&#x8FD9;&#x79CD;&#x66F4;&#x597D;&#x7684;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">htmlResult2</span> =</span> <span class="hljs-type">Ok</span>(&lt;h1&gt;<span class="hljs-type">Hello</span> <span class="hljs-type">World</span>!&lt;/h1&gt;).as(<span class="hljs-type">HTML</span>)
+</code></pre>
+<blockquote>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x4F7F;&#x7528; <code>HTML</code> &#x4EE3;&#x66FF; <code>&quot;text/html&quot;</code> &#x7684;&#x597D;&#x5904;&#x662F;&#x4F1A;&#x4E3A;&#x4F60;&#x81EA;&#x52A8;&#x5904;&#x7406;&#x5B57;&#x7B26;&#x96C6;&#xFF0C;&#x8FD9;&#x65F6;&#x5B9E;&#x9645;&#x7684; Content-Type &#x62A5;&#x5934;&#x4F1A;&#x88AB;&#x8BBE;&#x7F6E;&#x4E3A; <code>text/html; charset=utf-8</code>&#x3002;&#x7A0D;&#x540E;&#x6211;&#x4EEC;&#x5C31;&#x80FD;&#x770B;&#x5230;&#x3002;</p>
+</blockquote>
+<h2 id="%E5%A4%84%E7%90%86-http-%E6%8A%A5%E5%A4%B4">&#x5904;&#x7406; HTTP &#x62A5;&#x5934;</h2>
+<p>&#x4F60;&#x8FD8;&#x80FD;&#x6DFB;&#x52A0;&#xFF08;&#x6216;&#x66F4;&#x65B0;&#xFF09;&#x7ED3;&#x679C;&#x7684;&#x4EFB;&#x610F; HTTP &#x62A5;&#x5934;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">result</span> =</span> <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Hello World!&quot;</span>).withHeaders(
+  <span class="hljs-type">CACHE_CONTROL</span> -&gt; <span class="hljs-string">&quot;max-age=3600&quot;</span>,
+  <span class="hljs-type">ETAG</span> -&gt; <span class="hljs-string">&quot;xx&quot;</span>)
+</code></pre>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x4E2A; Result &#x5DF2;&#x7ECF;&#x6709;&#x4E00;&#x4E2A; HTTP &#x62A5;&#x5934;&#x4E86;&#xFF0C;&#x90A3;&#x4E48;&#x65B0;&#x8BBE;&#x7F6E;&#x7684;&#x4F1A;&#x8986;&#x76D6;&#x524D;&#x9762;&#x7684;&#x3002;</p>
+<h2 id="%E8%AE%BE%E7%BD%AE%E5%92%8C%E4%B8%A2%E5%BC%83-cookie">&#x8BBE;&#x7F6E;&#x548C;&#x4E22;&#x5F03; Cookie</h2>
+<p>Cookie &#x662F;&#x4E00;&#x79CD;&#x7279;&#x6B8A;&#x7684; HTTP &#x62A5;&#x5934;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x7CFB;&#x5217; helper &#x65B9;&#x6CD5;&#x6765;&#x7B80;&#x5316;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x50CF;&#x4E0B;&#x9762;&#x90A3;&#x6837;&#x5F88;&#x5BB9;&#x6613;&#x5730;&#x6DFB;&#x52A0; Cookie &#x5230; HTTP &#x54CD;&#x5E94;&#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">result</span> =</span> <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Hello world&quot;</span>).withCookies(
+  <span class="hljs-type">Cookie</span>(<span class="hljs-string">&quot;theme&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>))
+</code></pre>
+<p>&#x6216;&#x8005;&#xFF0C;&#x8981;&#x4E22;&#x5F03;&#x5148;&#x524D;&#x5B58;&#x50A8;&#x5728; Web &#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x7684; Cookie&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">result2</span> =</span> result.discardingCookies(<span class="hljs-type">DiscardingCookie</span>(<span class="hljs-string">&quot;theme&quot;</span>))
+</code></pre>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x54CD;&#x5E94;&#x4E2D;&#x540C;&#x65F6;&#x6DFB;&#x52A0;&#x548C;&#x4E22;&#x5F03; Cookie&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">result3</span> =</span> result.withCookies(<span class="hljs-type">Cookie</span>(<span class="hljs-string">&quot;theme&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>)).discardingCookies(<span class="hljs-type">DiscardingCookie</span>(<span class="hljs-string">&quot;skin&quot;</span>))
+</code></pre>
+<h2 id="%E6%94%B9%E5%8F%98%E5%9F%BA%E4%BA%8E%E6%96%87%E6%9C%AC%E7%9A%84-http-%E5%93%8D%E5%BA%94%E7%9A%84%E5%AD%97%E7%AC%A6%E9%9B%86">&#x6539;&#x53D8;&#x57FA;&#x4E8E;&#x6587;&#x672C;&#x7684; HTTP &#x54CD;&#x5E94;&#x7684;&#x5B57;&#x7B26;&#x96C6;</h2>
+<p>&#x5BF9;&#x4E8E;&#x57FA;&#x4E8E;&#x6587;&#x672C;&#x7684; HTTP &#x54CD;&#x5E94;&#xFF0C;&#x6B63;&#x786E;&#x5904;&#x7406;&#x597D;&#x5B57;&#x7B26;&#x96C6;&#x662F;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x3002;Play &#x5904;&#x7406;&#x5B83;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#x91C7;&#x7528; <code>utf-8</code> &#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x5B57;&#x7B26;&#x96C6;&#x3002;</p>
+<p>&#x5B57;&#x7B26;&#x96C6;&#x4E00;&#x65B9;&#x9762;&#x5C06;&#x6587;&#x672C;&#x54CD;&#x5E94;&#x8F6C;&#x6362;&#x6210;&#x76F8;&#x5E94;&#x7684;&#x5B57;&#x8282;&#x6765;&#x901A;&#x8FC7;&#x7F51;&#x7EDC; Socket &#x8FDB;&#x884C;&#x4F20;&#x8F93;&#xFF0C;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#x7528;&#x6B63;&#x786E;&#x7684; <code>;charset=xxx</code> &#x6269;&#x5C55;&#x6765;&#x66F4;&#x65B0; <code>Content-Type</code> &#x62A5;&#x5934;&#x3002;</p>
+<p>&#x5B57;&#x7B26;&#x96C6;&#x7531; <code>play.api.mvc.Codec</code> &#x7C7B;&#x578B;&#x7C7B;&#x81EA;&#x52A8;&#x5904;&#x7406;&#x3002;&#x4EC5;&#x9700;&#x8981;&#x5F15;&#x5165;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x7684; <code>play.api.mvc.Codec</code> &#x5B9E;&#x4F8B;&#x5230;&#x5F53;&#x524D;&#x4F5C;&#x7528;&#x57DF;&#x4E2D;&#xFF0C;&#x4ECE;&#x800C;&#x6539;&#x53D8;&#x5404;&#x79CD;&#x64CD;&#x4F5C;&#x6240;&#x7528;&#x5230;&#x7684;&#x5B57;&#x7B26;&#x96C6;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Application</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Controller</span> {</span>
+
+  <span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">myCustomCharset</span> =</span> <span class="hljs-type">Codec</span>.javaSupported(<span class="hljs-string">&quot;iso-8859-1&quot;</span>)
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span> =</span> <span class="hljs-type">Action</span> {
+    <span class="hljs-type">Ok</span>(&lt;h1&gt;<span class="hljs-type">Hello</span> <span class="hljs-type">World</span>!&lt;/h1&gt;).as(<span class="hljs-type">HTML</span>)
+  }
+
+}
+</code></pre>
+<p>&#x8FD9;&#x91CC;&#xFF0C;&#x56E0;&#x4E3A;&#x4F5C;&#x7528;&#x57DF;&#x4E2D;&#x5B58;&#x5728;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x5B57;&#x7B26;&#x96C6;&#x7684;&#x503C;&#xFF0C;&#x5B83;&#x4F1A;&#x88AB;&#x5E94;&#x7528;&#x5230; <code>Ok(...)</code> &#x65B9;&#x6CD5;&#x6765;&#x5C06; XML &#x6D88;&#x606F;&#x8F6C;&#x5316;&#x6210; <code>ISO-8859-1</code> &#x7F16;&#x7801;&#x7684;&#x5B57;&#x8282;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x7528;&#x4E8E;&#x751F;&#x6210; <code>text/html;charset=iso-8859-1</code> Content-Type &#x62A5;&#x5934;&#x3002;</p>
+<p>&#x73B0;&#x5728;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x77E5;&#x9053; <code>HTML</code> &#x65B9;&#x6CD5;&#x662F;&#x600E;&#x4E48;&#x5DE5;&#x4F5C;&#x7684;&#xFF0C;&#x4EE5;&#x4E0B;&#x662F;&#x5B83;&#x7684;&#x5B9A;&#x4E49;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">HTML</span>(</span><span class="hljs-keyword">implicit</span> codec: <span class="hljs-type">Codec</span>) = {
+  <span class="hljs-string">&quot;text/html; charset=&quot;</span> + codec.charset
+}
+</code></pre>
+<p>&#x5982;&#x679C;&#x4F60;&#x7684; API &#x4E2D;&#x9700;&#x8981;&#x4EE5;&#x901A;&#x7528;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x5904;&#x7406;&#x5B57;&#x7B26;&#x96C6;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x6309;&#x7167;&#x4E0A;&#x8FF0;&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#x3002;</p>
 
                     
                     </section>

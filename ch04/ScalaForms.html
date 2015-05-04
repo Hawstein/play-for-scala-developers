@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="4.1" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="4.1" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,378 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="handling-form-submission">Handling form submission</h1>
+<h2 id="%E6%A6%82%E8%BF%B0">&#x6982;&#x8FF0;</h2>
+<p>&#x8868;&#x5355;&#x7684;&#x5904;&#x7406;&#x548C;&#x63D0;&#x4EA4;&#x662F;&#x6BCF;&#x4E2A; web &#x5E94;&#x7528;&#x7684;&#x91CD;&#x8981;&#x90E8;&#x5206;&#x3002;Play &#x81EA;&#x5E26;&#x4E86;&#x4E00;&#x4E9B;&#x529F;&#x80FD;&#xFF0C;&#x7B80;&#x5316;&#x4E86;&#x7B80;&#x6613;&#x8868;&#x5355;&#x7684;&#x5904;&#x7406;&#xFF0C;&#x5E76;&#x4F7F;&#x5904;&#x7406;&#x590D;&#x6742;&#x8868;&#x5355;&#x6210;&#x4E3A;&#x53EF;&#x80FD;&#x3002;</p>
+<p>Play &#x7684;&#x8868;&#x5355;&#x5904;&#x7406;&#x65B9;&#x5F0F;&#x57FA;&#x4E8E;&#x6570;&#x636E;&#x7ED1;&#x5B9A;&#x7684;&#x6982;&#x5FF5;&#x3002;&#x5F53;&#x6570;&#x636E;&#x6765;&#x81EA;&#x4E8E;&#x4E00;&#x4E2A; POST &#x8BF7;&#x6C42;&#x65F6;&#xFF0C;Play &#x4F1A;&#x67E5;&#x627E;&#x683C;&#x5F0F;&#x5316;&#x7684;&#x503C;&#x5E76;&#x5C06;&#x5176;&#x7ED1;&#x5B9A;&#x5230; <code>Form</code> &#x5BF9;&#x8C61;&#x4E0A;&#x3002;Play &#x53EF;&#x4EE5;&#x6839;&#x636E;&#x7ED1;&#x5B9A;&#x7684;&#x8868;&#x5355;&#x53CA;&#x6570;&#x636E;&#x6784;&#x5EFA;&#x4E00;&#x4E2A;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#xFF0C;&#x8C03;&#x7528;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x9A8C;&#x8BC1;&#x5668;&#xFF0C;&#x7B49;&#x7B49;&#x3002;</p>
+<p>&#x901A;&#x5E38;&#xFF0C;&#x8868;&#x5355;&#x4F1A;&#x5728; <code>Controller</code> &#x5B9E;&#x4F8B;&#x4E2D;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x3002;&#x4E0D;&#x8FC7; <code>Form</code> &#x7684;&#x5B9A;&#x4E49;&#x5E76;&#x4E0D;&#x9700;&#x8981;&#x548C;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x6216;&#x662F;&#x6A21;&#x578B;&#x4E00;&#x81F4;&#x5339;&#x914D;&#xFF1A;&#x4ED6;&#x4EEC;&#x7EAF;&#x7CB9;&#x90FD;&#x662F;&#x4E3A;&#x4E86;&#x5904;&#x7406;&#x8F93;&#x5165;&#xFF0C;&#x4E0D;&#x540C;&#x7684; POST &#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684; <code>Form</code> &#x975E;&#x5E38;&#x5408;&#x7406;&#x3002;</p>
+<h2 id="%E5%AF%BC%E5%85%A5">&#x5BFC;&#x5165;</h2>
+<p>&#x4E3A;&#x4E86;&#x4F7F;&#x7528;&#x8868;&#x5355;&#xFF0C;&#x5FC5;&#x987B;&#x5728;&#x7C7B;&#x4E2D;&#x5148;&#x5BFC;&#x5165;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x5305;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.data._
+<span class="hljs-keyword">import</span> play.api.data.<span class="hljs-type">Forms</span>._
+</code></pre>
+<h2 id="%E8%A1%A8%E5%8D%95%E5%9F%BA%E7%A1%80">&#x8868;&#x5355;&#x57FA;&#x7840;</h2>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x5148;&#x6765;&#x770B;&#x4E00;&#x4E0B;&#x57FA;&#x672C;&#x7684;&#x8868;&#x5355;&#x5904;&#x7406;&#xFF1A;</p>
+<ul>
+<li>&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x8868;&#x5355;&#xFF0C;</li>
+<li>&#x5B9A;&#x4E49;&#x8868;&#x5355;&#x4E2D;&#x7684;&#x7EA6;&#x675F;&#xFF0C;</li>
+<li>&#x5728;&#x4E00;&#x4E2A; action &#x4E2D;&#x9A8C;&#x8BC1;&#x8BE5;&#x8868;&#x5355;&#xFF0C;</li>
+<li>&#x5728;&#x89C6;&#x56FE;&#x6A21;&#x677F;&#x4E2D;&#x663E;&#x793A;&#x8868;&#x5355;&#xFF0C;</li>
+<li>&#x6700;&#x540E;&#xFF0C;&#x5728;&#x89C6;&#x56FE;&#x6A21;&#x677F;&#x4E2D;&#x5904;&#x7406;&#x8868;&#x5355;&#x7684;&#x7ED3;&#x679C;&#xFF08;&#x6216;&#x662F;&#x9519;&#x8BEF;&#xFF09;</li>
+</ul>
+<p>&#x6700;&#x7EC8;&#x7684;&#x7ED3;&#x679C;&#x770B;&#x8D77;&#x6765;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;</p>
+<p><img src="https://www.playframework.com/documentation/2.3.x/resources/manual/scalaGuide/main/forms/images/lifecycle.png" alt="Form Result"></p>
+<h3 id="%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E8%A1%A8%E5%8D%95">&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x8868;&#x5355;</h3>
+<p>&#x9996;&#x5148;&#xFF0C;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x5305;&#x542B;&#x4E86;&#x8868;&#x5355;&#x4E2D;&#x6240;&#x6709;&#x5143;&#x7D20;&#x7684;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x3002;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x60F3;&#x8981;&#x83B7;&#x53D6;&#x4E00;&#x4E2A;&#x7528;&#x6237;&#x7684;&#x540D;&#x5B57;&#x548C;&#x5E74;&#x9F84;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A; <code>UserData</code> &#x5BF9;&#x8C61;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserData</span>(</span>name: <span class="hljs-type">String</span>, age: <span class="hljs-type">Int</span>)
+</code></pre>
+<p>&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x6709;&#x4E86;&#x4E00;&#x4E2A;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#xFF0C;&#x63A5;&#x7740;&#x9700;&#x8981;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A; <code>Form</code> &#x7ED3;&#x6784;&#x3002;&#x5B9A;&#x4E49;&#x8868;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x5C06;&#x8868;&#x5355;&#x7684;&#x6570;&#x636E;&#x7ED1;&#x5B9A;&#x5230;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x7684;&#x5B9E;&#x4F8B;&#x4E2D;&#xFF0C;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userForm</span> =</span> <span class="hljs-type">Form</span>(
+  mapping(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; text,
+    <span class="hljs-string">&quot;age&quot;</span> -&gt; number
+  )(<span class="hljs-type">UserData</span>.apply)(<span class="hljs-type">UserData</span>.unapply)
+)
+</code></pre>
+<p><a href="https://www.playframework.com/documentation/2.3.x/api/scala/index.html#play.api.data.Forms$" target="_blank">&#x8868;&#x5355;</a>&#x5BF9;&#x8C61;&#x5B9A;&#x4E49;&#x4E86; <code>mapping</code> &#x65B9;&#x6CD5;&#x3002;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x63A5;&#x6536;&#x8868;&#x5355;&#x7684;&#x540D;&#x5B57;&#x548C;&#x7EA6;&#x675F;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#xFF0C;&#x5E76;&#x63A5;&#x6536;&#x53E6;&#x5916;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#xFF1A;&#x4E00;&#x4E2A; <code>apply</code> &#x65B9;&#x6CD5;&#x548C;&#x4E00;&#x4E2A; <code>unapply</code> &#x65B9;&#x6CD5;&#x3002;&#x56E0;&#x4E3A; <code>UserData</code> &#x662F;&#x4E00;&#x4E2A;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5C06; <code>apply</code> &#x548C; <code>unapply</code> &#x76F4;&#x63A5;&#x63D2;&#x5165;&#x5230; <code>mapping</code> &#x65B9;&#x6CD5;&#x4E2D;&#x3002;</p>
+<p><strong>&#x6CE8;&#x610F;&#xFF1A;</strong>&#x7531;&#x4E8E;&#x8868;&#x5355;&#x5904;&#x7406;&#x7684;&#x5B9E;&#x73B0;&#x95EE;&#x9898;&#xFF0C;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x5143;&#x7EC4;&#xFF08;tuple&#xFF09;&#x6216;&#x662F; mapping &#x6700;&#x591A;&#x53EA;&#x80FD;&#x6709;18&#x4E2A;&#x5143;&#x7D20;&#x3002;&#x5982;&#x679C;&#x4F60;&#x7684;&#x8868;&#x5355;&#x6709;&#x8D85;&#x8FC7;18&#x4E2A;&#x5143;&#x7D20;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x5C06;&#x4ED6;&#x4EEC;&#x901A;&#x8FC7;&#x5217;&#x8868;&#x6216;&#x662F;&#x5D4C;&#x5957;&#x503C;&#x5206;&#x5F00;&#x6765;&#x3002;</p>
+<p>&#x5F53;&#x4F60;&#x4F7F;&#x7528;&#x4E86; Map &#xFF0C;&#x8868;&#x5355;&#x4F1A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5E26;&#x6709;&#x7ED1;&#x5B9A;&#x503C;&#x7684; UserData &#x5B9E;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">anyData</span> =</span> <span class="hljs-type">Map</span>(<span class="hljs-string">&quot;name&quot;</span> -&gt; <span class="hljs-string">&quot;bob&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> -&gt; <span class="hljs-string">&quot;21&quot;</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userData</span> =</span> userForm.bind(anyData).get
+</code></pre>
+<p>&#x4F46;&#x5927;&#x591A;&#x6570;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x5728; Action &#x4E2D;&#x4F7F;&#x7528;&#x8868;&#x5355;&#xFF0C;&#x5176;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x7531;&#x8BF7;&#x6C42;&#x63D0;&#x4F9B;&#x3002;<code>Form</code> &#x5305;&#x542B;&#x4E86; <code>bindFormRequest</code>&#xFF0C;&#x63A5;&#x6536;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x4F5C;&#x4E3A;&#x9690;&#x5F0F;&#xFF08;implicit&#xFF09;&#x53C2;&#x6570;&#x3002;&#x5982;&#x679C;&#x4F60;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#xFF08;implicit&#xFF09;&#x8BF7;&#x6C42;&#xFF0C;&#x90A3;&#x4E48; <code>bindFormRequest</code> &#x5C31;&#x80FD;&#x591F;&#x627E;&#x5230;&#x4ED6;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userData</span> =</span> userForm.bindFromRequest.get
+</code></pre>
+<p><strong>&#x6CE8;&#x610F;&#xFF1A;</strong>&#x8FD9;&#x91CC;&#x4F7F;&#x7528; <code>get</code> &#x5176;&#x5B9E;&#x662F;&#x6709;&#x95EE;&#x9898;&#x7684;&#x3002;&#x5982;&#x679C;&#x8868;&#x5355;&#x6CA1;&#x80FD;&#x7ED1;&#x5B9A;&#x6570;&#x636E;&#xFF0C;&#x90A3;&#x4E48; <code>get</code> &#x4F1A;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x3002;&#x5728;&#x63A5;&#x4E0B;&#x6765;&#x7684;&#x51E0;&#x7AE0;&#x4E2D;&#x6211;&#x4EEC;&#x4F1A;&#x4ECB;&#x7ECD;&#x4E00;&#x79CD;&#x66F4;&#x5B89;&#x5168;&#x7684;&#x65B9;&#x6CD5;&#x6765;&#x5904;&#x7406;&#x8F93;&#x5165;&#x3002;</p>
+<p>Play &#x5E76;&#x6CA1;&#x6709;&#x9650;&#x5236;&#x8BF4;&#x53EA;&#x80FD;&#x7528;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09; &#x6765;&#x6620;&#x5C04;&#x4F60;&#x7684;&#x8868;&#x5355;&#x3002;&#x53EA;&#x8981;&#x6B63;&#x786E;&#x8BBE;&#x7F6E;&#x4E86; <code>apply</code> &#x548C; <code>unapply</code> &#x65B9;&#x6CD5;&#xFF0C;&#x5C31;&#x80FD;&#x4F20;&#x5165;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x4EFB;&#x4F55;&#x4E1C;&#x897F;&#xFF0C;&#x6BD4;&#x5982;&#x5143;&#x7EC4;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>Forms.tuple</code> &#x6765;&#x6620;&#x5C04;&#xFF0C;&#x6216;&#x662F;&#x6A21;&#x578B;&#x6837;&#x672C;&#x7C7B;&#xFF08;model case class&#xFF09;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x4E3A;&#x8868;&#x5355;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x6709;&#x4EE5;&#x4E0B;&#x8FD9;&#x4E9B;&#x597D;&#x5904;&#xFF1A;</p>
+<ul>
+<li><strong>&#x8868;&#x5355;&#x6307;&#x5B9A;&#x7684;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x7B80;&#x5355;&#x6613;&#x7528;&#x3002;</strong>&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x539F;&#x672C;&#x4FBF;&#x88AB;&#x8BBE;&#x8BA1;&#x4E3A;&#x5B58;&#x50A8;&#x6570;&#x636E;&#x7684;&#x7B80;&#x6613;&#x5BB9;&#x5668;&#xFF0C;&#x5373;&#x5199;&#x5373;&#x7528;&#xFF0C;&#x548C;&#x8868;&#x5355;&#x529F;&#x80FD;&#x5929;&#x7136;&#x5339;&#x914D;&#x3002;</li>
+<li><strong>&#x8868;&#x5355;&#x6307;&#x5B9A;&#x7684;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x529F;&#x80FD;&#x5F3A;&#x5927;&#x3002;</strong>&#x5143;&#x7EC4;&#x6613;&#x4E8E;&#x4F7F;&#x7528;&#xFF0C;&#x4F46;&#x5143;&#x7EC4;&#x5E76;&#x4E0D;&#x5141;&#x8BB8;&#x4F60;&#x81EA;&#x5B9A;&#x4E49; <code>apply</code> &#x6216;&#x662F; <code>unapply</code> &#x65B9;&#x6CD5;&#xFF0C;&#x4E14;&#x53EA;&#x80FD;&#x901A;&#x8FC7;&#x5143;&#x6570;&#xFF08;arity&#xFF0C;&#x5982; _1, _2 &#x7B49;&#xFF09;&#x6765;&#x5F15;&#x7528;&#x5176;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x3002;</li>
+<li><strong>&#x8868;&#x5355;&#x6307;&#x5B9A;&#x7684;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x4E13;&#x4E3A;&#x8868;&#x5355;&#x8BBE;&#x8BA1;&#x3002;</strong>&#x91CD;&#x7528;&#x6A21;&#x578B;&#x6837;&#x672C;&#x7C7B;&#xFF08;model case class&#xFF09;&#x786E;&#x5B9E;&#x5F88;&#x65B9;&#x4FBF;&#xFF0C;&#x4F46;&#x6A21;&#x578B;&#x901A;&#x5E38;&#x90FD;&#x542B;&#x6709;&#x4E00;&#x4E9B;&#x989D;&#x5916;&#x7684;&#x9886;&#x57DF;&#x903B;&#x8F91;&#xFF0C;&#x751A;&#x81F3;&#x4E8E;&#x4E00;&#x4E9B;&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316;&#x7684;&#x7EC6;&#x8282;&#xFF0C;&#x8FD9;&#x4E9B;&#x90FD;&#x4F1A;&#x5BFC;&#x81F4;&#x8026;&#x5408;&#x8FC7;&#x4E8E;&#x7D27;&#x5BC6;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5982;&#x679C;&#x8868;&#x5355;&#x548C;&#x6A21;&#x578B;&#x5E76;&#x4E0D;&#x662F;1&#xFF1A;1&#x4E25;&#x683C;&#x6620;&#x5C04;&#x7684;&#x8BDD;&#xFF0C;&#x654F;&#x611F;&#x6570;&#x636E;&#x5FC5;&#x987B;&#x88AB;&#x663E;&#x793A;&#x7684;&#x5FFD;&#x7565;&#xFF0C;&#x4EE5;&#x6B64;&#x6765;&#x62B5;&#x5FA1;<a href="https://www.owasp.org/index.php/Web_Parameter_Tampering" target="_blank">&#x7BE1;&#x6539;&#x53C2;&#x6570;</a>&#x653B;&#x51FB;&#x3002;</li>
+</ul>
+<h3 id="%E5%AE%9A%E4%B9%89%E8%A1%A8%E5%8D%95%E7%9A%84%E7%BA%A6%E6%9D%9F">&#x5B9A;&#x4E49;&#x8868;&#x5355;&#x7684;&#x7EA6;&#x675F;</h3>
+<p><code>text</code> &#x7EA6;&#x675F;&#x8BA4;&#x5B9A;&#x7A7A;&#x5B57;&#x7B26;&#x4E32;&#x4F9D;&#x7136;&#x6709;&#x6548;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4; <code>name</code> &#x53EF;&#x4EE5;&#x4E3A;&#x7A7A;&#x4E14;&#x4E0D;&#x4F1A;&#x62A5;&#x9519;&#xFF0C;&#x8FD9;&#x663E;&#x7136;&#x4E0D;&#x662F;&#x6211;&#x4EEC;&#x60F3;&#x8981;&#x7684;&#x3002;&#x4E00;&#x4E2A;&#x4FDD;&#x8BC1; <code>name</code> &#x6709;&#x503C;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x4F7F;&#x7528; <code>nonEmptyText</code> &#x7EA6;&#x675F;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userFormConstraints2</span> =</span> <span class="hljs-type">Form</span>(
+  mapping(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; nonEmptyText,
+    <span class="hljs-string">&quot;age&quot;</span> -&gt; number(min = <span class="hljs-number">0</span>, max = <span class="hljs-number">100</span>)
+  )(<span class="hljs-type">UserData</span>.apply)(<span class="hljs-type">UserData</span>.unapply)
+)
+</code></pre>
+<p>&#x5982;&#x679C;&#x8868;&#x5355;&#x7684;&#x8F93;&#x5165;&#x6CA1;&#x6709;&#x6EE1;&#x8DB3;&#x8BE5;&#x8868;&#x5355;&#x7684;&#x7EA6;&#x675F;&#x6761;&#x4EF6;&#xFF0C;&#x5219;&#x4F1A;&#x62A5;&#x9519;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">boundForm</span> =</span> userFormConstraints2.bind(<span class="hljs-type">Map</span>(<span class="hljs-string">&quot;bob&quot;</span> -&gt; <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> -&gt; <span class="hljs-string">&quot;25&quot;</span>))
+boundForm.hasErrors must beTrue
+</code></pre>
+<p>&#x9884;&#x7F6E;&#x7684;&#x7EA6;&#x675F;&#x5B9A;&#x4E49;&#x5728;&#x4E86;<a href="https://www.playframework.com/documentation/2.3.x/api/scala/index.html#play.api.data.Forms$" target="_blank">&#x8868;&#x5355;&#x5BF9;&#x8C61;</a>&#x4E2D;&#xFF1A;</p>
+<ul>
+<li><code>text</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>scala.String</code>&#xFF0C;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x4E3A; <code>minLength</code> &#x548C; <code>maxLength</code>&#x3002;</li>
+<li><code>nonEmptyText</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>scala.String</code>&#xFF0C;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x4E3A; <code>minLength</code> &#x548C; <code>maxLength</code>&#x3002;</li>
+<li><code>number</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>scala.Int</code>&#xFF0C;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x4E3A; <code>min</code>, <code>max</code> &#x548C; <code>strict</code>&#x3002;</li>
+<li><code>longNumber</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>scala.Long</code>&#xFF0C;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x4E3A; <code>min</code>&#xFF0C; <code>max</code>&#xFF0C;&#x548C; <code>strict</code>&#x3002;</li>
+<li><code>bigDecimal</code>&#xFF1A;&#x53C2;&#x6570;&#x4E3A; <code>precision</code> &#x548C; <code>scale</code>&#x3002;</li>
+<li><code>date</code>&#xFF0C;<code>sqlDate</code>&#xFF0C;<code>jodaDate</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>java.util.Date</code>&#xFF0C; <code>java.sql.Date</code> &#x548C; <code>org.joda.time.DateTime</code>&#xFF0C;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x4E3A; <code>pattern</code> &#x548C; <code>timeZone</code>&#x3002;</li>
+<li><code>jodaLocalDate</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>org.joda.time.LocalDate</code>&#xFF0C;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x4E3A; <code>pattern</code>&#x3002;</li>
+<li><code>email</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>scala.String</code>&#xFF0C;&#x4F7F;&#x7528;&#x90AE;&#x4EF6;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;.</li>
+<li><code>boolean</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>scala.Boolean</code>&#x3002;</li>
+<li><code>checked</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>scala.Boolean</code>&#x3002;</li>
+<li><code>optional</code>&#xFF1A;&#x5BF9;&#x5E94;&#x4E8E; <code>scala.Option</code>&#x3002;</li>
+</ul>
+<h3 id="%E5%AE%9A%E4%B9%89%E7%89%B9%E6%AE%8A%E7%BA%A6%E6%9D%9F">&#x5B9A;&#x4E49;&#x7279;&#x6B8A;&#x7EA6;&#x675F;</h3>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<a href="https://www.playframework.com/documentation/2.3.x/api/scala/index.html#play.api.data.validation.package" target="_blank">&#x9A8C;&#x8BC1;&#x5305;</a>&#x5728;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x4E2D;&#x5B9A;&#x4E49;&#x4F60;&#x81EA;&#x5DF1;&#x7684;&#x7279;&#x6B8A;&#x7EA6;&#x675F;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userFormConstraints</span> =</span> <span class="hljs-type">Form</span>(
+  mapping(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; text.verifying(nonEmpty),
+    <span class="hljs-string">&quot;age&quot;</span> -&gt; number.verifying(min(<span class="hljs-number">0</span>), max(<span class="hljs-number">100</span>))
+  )(<span class="hljs-type">UserData</span>.apply)(<span class="hljs-type">UserData</span>.unapply)
+)
+</code></pre>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5728;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x4E2D;&#x5B9A;&#x4E49;&#x7279;&#x6B8A;&#x7EA6;&#x675F;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">validate</span>(</span>name: <span class="hljs-type">String</span>, age: <span class="hljs-type">Int</span>) = {
+  name <span class="hljs-keyword">match</span> {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;bob&quot;</span> <span class="hljs-keyword">if</span> age &gt;= <span class="hljs-number">18</span> =&gt;
+      <span class="hljs-type">Some</span>(<span class="hljs-type">UserData</span>(name, age))
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;admin&quot;</span> =&gt;
+      <span class="hljs-type">Some</span>(<span class="hljs-type">UserData</span>(name, age))
+    <span class="hljs-keyword">case</span> _ =&gt;
+      <span class="hljs-type">None</span>
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userFormConstraintsAdHoc</span> =</span> <span class="hljs-type">Form</span>(
+  mapping(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; text,
+    <span class="hljs-string">&quot;age&quot;</span> -&gt; number
+  )(<span class="hljs-type">UserData</span>.apply)(<span class="hljs-type">UserData</span>.unapply) verifying(<span class="hljs-string">&quot;Failed form constraints!&quot;</span>, fields =&gt; fields <span class="hljs-keyword">match</span> {
+    <span class="hljs-keyword">case</span> userData =&gt; validate(userData.name, userData.age).isDefined
+  })
+)
+</code></pre>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x4F60;&#x8FD8;&#x80FD;&#x5B9A;&#x4E49;&#x4F60;&#x81EA;&#x5DF1;&#x7684;&#x9A8C;&#x8BC1;&#x5668;&#x3002;&#x8BE6;&#x60C5;&#x8BF7;&#x89C1;<a href="https://www.playframework.com/documentation/2.3.x/ScalaCustomValidations" target="_blank">&#x81EA;&#x5B9A;&#x4E49;&#x9A8C;&#x8BC1;&#x5668;</a>&#x3002;</p>
+<h3 id="%E5%9C%A8-action-%E4%B8%AD%E9%AA%8C%E8%AF%81%E8%A1%A8%E5%8D%95">&#x5728; Action &#x4E2D;&#x9A8C;&#x8BC1;&#x8868;&#x5355;</h3>
+<p>&#x73B0;&#x5728;&#x5DF2;&#x7ECF;&#x6709;&#x4E86;&#x7EA6;&#x675F;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5728; action &#x4E2D;&#x9A8C;&#x8BC1;&#x8868;&#x5355;&#xFF0C;&#x5E76;&#x5904;&#x7406;&#x8868;&#x5355;&#x9519;&#x8BEF;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x4F7F;&#x7528; <code>fold</code> &#x65B9;&#x6CD5;&#x6765;&#x5B9E;&#x73B0;&#xFF0C;&#x5B83;&#x63A5;&#x6536;&#x4E86;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#xFF1A;&#x7ED1;&#x5B9A;&#x5931;&#x8D25;&#x65F6;&#x7B2C;&#x4E00;&#x4E2A;&#x4F1A;&#x88AB;&#x8C03;&#x7528;&#xFF0C;&#x7ED1;&#x5B9A;&#x6210;&#x529F;&#x5219;&#x4F1A;&#x8C03;&#x7528;&#x7B2C;&#x4E8C;&#x4E2A;&#x3002;</p>
+<pre><code class="lang-scala">userForm.bindFromRequest.fold(
+  formWithErrors =&gt; {
+    <span class="hljs-comment">// binding failure, you retrieve the form containing errors:</span>
+    <span class="hljs-type">BadRequest</span>(views.html.user(formWithErrors))
+  },
+  userData =&gt; {
+    <span class="hljs-comment">/* binding success, you get the actual value. */</span>
+    <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">newUser</span> =</span> models.<span class="hljs-type">User</span>(userData.name, userData.age)
+    <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">id</span> =</span> models.<span class="hljs-type">User</span>.create(newUser)
+    <span class="hljs-type">Redirect</span>(routes.<span class="hljs-type">Application</span>.home(id))
+  }
+)
+</code></pre>
+<p>&#x7ED1;&#x5B9A;&#x5931;&#x8D25;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x7528;&#x4E86; BadRequest &#x6765;&#x6E32;&#x67D3;&#x9875;&#x9762;&#xFF0C;&#x5E76;&#x5C06;&#x9519;&#x8BEF;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x5165;&#x8BE5;&#x9875;&#x3002;&#x5982;&#x679C;&#x4F7F;&#x7528;&#x4E86;&#x89C6;&#x56FE; helper &#xFF08;&#x5728;&#x4E0B;&#x9762;&#x8BA8;&#x8BBA;&#xFF09;&#xFF0C;&#x90A3;&#x4E48;&#x4EFB;&#x4F55;&#x7ED1;&#x5B9A;&#x4E8E;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x9519;&#x8BEF;&#x90FD;&#x4F1A;&#x88AB;&#x6E32;&#x67D3;&#x5728;&#x8BE5;&#x5143;&#x7D20;&#x8FB9;&#x4E0A;&#x3002;</p>
+<p>&#x7ED1;&#x5B9A;&#x6210;&#x529F;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x53D1;&#x51FA;&#x4E86;&#x4E00;&#x4E2A; <code>Redirect</code> &#xFF0C;&#x8DEF;&#x7531;&#x5230; <code>routes.Application.home</code>&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6E32;&#x67D3;&#x4E00;&#x4E2A;&#x89C6;&#x56FE;&#x6A21;&#x677F;&#x3002;&#x8FD9;&#x79CD;&#x6A21;&#x5F0F;&#x79F0;&#x4E3A; <a href="http://en.wikipedia.org/wiki/Post/Redirect/Get" target="_blank">POST &#x540E;&#x91CD;&#x5B9A;&#x5411;</a>&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x79CD;&#x5F88;&#x597D;&#x7684;&#x9632;&#x6B62;&#x91CD;&#x590D;&#x63D0;&#x4EA4;&#x7684;&#x65B9;&#x5F0F;&#x3002;</p>
+<p><strong>&#x6CE8;&#x610F;</strong>&#xFF1A;&#x5F53;&#x4F7F;&#x7528;&#x4E86; <code>flashing</code> &#x6216;&#x662F;&#x5728;&#x5176;&#x4ED6;&#x65B9;&#x6CD5;&#x4E2D;&#x7528;&#x5230;&#x4E86; <a href="../ch01/ScalaSessionFlash.htmlnull">flash &#x57DF;</a>&#xFF0C;&#x4F7F;&#x7528; &#x201C;POST &#x540E;&#x91CD;&#x5B9A;&#x5411;&#x201D; &#x662F;<strong>&#x5FC5;&#x9700;&#x7684;</strong>&#xFF0C;&#x56E0;&#x4E3A;&#x65B0;&#x7684; cookie &#x53EA;&#x80FD;&#x5728;&#x91CD;&#x5B9A;&#x5411; HTTP &#x8BF7;&#x6C42;&#x540E;&#x83B7;&#x53D6;&#x3002;</p>
+<h3 id="%E5%9C%A8%E8%A7%86%E5%9B%BE%E6%A8%A1%E6%9D%BF%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%A1%A8%E5%8D%95">&#x5728;&#x89C6;&#x56FE;&#x6A21;&#x677F;&#x4E2D;&#x663E;&#x793A;&#x8868;&#x5355;</h3>
+<p>&#x6709;&#x4E86;&#x8868;&#x5355;&#x4E4B;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x80FD;&#x5728;<a href="../ch03/ScalaTemplates.htmlnull">&#x6A21;&#x677F;&#x5F15;&#x64CE;</a>&#x4E2D;&#x8C03;&#x7528;&#x5B83;&#x3002;&#x505A;&#x6CD5;&#x662F;&#x5728;&#x89C6;&#x56FE;&#x6A21;&#x677F;&#x4E2D;&#x5C06;&#x8868;&#x5355;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x5F15;&#x5165;&#x3002;&#x5BF9;&#x4E8E; <code>user.scala.html</code>&#x6765;&#x8BF4;&#xFF0C;&#x8BE5;&#x9875;&#x7684;&#x5F00;&#x5934;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;</p>
+<pre><code class="lang-scala">@(userForm: <span class="hljs-type">Form</span>[<span class="hljs-type">UserData</span>])
+</code></pre>
+<p>&#x7531;&#x4E8E; <code>user.scala.html</code> &#x9700;&#x8981;&#x63A5;&#x6536;&#x4E00;&#x4E2A;&#x8868;&#x5355;&#xFF0C;&#x5728;&#x6E32;&#x67D3; <code>user.scala.html</code> &#x65F6;&#x5E94;&#x5148;&#x4F20;&#x5165;&#x4E00;&#x4E2A;&#x7A7A;&#x7684; <code>userForm</code>&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span> =</span> <span class="hljs-type">Action</span> {
+  <span class="hljs-type">Ok</span>(views.html.user(userForm))
+}
+</code></pre>
+<p>&#x9996;&#x5148;&#x662F;&#x8981;&#x521B;&#x5EFA;<a href="http://www.w3.org/TR/html5/forms.html#the-form-element" target="_blank">&#x8868;&#x5355;&#x6807;&#x7B7E;</a>&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x89C6;&#x56FE; <code>helper</code>&#xFF0C; &#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;<a href="http://www.w3.org/TR/html5/forms.html#the-form-element" target="_blank">&#x8868;&#x5355;&#x6807;&#x7B7E;</a>&#xFF0C;&#x5E76;&#x6839;&#x636E;&#x4F60;&#x6240;&#x4F20;&#x5165;&#x7684;&#x9006;&#x5411;&#x8DEF;&#x7531;&#x8BBE;&#x7F6E;&#x4E86; <code>action</code> &#x548C; <code>method</code> &#x7684;&#x6807;&#x7B7E;&#x53C2;&#x6570;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-annotation">@helper</span>.form(action = routes.<span class="hljs-type">Application</span>.userPost()) {
+  <span class="hljs-annotation">@helper</span>.inputText(userForm(<span class="hljs-string">&quot;name&quot;</span>))
+  <span class="hljs-annotation">@helper</span>.inputText(userForm(<span class="hljs-string">&quot;age&quot;</span>))
+}
+</code></pre>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x5728; <code>views.html.helper</code> &#x5305;&#x4E2D;&#x627E;&#x5230;&#x591A;&#x4E2A;&#x8F93;&#x5165; helper&#x3002;&#x4F20;&#x5165;&#x4E00;&#x4E2A;&#x8868;&#x5355;&#x57DF;&#xFF0C;&#x4ED6;&#x4EEC;&#x5C31;&#x80FD;&#x663E;&#x793A;&#x51FA;&#x76F8;&#x5E94;&#x7684; HTML &#x8F93;&#x5165;&#xFF0C;&#x8BBE;&#x7F6E;&#x503C;&#x548C;&#x7EA6;&#x675F;&#xFF0C;&#x5E76;&#x5728;&#x8868;&#x5355;&#x7ED1;&#x5B9A;&#x5931;&#x8D25;&#x65F6;&#x62A5;&#x9519;&#x3002;</p>
+<p><strong>&#x6CE8;&#x610F;&#xFF1A;</strong>&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x6A21;&#x677F;&#x4E2D;&#x4F7F;&#x7528; <code>@import heler._</code> &#x6765;&#x907F;&#x514D;&#x5728;&#x8C03;&#x7528; helper &#x65F6;&#x524D;&#x7F6E; <code>@helper</code>&#x3002;</p>
+<p>Play &#x6709;&#x591A;&#x4E2A;&#x8F93;&#x5165; helper&#xFF0C;&#x5176;&#x4E2D;&#x6700;&#x6709;&#x7528;&#x7684;&#x662F;&#xFF1A;</p>
+<ul>
+<li><code>form</code>: &#x6E32;&#x67D3;<a href="http://www.w3.org/TR/html-markup/form.html#form" target="_blank">&#x8868;&#x5355;</a>&#x3002;</li>
+<li><code>inputText</code>: &#x6E32;&#x67D3;<a href="http://www.w3.org/TR/html-markup/input.text.html" target="_blank">&#x6587;&#x672C;&#x8F93;&#x5165;</a>&#x3002;</li>
+<li><code>inputPassword</code>: &#x6E32;&#x67D3;<a href="http://www.w3.org/TR/html-markup/input.password.html#input.password" target="_blank">&#x5BC6;&#x7801;&#x8F93;&#x5165;</a>&#x3002;</li>
+<li><code>inputDate</code>: &#x6E32;&#x67D3;<a href="http://www.w3.org/TR/html-markup/input.date.html" target="_blank">&#x65E5;&#x671F;&#x8F93;&#x5165;</a>&#x3002;</li>
+<li><code>inputFile</code>: &#x6E32;&#x67D3;<a href="http://www.w3.org/TR/html-markup/input.file.html" target="_blank">&#x6587;&#x4EF6;&#x8F93;&#x5165;</a>&#x3002;</li>
+<li><code>inputRadioGroup</code>: &#x6E32;&#x67D3;<a href="http://www.w3.org/TR/html-markup/input.radio.html#input.radio" target="_blank">&#x5355;&#x9009;&#x8F93;&#x5165;</a>&#x3002;</li>
+<li><code>select</code>: &#x6E32;&#x67D3;<a href="http://www.w3.org/TR/html-markup/select.html#select" target="_blank">&#x4E0B;&#x62C9;&#x5217;&#x8868;</a>&#x3002;</li>
+<li><code>textarea</code>: &#x6E32;&#x67D3;<a href="http://www.w3.org/TR/html-markup/textarea.html#textarea" target="_blank">&#x6587;&#x672C;&#x57DF;</a>&#x3002;</li>
+<li><code>checkbox</code>: &#x6E32;&#x67D3;<a href="http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox" target="_blank">&#x590D;&#x9009;&#x6846;</a>&#x3002;</li>
+<li><code>input</code>: &#x6E32;&#x67D3;&#x901A;&#x7528;&#x8F93;&#x5165;&#xFF08;&#x9700;&#x8981;&#x663E;&#x793A;&#x58F0;&#x660E;&#x53C2;&#x6570;&#xFF09;&#x3002;</li>
+</ul>
+<p>&#x5728; <code>form</code> helper &#x4E2D;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6307;&#x5B9A;&#x989D;&#x5916;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x5C06;&#x5176;&#x6DFB;&#x52A0;&#x5230;&#x751F;&#x6210;&#x7684; HTML&#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-annotation">@helper</span>.inputText(userForm(<span class="hljs-string">&quot;name&quot;</span>), <span class="hljs-symbol">&apos;id</span> -&gt; <span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-symbol">&apos;size</span> -&gt; <span class="hljs-number">30</span>)
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x8FD9;&#x4E2A;&#x901A;&#x7528;&#x7684; <code>input</code> helper &#x80FD;&#x8BA9;&#x4F60;&#x7F16;&#x5199;&#x4F60;&#x60F3;&#x8981;&#x7684; HTML &#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-annotation">@helper</span>.input(userForm(<span class="hljs-string">&quot;name&quot;</span>)) { (id, name, value, args) =&gt;
+    &lt;input <span class="hljs-class"><span class="hljs-keyword">type</span>=</span><span class="hljs-string">&quot;text&quot;</span> name=<span class="hljs-string">&quot;@name&quot;</span> id=<span class="hljs-string">&quot;@id&quot;</span> <span class="hljs-annotation">@toHtmlArgs</span>(args)&gt;
+}
+</code></pre>
+<p><strong>&#x6CE8;&#x610F;&#xFF1A;</strong>&#x6240;&#x6709;&#x989D;&#x5916;&#x7684;&#x53C2;&#x6570;&#x90FD;&#x4F1A;&#x88AB;&#x6DFB;&#x52A0;&#x5230;&#x751F;&#x6210;&#x7684; HTML &#x4E2D;&#xFF0C;&#x9664;&#x975E;&#x4ED6;&#x4EEC;&#x4EE5; <code>_</code> &#x5B57;&#x7B26;&#x5F00;&#x5934;&#x3002;&#x4EE5; <code>_</code> &#x5F00;&#x5934;&#x7684;&#x53C2;&#x6570;&#x662F;<a href="ScalaCustomFieldConstructors.htmlnull">&#x57DF;&#x6784;&#x9020;&#x5668;&#x53C2;&#x6570;</a>&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;&#x590D;&#x6742;&#x8868;&#x5355;&#x5143;&#x7D20;&#xFF0C;&#x4F60;&#x540C;&#x6837;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x4E49;&#x89C6;&#x56FE; helper &#xFF08;&#x5728; <code>views</code> &#x9875;&#x9762;&#x4E2D;&#x4F7F;&#x7528; scala &#x7C7B;&#xFF09;&#x5E76;&#x81EA;&#x5B9A;&#x4E49;<a href="ScalaCustomFieldConstructors.htmlnull">&#x57DF;&#x6784;&#x9020;&#x5668;</a>&#x3002;</p>
+<h3 id="%E5%9C%A8%E8%A7%86%E5%9B%BE%E6%A8%A1%E6%9D%BF%E4%B8%AD%E6%98%BE%E7%A4%BA%E9%94%99%E8%AF%AF">&#x5728;&#x89C6;&#x56FE;&#x6A21;&#x677F;&#x4E2D;&#x663E;&#x793A;&#x9519;&#x8BEF;</h3>
+<p>&#x8868;&#x5355;&#x4E2D;&#x7684;&#x9519;&#x8BEF;&#x7C7B;&#x578B;&#x4E3A; <code>Map[String, FormError]</code>&#xFF0C;&#x5176;&#x4E2D; <code>FormError</code>&#x4E2D;&#x6709;&#xFF1A;</p>
+<ul>
+<li><code>key</code>&#xFF1A;&#x5E94;&#x548C;&#x8868;&#x5355;&#x57DF;&#x76F8;&#x540C;&#x3002;</li>
+<li><code>message</code>&#xFF1A;&#x4E00;&#x6BB5;&#x9519;&#x8BEF;&#x63D0;&#x793A;&#x4FE1;&#x606F;&#x6216;&#x662F;&#x5BF9;&#x5E94;&#x4E8E;&#x8BE5;&#x4FE1;&#x606F;&#x7684;&#x952E;&#x3002;</li>
+<li><code>args</code>&#xFF1A;&#x9519;&#x8BEF;&#x63D0;&#x793A;&#x4FE1;&#x606F;&#x4E2D;&#x7528;&#x5230;&#x7684;&#x4E00;&#x7EC4;&#x53C2;&#x6570;&#x3002;</li>
+</ul>
+<p>&#x7ED1;&#x5B9A;&#x7684;&#x8868;&#x5355;&#x5B9E;&#x4F8B;&#x4E2D;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x5982;&#x4E0B;&#x9519;&#x8BEF;&#xFF1A;</p>
+<ul>
+<li><code>errors</code>&#xFF1A;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x9519;&#x8BEF;&#xFF0C;&#x7C7B;&#x578B;&#x4E3A; <code>Seq[FormError]</code>&#x3002;</li>
+<li><code>globalErrors</code>&#xFF1A;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x9519;&#x8BEF;&#xFF0C;&#x7C7B;&#x578B;&#x4E3A;&#x6CA1;&#x6709;&#x952E;&#x7684; <code>Seq[FormError]</code>&#x3002;</li>
+<li><code>error(&quot;name&quot;)</code>&#xFF1A;&#x8FD4;&#x56DE;&#x7B2C;&#x4E00;&#x4E2A;&#x7ED1;&#x5B9A;&#x4E86;&#x8BE5;&#x952E;&#x7684;&#x9519;&#x8BEF;&#xFF0C;&#x7C7B;&#x578B;&#x4E3A; <code>Option[FormError]</code>&#x3002;</li>
+<li><code>errors(&quot;name&quot;)</code>&#xFF1A;&#x8FD4;&#x56DE;&#x6240;&#x6709;&#x7ED1;&#x5B9A;&#x4E86;&#x8BE5;&#x952E;&#x7684;&#x9519;&#x8BEF;&#xFF0C;&#x7C7B;&#x578B;&#x4E3A; <code>Option[FormError]</code>&#x3002;</li>
+</ul>
+<p>&#x4F7F;&#x7528;&#x8868;&#x5355; helper &#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x6E32;&#x67D3;&#x7ED1;&#x5B9A;&#x4E8E;&#x67D0;&#x8868;&#x5355;&#x57DF;&#x7684;&#x9519;&#x8BEF;&#xFF0C;&#x5982; <code>@helper.inputText</code> &#x7684;&#x9519;&#x8BEF;&#x663E;&#x793A;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-scala">&lt;dl <span class="hljs-class"><span class="hljs-keyword">class</span>=</span><span class="hljs-string">&quot;error&quot;</span> id=<span class="hljs-string">&quot;age_field&quot;</span>&gt;
+    &lt;dt&gt;&lt;label <span class="hljs-keyword">for</span>=<span class="hljs-string">&quot;age&quot;</span>&gt;<span class="hljs-type">Age</span>:&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input <span class="hljs-class"><span class="hljs-keyword">type</span>=</span><span class="hljs-string">&quot;text&quot;</span> name=<span class="hljs-string">&quot;age&quot;</span> id=<span class="hljs-string">&quot;age&quot;</span> value=<span class="hljs-string">&quot;&quot;</span>&gt;&lt;/dd&gt;
+    &lt;dd <span class="hljs-class"><span class="hljs-keyword">class</span>=</span><span class="hljs-string">&quot;error&quot;</span>&gt;<span class="hljs-type">This</span> field is required!&lt;/dd&gt;
+    &lt;dd <span class="hljs-class"><span class="hljs-keyword">class</span>=</span><span class="hljs-string">&quot;error&quot;</span>&gt;<span class="hljs-type">Another</span> error&lt;/dd&gt;
+    &lt;dd <span class="hljs-class"><span class="hljs-keyword">class</span>=</span><span class="hljs-string">&quot;info&quot;</span>&gt;<span class="hljs-type">Required</span>&lt;/dd&gt;
+    &lt;dd <span class="hljs-class"><span class="hljs-keyword">class</span>=</span><span class="hljs-string">&quot;info&quot;</span>&gt;<span class="hljs-type">Another</span> constraint&lt;/dd&gt;
+&lt;/dl&gt;
+</code></pre>
+<p>&#x6CA1;&#x6709;&#x7ED1;&#x5B9A;&#x4E8E;&#x4EFB;&#x4E00;&#x952E;&#x7684;&#x5168;&#x5C40;&#x9519;&#x8BEF;&#xFF08;Global errors&#xFF09;&#x4E0D;&#x4F1A;&#x6709;&#x76F8;&#x5E94;&#x7684; helper&#xFF0C;&#x4E14;&#x5FC5;&#x987B;&#x663E;&#x793A;&#x7684;&#x5B9A;&#x4E49;&#x5728;&#x9875;&#x9762;&#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-annotation">@if</span>(userForm.hasGlobalErrors) {
+  &lt;ul&gt;
+  <span class="hljs-annotation">@for</span>(error &lt;- userForm.globalErrors) {
+    &lt;li&gt;<span class="hljs-annotation">@error</span>.message&lt;/li&gt;
+  }
+  &lt;/ul&gt;
+}
+</code></pre>
+<h3 id="%E4%BD%BF%E7%94%A8%E5%85%83%E7%BB%84%E5%81%9A%E6%98%A0%E5%B0%84">&#x4F7F;&#x7528;&#x5143;&#x7EC4;&#x505A;&#x6620;&#x5C04;</h3>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x8868;&#x5355;&#x57DF;&#x4E2D;&#x4F7F;&#x7528;&#x5143;&#x7EC4;&#xFF0C;&#x800C;&#x975E;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userFormTuple</span> =</span> <span class="hljs-type">Form</span>(
+  tuple(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; text,
+    <span class="hljs-string">&quot;age&quot;</span> -&gt; number
+  ) <span class="hljs-comment">// tuples come with built-in apply/unapply</span>
+)
+</code></pre>
+<p>&#x6709;&#x65F6;&#x5019;&#x4F7F;&#x7528;&#x5143;&#x7EC4;&#x4F1A;&#x6BD4;&#x5B9A;&#x4E49;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x66F4;&#x65B9;&#x4FBF;&#xFF0C;&#x5C24;&#x5176;&#x5728;&#x5143;&#x7EC4;&#x7684;&#x5143;&#x6570;&#xFF08;arity&#xFF09;&#x5F88;&#x5C0F;&#x65F6;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">anyData</span> =</span> <span class="hljs-type">Map</span>(<span class="hljs-string">&quot;name&quot;</span> -&gt; <span class="hljs-string">&quot;bob&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> -&gt; <span class="hljs-string">&quot;25&quot;</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> (</span>name, age) = userFormTuple.bind(anyData).get
+</code></pre>
+<h3 id="%E4%BD%BF%E7%94%A8-single-%E5%81%9A%E6%98%A0%E5%B0%84">&#x4F7F;&#x7528; single &#x505A;&#x6620;&#x5C04;</h3>
+<p>&#x5143;&#x7EC4;&#x53EA;&#x6709;&#x5728;&#x6709;&#x591A;&#x4E2A;&#x503C;&#x7684;&#x65F6;&#x5019;&#x624D;&#x6709;&#x7528;&#x3002;&#x5982;&#x679C;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x8868;&#x5355;&#x57DF;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; <code>Forms.single</code> &#x6765;&#x6620;&#x5C04;&#x5355;&#x4E00;&#x503C;&#xFF0C;&#x907F;&#x514D;&#x4E86;&#x4F7F;&#x7528;&#x6837;&#x672C;&#x7C7B;&#xFF08;case class&#xFF09;&#x6216;&#x662F;&#x5143;&#x7EC4;&#x7684;&#x989D;&#x5916;&#x5F00;&#x9500;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">singleForm</span> =</span> <span class="hljs-type">Form</span>(
+  single(
+    <span class="hljs-string">&quot;email&quot;</span> -&gt; email
+  )
+)
+</code></pre>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">email</span> =</span> singleForm.bind(<span class="hljs-type">Map</span>(<span class="hljs-string">&quot;email&quot;</span>, <span class="hljs-string">&quot;bob@example.com&quot;</span>)).get
+</code></pre>
+<h3 id="%E5%A1%AB%E5%80%BC">&#x586B;&#x503C;</h3>
+<p>&#x6709;&#x65F6;&#x5019;&#xFF0C;&#x4F60;&#x60F3;&#x8981;&#x5728;&#x8868;&#x5355;&#x4E2D;&#x9884;&#x7F6E;&#x4E00;&#x4E9B;&#x503C;&#xFF0C;&#x901A;&#x5E38;&#x7528;&#x4E8E;&#x7F16;&#x8F91;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">filledForm</span> =</span> userForm.fill(<span class="hljs-type">UserData</span>(<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">18</span>))
+</code></pre>
+<p>&#x5F53;&#x914D;&#x5408;&#x89C6;&#x56FE; helper &#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x8BE5;&#x5143;&#x7D20;&#x4F1A;&#x586B;&#x4E0A;&#x9884;&#x7F6E;&#x7684;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-annotation">@helper</span>.inputText(filledForm(<span class="hljs-string">&quot;name&quot;</span>)) @* will render value=<span class="hljs-string">&quot;Bob&quot;</span> *@
+</code></pre>
+<p>&#x586B;&#x503C;&#x5728; helper &#x9700;&#x8981;&#x4E00;&#x5217;&#x503C;&#x6216;&#x662F;&#x952E;&#x503C;&#x5BF9;&#x65F6;&#x5C24;&#x5176;&#x6709;&#x7528;&#xFF0C;&#x6BD4;&#x5982; <code>select</code> &#x548C; <code>inputRadioGroup</code> helper &#x3002;&#x4F7F;&#x7528; <code>options</code> &#x53EF;&#x4EE5;&#x4E3A; helper &#x586B;&#x5165;&#x5217;&#x8868;&#xFF0C;&#x952E;&#x503C;&#x5BF9;&#x548C;&#x5BFE;&#x503C;&#xFF08;pair&#xFF09;&#x3002;</p>
+<h3 id="%E5%B5%8C%E5%A5%97%E5%80%BC">&#x5D4C;&#x5957;&#x503C;</h3>
+<p>&#x8868;&#x5355;&#x6620;&#x5C04;&#x540C;&#x6837;&#x53EF;&#x4EE5;&#x5728;&#x5DF2;&#x6709;&#x7684;&#x6620;&#x5C04;&#x4E2D;&#x4F7F;&#x7528; <code>Forms.mapping</code> &#x6765;&#x5B9E;&#x73B0;&#x5D4C;&#x5957;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AddressData</span>(</span>street: <span class="hljs-type">String</span>, city: <span class="hljs-type">String</span>)
+
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserAddressData</span>(</span>name: <span class="hljs-type">String</span>, address: <span class="hljs-type">AddressData</span>)
+</code></pre>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userFormNested</span>:</span> <span class="hljs-type">Form</span>[<span class="hljs-type">UserAddressData</span>] = <span class="hljs-type">Form</span>(
+  mapping(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; text,
+    <span class="hljs-string">&quot;address&quot;</span> -&gt; mapping(
+      <span class="hljs-string">&quot;street&quot;</span> -&gt; text,
+      <span class="hljs-string">&quot;city&quot;</span> -&gt; text
+    )(<span class="hljs-type">AddressData</span>.apply)(<span class="hljs-type">AddressData</span>.unapply)
+  )(<span class="hljs-type">UserAddressData</span>.apply)(<span class="hljs-type">UserAddressData</span>.unapply)
+)
+</code></pre>
+<p><strong>&#x6CE8;&#x610F;&#xFF1A;</strong>&#x5F53;&#x4F60;&#x4F7F;&#x7528;&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x6765;&#x5D4C;&#x5957;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x4F20;&#x6765;&#x7684;&#x8868;&#x5355;&#x503C;&#x5FC5;&#x987B;&#x547D;&#x540D;&#x4E3A; <code>address.street</code>&#xFF0C;<code>address.city</code>...</p>
+<pre><code class="lang-scala"><span class="hljs-annotation">@helper</span>.inputText(userFormNested(<span class="hljs-string">&quot;name&quot;</span>))
+<span class="hljs-annotation">@helper</span>.inputText(userFormNested(<span class="hljs-string">&quot;address.street&quot;</span>))
+<span class="hljs-annotation">@helper</span>.inputText(userFormNested(<span class="hljs-string">&quot;address.city&quot;</span>))
+</code></pre>
+<h3 id="%E9%87%8D%E5%A4%8D%E5%80%BC">&#x91CD;&#x590D;&#x503C;</h3>
+<p>&#x8868;&#x5355;&#x6620;&#x5C04;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>Forms.list</code> &#x6216; <code>Forms.seq</code> &#x6765;&#x5B9A;&#x4E49;&#x91CD;&#x590D;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserListData</span>(</span>name: <span class="hljs-type">String</span>, emails: <span class="hljs-type">List</span>[<span class="hljs-type">String</span>])
+</code></pre>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userFormRepeated</span> =</span> <span class="hljs-type">Form</span>(
+  mapping(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; text,
+    <span class="hljs-string">&quot;emails&quot;</span> -&gt; list(email)
+  )(<span class="hljs-type">UserListData</span>.apply)(<span class="hljs-type">UserListData</span>.unapply)
+)
+</code></pre>
+<p>&#x5F53;&#x4F60;&#x8FD9;&#x4E48;&#x4F7F;&#x7528;&#x91CD;&#x590D;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x4F20;&#x5165;&#x7684;&#x8868;&#x5355;&#x503C;&#x5FC5;&#x987B;&#x88AB;&#x547D;&#x540D;&#x4E3A; <code>emails[0]</code>&#xFF0C;<code>emails[1]</code>&#xFF0C;<code>emails[2]</code>...</p>
+<p>&#x4F7F;&#x7528; <code>repeat</code> helper &#x6765;&#x751F;&#x6210;&#x548C;&#x8868;&#x5355; <code>emails</code> &#x57DF;&#x76F8;&#x540C;&#x6570;&#x76EE;&#x7684;&#x8F93;&#x5165;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-annotation">@helper</span>.inputText(myForm(<span class="hljs-string">&quot;name&quot;</span>))
+<span class="hljs-annotation">@helper</span>.repeat(myForm(<span class="hljs-string">&quot;emails&quot;</span>), min = <span class="hljs-number">1</span>) { emailField =&gt;
+    <span class="hljs-annotation">@helper</span>.inputText(emailField)
+}
+</code></pre>
+<p><code>min</code> &#x53C2;&#x6570;&#x5141;&#x8BB8;&#x4F60;&#x5728;&#x8868;&#x5355;&#x6570;&#x636E;&#x4E3A;&#x7A7A;&#x65F6;&#xFF0C;&#x5B9A;&#x4E49;&#x6700;&#x5C11;&#x663E;&#x793A;&#x591A;&#x5C11;&#x4E2A;&#x8868;&#x5355;&#x57DF;&#x3002;</p>
+<h3 id="%E5%8F%AF%E9%80%89%E5%80%BC">&#x53EF;&#x9009;&#x503C;</h3>
+<p>&#x4F7F;&#x7528; <code>Forms.optional</code> &#x6765;&#x5B9A;&#x4E49;&#x53EF;&#x9009;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserOptionalData</span>(</span>name: <span class="hljs-type">String</span>, email: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>])
+</code></pre>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userFormOptional</span> =</span> <span class="hljs-type">Form</span>(
+  mapping(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; text,
+    <span class="hljs-string">&quot;email&quot;</span> -&gt; optional(email)
+  )(<span class="hljs-type">UserOptionalData</span>.apply)(<span class="hljs-type">UserOptionalData</span>.unapply)
+)
+</code></pre>
+<p>&#x8FD9;&#x6837;&#x505A;&#x4F1A;&#x8F93;&#x51FA;&#x4E00;&#x4E2A; <code>Option[A]</code>&#xFF0C;&#x5728;&#x6CA1;&#x6709;&#x627E;&#x5230;&#x4EFB;&#x4F55;&#x8868;&#x5355;&#x503C;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x5219;&#x8FD4;&#x56DE; <code>None</code>&#x3002;</p>
+<h3 id="%E9%BB%98%E8%AE%A4%E5%80%BC">&#x9ED8;&#x8BA4;&#x503C;</h3>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>Form#fill</code> &#x6765;&#x521D;&#x59CB;&#x5316;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">filledForm</span> =</span> userForm.fill(<span class="hljs-type">User</span>(<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">18</span>))
+</code></pre>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; <code>Forms.default</code> &#x6765;&#x5B9A;&#x4E49;&#x9ED8;&#x8BA4;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">Form</span>(
+  mapping(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; <span class="hljs-keyword">default</span>(text, <span class="hljs-string">&quot;Bob&quot;</span>)
+    <span class="hljs-string">&quot;age&quot;</span> -&gt; <span class="hljs-keyword">default</span>(number, <span class="hljs-number">18</span>)
+  )(<span class="hljs-type">User</span>.apply)(<span class="hljs-type">User</span>.unapply)
+)
+</code></pre>
+<h3 id="%E5%BF%BD%E7%95%A5%E5%80%BC">&#x5FFD;&#x7565;&#x503C;</h3>
+<p>&#x5982;&#x679C;&#x4F60;&#x60F3;&#x5B9A;&#x4E49;&#x67D0;&#x4E2A;&#x8868;&#x5355;&#x57DF;&#x4E3A;&#x4E00;&#x4E2A;&#x9759;&#x6001;&#x503C;&#xFF0C;&#x4F7F;&#x7528; <code>Forms.ignored</code>&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">userFormStatic</span> =</span> <span class="hljs-type">Form</span>(
+  mapping(
+    <span class="hljs-string">&quot;id&quot;</span> -&gt; ignored(<span class="hljs-number">23</span>L),
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; text,
+    <span class="hljs-string">&quot;email&quot;</span> -&gt; optional(email)
+  )(<span class="hljs-type">UserStaticData</span>.apply)(<span class="hljs-type">UserStaticData</span>.unapply)
+)
+</code></pre>
+<h2 id="%E5%90%88%E5%B9%B6%E8%B5%B7%E6%9D%A5">&#x5408;&#x5E76;&#x8D77;&#x6765;</h2>
+<p>&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x6F14;&#x793A;&#x4E86;&#x4F7F;&#x7528;&#x6A21;&#x578B;&#x548C;&#x63A7;&#x5236;&#x5668;&#x6765;&#x5904;&#x7406;&#x4E00;&#x4E2A;&#x5B9E;&#x4F53;&#xFF1A;</p>
+<p>&#x6837;&#x672C;&#x7C7B; <code>Contact</code>&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Contact</span>(</span>firstname: <span class="hljs-type">String</span>,
+                   lastname: <span class="hljs-type">String</span>,
+                   company: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>],
+                   informations: <span class="hljs-type">Seq</span>[<span class="hljs-type">ContactInformation</span>])
+
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Contact</span> {</span>
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">save</span>(</span>contact: <span class="hljs-type">Contact</span>): <span class="hljs-type">Int</span> = <span class="hljs-number">99</span>
+}
+
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ContactInformation</span>(</span>label: <span class="hljs-type">String</span>,
+                              email: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>],
+                              phones: <span class="hljs-type">List</span>[<span class="hljs-type">String</span>])
+</code></pre>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;<code>Contact</code> &#x91CC;&#x6709;&#x4E00;&#x4E2A;&#x5305;&#x542B;&#x4E86; <code>ContactInformation</code> &#x5143;&#x7D20;&#x7684; <code>Seq</code> &#x548C;&#x4E00;&#x4E2A;&#x542B;&#x6709; <code>String</code> &#x7684; <code>List</code>&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x7EC4;&#x5408;&#x4E86;&#x5D4C;&#x5957;&#x6620;&#x5C04;&#x548C;&#x91CD;&#x590D;&#x6620;&#x5C04;&#xFF08;&#x5206;&#x522B;&#x7531; <code>Forms.seq</code> &#x548C; <code>Forms.list</code> &#x5B9A;&#x4E49;&#xFF09;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">contactForm</span>:</span> <span class="hljs-type">Form</span>[<span class="hljs-type">Contact</span>] = <span class="hljs-type">Form</span>(
+
+  <span class="hljs-comment">// Defines a mapping that will handle Contact values</span>
+  mapping(
+    <span class="hljs-string">&quot;firstname&quot;</span> -&gt; nonEmptyText,
+    <span class="hljs-string">&quot;lastname&quot;</span> -&gt; nonEmptyText,
+    <span class="hljs-string">&quot;company&quot;</span> -&gt; optional(text),
+
+    <span class="hljs-comment">// Defines a repeated mapping</span>
+    <span class="hljs-string">&quot;informations&quot;</span> -&gt; seq(
+      mapping(
+        <span class="hljs-string">&quot;label&quot;</span> -&gt; nonEmptyText,
+        <span class="hljs-string">&quot;email&quot;</span> -&gt; optional(email),
+        <span class="hljs-string">&quot;phones&quot;</span> -&gt; list(
+          text verifying pattern(<span class="hljs-string">&quot;&quot;&quot;[0-9.+]+&quot;&quot;&quot;</span>.r, error=<span class="hljs-string">&quot;A valid phone number is required&quot;</span>)
+        )
+      )(<span class="hljs-type">ContactInformation</span>.apply)(<span class="hljs-type">ContactInformation</span>.unapply)
+    )
+  )(<span class="hljs-type">Contact</span>.apply)(<span class="hljs-type">Contact</span>.unapply)
+)
+</code></pre>
+<p>&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x6F14;&#x793A;&#x4E86;&#x4E00;&#x6761;&#x5DF2;&#x5B58;&#x5728;&#x7684; <code>Contact</code> &#x5982;&#x4F55;&#x901A;&#x8FC7;&#x586B;&#x5165;&#x6570;&#x636E;&#x5728;&#x8868;&#x5355;&#x4E2D;&#x663E;&#x793A;&#x51FA;&#x6765;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">editContact</span> =</span> <span class="hljs-type">Action</span> {
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">existingContact</span> =</span> <span class="hljs-type">Contact</span>(
+    <span class="hljs-string">&quot;Fake&quot;</span>, <span class="hljs-string">&quot;Contact&quot;</span>, <span class="hljs-type">Some</span>(<span class="hljs-string">&quot;Fake company&quot;</span>), informations = <span class="hljs-type">List</span>(
+      <span class="hljs-type">ContactInformation</span>(
+        <span class="hljs-string">&quot;Personal&quot;</span>, <span class="hljs-type">Some</span>(<span class="hljs-string">&quot;fakecontact@gmail.com&quot;</span>), <span class="hljs-type">List</span>(<span class="hljs-string">&quot;01.23.45.67.89&quot;</span>, <span class="hljs-string">&quot;98.76.54.32.10&quot;</span>)
+      ),
+      <span class="hljs-type">ContactInformation</span>(
+        <span class="hljs-string">&quot;Professional&quot;</span>, <span class="hljs-type">Some</span>(<span class="hljs-string">&quot;fakecontact@company.com&quot;</span>), <span class="hljs-type">List</span>(<span class="hljs-string">&quot;01.23.45.67.89&quot;</span>)
+      ),
+      <span class="hljs-type">ContactInformation</span>(
+        <span class="hljs-string">&quot;Previous&quot;</span>, <span class="hljs-type">Some</span>(<span class="hljs-string">&quot;fakecontact@oldcompany.com&quot;</span>), <span class="hljs-type">List</span>()
+      )
+    )
+  )
+  <span class="hljs-type">Ok</span>(views.html.contact.form(contactForm.fill(existingContact)))
+}
+</code></pre>
+<p>&#x6700;&#x540E;&#x662F;&#x8868;&#x5355;&#x63D0;&#x4EA4;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">saveContact</span> =</span> <span class="hljs-type">Action</span> { <span class="hljs-keyword">implicit</span> request =&gt;
+  contactForm.bindFromRequest.fold(
+    formWithErrors =&gt; {
+      <span class="hljs-type">BadRequest</span>(views.html.contact.form(formWithErrors))
+    },
+    contact =&gt; {
+      <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">contactId</span> =</span> <span class="hljs-type">Contact</span>.save(contact)
+      <span class="hljs-type">Redirect</span>(routes.<span class="hljs-type">Application</span>.showContact(contactId)).flashing(<span class="hljs-string">&quot;success&quot;</span> -&gt; <span class="hljs-string">&quot;Contact saved!&quot;</span>)
+    }
+  )
+}
+</code></pre>
 
                     
                     </section>

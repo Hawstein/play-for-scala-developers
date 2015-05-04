@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="10.1" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="10.1" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,293 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="the-play-ws-api">The Play WS API</h1>
+<p>&#x6709;&#x7684;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5728; Play &#x5E94;&#x7528;&#x4E2D;&#x8C03;&#x7528;&#x5176;&#x5B83; HTTP &#x670D;&#x52A1;&#x3002;Play &#x901A;&#x8FC7; WS &#x5E93;&#x6765;&#x652F;&#x6301;&#x8FD9;&#x4E00;&#x9700;&#x6C42;&#xFF0C;&#x5B83;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x6765;&#x505A;&#x5F02;&#x6B65; HTTP &#x8C03;&#x7528;&#x3002;</p>
+<p>&#x4F7F;&#x7528; WS API &#x5305;&#x542B;&#x4E24;&#x4E2A;&#x91CD;&#x8981;&#x90E8;&#x5206;&#xFF1A;&#x6784;&#x9020;&#x8BF7;&#x6C42;&#x4EE5;&#x53CA;&#x5904;&#x7406;&#x54CD;&#x5E94;&#x3002;&#x6211;&#x4EEC;&#x4F1A;&#x5148;&#x8BA8;&#x8BBA;&#x5982;&#x4F55;&#x6784;&#x9020; GET &#x548C; POST &#x7684; HTTP &#x8BF7;&#x6C42;&#xFF0C;&#x7136;&#x540E;&#x5C55;&#x793A;&#x5982;&#x4F55;&#x5904;&#x7406;&#x8FD4;&#x56DE;&#x7684;&#x54CD;&#x5E94;&#x3002;&#x6700;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x8BA8;&#x8BBA;&#x4E00;&#x4E9B;&#x5E38;&#x89C1;&#x7528;&#x4F8B;&#x3002;</p>
+<h2 id="%E6%9E%84%E9%80%A0%E8%AF%B7%E6%B1%82">&#x6784;&#x9020;&#x8BF7;&#x6C42;</h2>
+<p>&#x60F3;&#x8981;&#x4F7F;&#x7528; WS&#xFF0C;&#x9996;&#x5148;&#x9700;&#x8981;&#x5728;&#x4F60;&#x7684; <code>build.sbt</code> &#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x4E0A; <code>ws</code> &#x5E93;&#xFF1A;</p>
+<pre><code class="lang-scala">libraryDependencies ++= <span class="hljs-type">Seq</span>(
+  ws
+)
+</code></pre>
+<p>&#x7136;&#x540E;&#x5BFC;&#x5165;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.<span class="hljs-type">Play</span>.current
+<span class="hljs-keyword">import</span> play.api.libs.ws._
+<span class="hljs-keyword">import</span> play.api.libs.ws.ning.<span class="hljs-type">NingAsyncHttpClientConfigBuilder</span>
+<span class="hljs-keyword">import</span> scala.concurrent.<span class="hljs-type">Future</span>
+</code></pre>
+<p>&#x60F3;&#x8981;&#x6784;&#x5EFA;&#x4E00;&#x4E2A; HTTP &#x8BF7;&#x6C42;&#xFF0C;&#x4F60;&#x9996;&#x5148;&#x8981;&#x7528; <code>WS.url()</code> &#x6765;&#x6307;&#x5B9A; URL&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">holder</span>:</span> <span class="hljs-type">WSRequestHolder</span> = <span class="hljs-type">WS</span>.url(url)
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x7684;&#x8BED;&#x53E5;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x4E3A; <code>WSRequestHolder</code> &#x7684;&#x503C;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5B83;&#x6307;&#x5B9A;&#x5404;&#x79CD; HTTP &#x9009;&#x9879;&#xFF0C;&#x4F8B;&#x5982;&#x8BBE;&#x7F6E;&#x5404;&#x79CD;&#x62A5;&#x5934;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x94FE;&#x5F0F;&#x8C03;&#x7528;&#x6765;&#x6784;&#x9020;&#x590D;&#x6742;&#x7684;&#x8BF7;&#x6C42;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">complexHolder</span>:</span> <span class="hljs-type">WSRequestHolder</span> =
+  holder.withHeaders(<span class="hljs-string">&quot;Accept&quot;</span> -&gt; <span class="hljs-string">&quot;application/json&quot;</span>)
+    .withRequestTimeout(<span class="hljs-number">10000</span>)
+    .withQueryString(<span class="hljs-string">&quot;search&quot;</span> -&gt; <span class="hljs-string">&quot;play&quot;</span>)
+</code></pre>
+<p>&#x6700;&#x540E;&#x4F60;&#x901A;&#x8FC7;&#x8C03;&#x7528;&#x4E00;&#x4E2A;&#x4E0E; HTTP &#x65B9;&#x6CD5;&#x5BF9;&#x5E94;&#x7684;&#x65B9;&#x6CD5;&#x6765;&#x53D1;&#x51FA;&#x8BF7;&#x6C42;&#xFF0C;&#x5B83;&#x4F1A;&#x4F7F;&#x7528;&#x4F60;&#x4E4B;&#x524D;&#x8BBE;&#x7F6E;&#x7684;&#x6240;&#x6709;&#x9009;&#x9879;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResponse</span>:</span> <span class="hljs-type">Future</span>[<span class="hljs-type">WSResponse</span>] = complexHolder.get()
+</code></pre>
+<p>&#x4E0A;&#x8FF0;&#x8C03;&#x7528;&#x8FD4;&#x56DE;&#x7684;&#x7C7B;&#x578B;&#x662F; <code>Future[WSResponse]</code>&#xFF0C;&#x8FD4;&#x56DE;&#x7684;&#x54CD;&#x5E94;&#x5305;&#x542B;&#x4E86;&#x670D;&#x52A1;&#x5668;&#x4F20;&#x6765;&#x7684;&#x6570;&#x636E;&#x3002;</p>
+<h3 id="%E5%B8%A6%E9%AA%8C%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82">&#x5E26;&#x9A8C;&#x8BC1;&#x7684;&#x8BF7;&#x6C42;</h3>
+<p>&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4F7F;&#x7528; HTTP &#x9A8C;&#x8BC1;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8981;&#x6784;&#x9020;&#x8BF7;&#x6C42;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x6307;&#x5B9A;&#x5B83;&#xFF0C;&#x4F7F;&#x7528;&#x7528;&#x6237;&#x540D;&#x3001;&#x5BC6;&#x7801;&#x4EE5;&#x53CA; <a href="https://www.playframework.com/documentation/2.3.x/api/scala/index.html#play.api.libs.ws.WSAuthScheme" target="_blank">AuthScheme</a>&#x3002;AuthScheme &#x7684;&#x6709;&#x6548;&#x6837;&#x4F8B;&#x5BF9;&#x8C61;&#xFF08;case objects&#xFF09;&#x6709;&#xFF1A;<code>BASIC</code>&#xFF0C;<code>DIGEST</code>&#xFF0C;<code>KERBEROS</code>&#xFF0C;<code>NONE</code>&#xFF0C;<code>NTLM</code> &#x548C; <code>SPNEGO</code>&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-type">WS</span>.url(url).withAuth(user, password, <span class="hljs-type">WSAuthScheme</span>.<span class="hljs-type">BASIC</span>).get()
+</code></pre>
+<h3 id="%E5%B8%A6%E9%87%8D%E5%AE%9A%E5%90%91%E7%9A%84%E8%AF%B7%E6%B1%82">&#x5E26;&#x91CD;&#x5B9A;&#x5411;&#x7684;&#x8BF7;&#x6C42;</h3>
+<p>&#x5982;&#x679C;&#x4E00;&#x4E2A; HTTP &#x8BF7;&#x6C42;&#x7684;&#x7ED3;&#x679C;&#x662F; 302 &#x6216; 301 &#x91CD;&#x5B9A;&#x5411;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x6267;&#x884C;&#x91CD;&#x5B9A;&#x5411;&#x800C;&#x65E0;&#x9700;&#x53E6;&#x4E00;&#x6B21;&#x7684;&#x8C03;&#x7528;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-type">WS</span>.url(url).withFollowRedirects(<span class="hljs-literal">true</span>).get()
+</code></pre>
+<h3 id="%E5%B8%A6%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0%E7%9A%84%E8%AF%B7%E6%B1%82">&#x5E26;&#x67E5;&#x8BE2;&#x53C2;&#x6570;&#x7684;&#x8BF7;&#x6C42;</h3>
+<p>&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x88AB;&#x6307;&#x5B9A;&#x4E3A;&#x4E00;&#x7CFB;&#x5217;&#x7684; K/V &#x5143;&#x7EC4;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-type">WS</span>.url(url).withQueryString(<span class="hljs-string">&quot;paramKey&quot;</span> -&gt; <span class="hljs-string">&quot;paramValue&quot;</span>).get()
+</code></pre>
+<h3 id="%E5%B8%A6%E9%A2%9D%E5%A4%96%E6%8A%A5%E5%A4%B4%E7%9A%84%E8%AF%B7%E6%B1%82">&#x5E26;&#x989D;&#x5916;&#x62A5;&#x5934;&#x7684;&#x8BF7;&#x6C42;</h3>
+<p>&#x62A5;&#x5934;&#x4E5F;&#x53EF;&#x4EE5;&#x88AB;&#x6307;&#x5B9A;&#x4E3A;&#x4E00;&#x7CFB;&#x5217;&#x7684; K/V &#x5143;&#x7EC4;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-type">WS</span>.url(url).withHeaders(<span class="hljs-string">&quot;headerKey&quot;</span> -&gt; <span class="hljs-string">&quot;headerValue&quot;</span>).get()
+</code></pre>
+<p>&#x5982;&#x679C;&#x4F60;&#x60F3;&#x4EE5;&#x7279;&#x6B8A;&#x683C;&#x5F0F;&#x53D1;&#x9001;&#x7EAF;&#x6587;&#x672C;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x663E;&#x5F0F;&#x5730;&#x5B9A;&#x4E49;&#x5185;&#x5BB9;&#x7C7B;&#x578B;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">WS</span>.url(url).withHeaders(<span class="hljs-string">&quot;Content-Type&quot;</span> -&gt; <span class="hljs-string">&quot;application/xml&quot;</span>).post(xmlString)
+</code></pre>
+<h3 id="%E5%B8%A6%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA%E7%9A%84%E8%AF%B7%E6%B1%82">&#x5E26;&#x865A;&#x62DF;&#x4E3B;&#x673A;&#x7684;&#x8BF7;&#x6C42;</h3>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x6765;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x865A;&#x62DF;&#x4E3B;&#x673A;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">WS</span>.url(url).withVirtualHost(<span class="hljs-string">&quot;192.168.1.1&quot;</span>).get()
+</code></pre>
+<h3 id="%E5%B8%A6%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%E7%9A%84%E8%AF%B7%E6%B1%82">&#x5E26;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x7684;&#x8BF7;&#x6C42;</h3>
+<p>&#x5982;&#x679C;&#x4F60;&#x60F3;&#x6307;&#x5B9A;&#x8BF7;&#x6C42;&#x7684;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>withRequestTimeout</code> &#x6765;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x5355;&#x4F4D;&#x4E3A;&#x6BEB;&#x79D2;&#x7684;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">WS</span>.url(url).withRequestTimeout(<span class="hljs-number">5000</span>).get()
+</code></pre>
+<h3 id="%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%95%B0%E6%8D%AE">&#x63D0;&#x4EA4;&#x8868;&#x5355;&#x6570;&#x636E;</h3>
+<p>&#x60F3;&#x8981; post &#x4E00;&#x4E2A; url-form-encoded &#x7684;&#x6570;&#x636E;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x7ED9; <code>post</code> &#x65B9;&#x6CD5;&#x4F20;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x4E3A; <code>Map[String, Seq[String]]</code> &#x7684;&#x503C;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-type">WS</span>.url(url).post(<span class="hljs-type">Map</span>(<span class="hljs-string">&quot;key&quot;</span> -&gt; <span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;value&quot;</span>)))
+</code></pre>
+<h3 id="%E6%8F%90%E4%BA%A4-json-%E6%95%B0%E6%8D%AE">&#x63D0;&#x4EA4; JSON &#x6570;&#x636E;</h3>
+<p>post Json &#x6570;&#x636E;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x4F7F;&#x7528; JSON &#x5E93;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.json._
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">data</span> =</span> <span class="hljs-type">Json</span>.obj(
+  <span class="hljs-string">&quot;key1&quot;</span> -&gt; <span class="hljs-string">&quot;value1&quot;</span>,
+  <span class="hljs-string">&quot;key2&quot;</span> -&gt; <span class="hljs-string">&quot;value2&quot;</span>
+)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResponse</span>:</span> <span class="hljs-type">Future</span>[<span class="hljs-type">WSResponse</span>] = <span class="hljs-type">WS</span>.url(url).post(data)
+</code></pre>
+<h3 id="%E6%8F%90%E4%BA%A4-xml-%E6%95%B0%E6%8D%AE">&#x63D0;&#x4EA4; XML &#x6570;&#x636E;</h3>
+<p>post XML &#x6570;&#x636E;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x4F7F;&#x7528; XML &#x5B57;&#x9762;&#x91CF;&#x3002;XML &#x5B57;&#x9762;&#x91CF;&#x7528;&#x8D77;&#x6765;&#x5F88;&#x65B9;&#x4FBF;&#xFF0C;&#x4F46;&#x901F;&#x5EA6;&#x4E0D;&#x5FEB;&#x3002;&#x8FFD;&#x6C42;&#x6548;&#x7387;&#x7684;&#x8BDD;&#xFF0C;&#x8BF7;&#x8003;&#x8651;&#x4F7F;&#x7528; XML &#x89C6;&#x56FE;&#x6A21;&#x677F;&#x6216; JAXB &#x5E93;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">data</span> =</span> &lt;person&gt;
+  &lt;name&gt;<span class="hljs-type">Steve</span>&lt;/name&gt;
+  &lt;age&gt;<span class="hljs-number">23</span>&lt;/age&gt;
+&lt;/person&gt;
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResponse</span>:</span> <span class="hljs-type">Future</span>[<span class="hljs-type">WSResponse</span>] = <span class="hljs-type">WS</span>.url(url).post(data)
+</code></pre>
+<h2 id="%E5%A4%84%E7%90%86%E5%93%8D%E5%BA%94">&#x5904;&#x7406;&#x54CD;&#x5E94;</h2>
+<p>&#x5904;&#x7406; <a href="https://www.playframework.com/documentation/2.3.x/api/scala/index.html#play.api.libs.ws.Response" target="_blank">Response</a> &#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5728; <a href="http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future" target="_blank">Future</a> &#x5185;&#x505A;&#x6620;&#x5C04;&#x6765;&#x7B80;&#x5355;&#x5B8C;&#x6210;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x7ED9;&#x51FA;&#x7684;&#x4F8B;&#x5B50;&#x90FD;&#x6709;&#x4E00;&#x4E9B;&#x5171;&#x540C;&#x7684;&#x4F9D;&#x8D56;&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x5148;&#x7B80;&#x5355;&#x5730;&#x8BF4;&#x660E;&#x4E00;&#x4E0B;&#x3002;</p>
+<p>&#x4EFB;&#x4F55;&#x65F6;&#x5019; <code>Future</code> &#x4E0A;&#x7684;&#x4E00;&#x4E2A;&#x64CD;&#x4F5C;&#xFF0C;&#x90FD;&#x662F;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x7684;&#x6267;&#x884C;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#xFF0C;&#x8FD9;&#x4E00;&#x70B9;&#x58F0;&#x660E;&#x4E86;&#x56DE;&#x8C03;&#x5E94;&#x8BE5;&#x8FD0;&#x884C;&#x5728;&#x54EA;&#x4E2A;&#x7EBF;&#x7A0B;&#x6C60;&#x3002;&#x901A;&#x5E38;&#xFF0C;Play &#x9ED8;&#x8BA4;&#x7684;&#x6267;&#x884C;&#x4E0A;&#x4E0B;&#x6587;&#x5C31;&#x8DB3;&#x591F;&#x4E86;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">context</span> =</span> play.api.libs.concurrent.<span class="hljs-type">Execution</span>.<span class="hljs-type">Implicits</span>.defaultContext
+</code></pre>
+<p>&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x8FD8;&#x4F7F;&#x7528;&#x4E86;&#x4EE5;&#x4E0B;&#x6837;&#x4F8B;&#x7C7B;&#x6765;&#x8FDB;&#x884C;&#x5E8F;&#x5217;&#x5316;&#x4E0E;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>(</span>name: <span class="hljs-type">String</span>, age: <span class="hljs-type">Int</span>)
+</code></pre>
+<h3 id="%E5%A4%84%E7%90%86-json-%E5%93%8D%E5%BA%94">&#x5904;&#x7406; JSON &#x54CD;&#x5E94;</h3>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8C03;&#x7528; <code>response.json</code> &#x5C06;&#x54CD;&#x5E94;&#x5F53;&#x4F5C; JSON &#x5BF9;&#x8C61;&#x6765;&#x5904;&#x7406;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResult</span>:</span> <span class="hljs-type">Future</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">WS</span>.url(url).get().map {
+  response =&gt;
+    (response.json \ <span class="hljs-string">&quot;person&quot;</span> \ <span class="hljs-string">&quot;name&quot;</span>).as[<span class="hljs-type">String</span>]
+}
+</code></pre>
+<p>Play &#x7684; JSON &#x5E93;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x6709;&#x7528;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x7684; <code>Reads[T]</code> &#x76F4;&#x63A5;&#x6620;&#x5C04;&#x6210;&#x4E00;&#x4E2A;&#x7C7B;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.json._
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">personReads</span> =</span> <span class="hljs-type">Json</span>.reads[<span class="hljs-type">Person</span>]
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResult</span>:</span> <span class="hljs-type">Future</span>[<span class="hljs-type">JsResult</span>[<span class="hljs-type">Person</span>]] = <span class="hljs-type">WS</span>.url(url).get().map {
+  response =&gt; (response.json \ <span class="hljs-string">&quot;person&quot;</span>).validate[<span class="hljs-type">Person</span>]
+}
+</code></pre>
+<h3 id="%E5%A4%84%E7%90%86-xml-%E5%93%8D%E5%BA%94">&#x5904;&#x7406; XML &#x54CD;&#x5E94;</h3>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8C03;&#x7528; <code>response.xml</code> &#x5C06;&#x54CD;&#x5E94;&#x5F53;&#x4F5C; XML &#x5B57;&#x9762;&#x91CF;&#x6765;&#x5904;&#x7406;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResult</span>:</span> <span class="hljs-type">Future</span>[scala.xml.<span class="hljs-type">NodeSeq</span>] = <span class="hljs-type">WS</span>.url(url).get().map {
+  response =&gt;
+    response.xml \ <span class="hljs-string">&quot;message&quot;</span>
+}
+</code></pre>
+<h3 id="%E5%A4%84%E7%90%86%E5%A4%A7%E5%9D%97%E5%93%8D%E5%BA%94">&#x5904;&#x7406;&#x5927;&#x5757;&#x54CD;&#x5E94;</h3>
+<p>&#x8C03;&#x7528; <code>get()</code> &#x6216; <code>post()</code> &#x65B9;&#x6CD5;&#x4F1A;&#x5BFC;&#x81F4;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x5C31;&#x662F;&#x53EA;&#x6709;&#x5F53;&#x54CD;&#x5E94;&#x4F53;&#x5B8C;&#x5168;&#x8F7D;&#x5165;&#x5230;&#x5185;&#x5B58;&#x4E2D;&#xFF0C;&#x54CD;&#x5E94;&#x624D;&#x53EF;&#x7528;&#x3002;&#x5F53;&#x4F60;&#x5728;&#x4E0B;&#x8F7D;&#x51E0;&#x4E2A; G &#x7684;&#x5927;&#x6587;&#x4EF6;&#x65F6;&#xFF0C;&#x8FD9;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x53E6;&#x4EBA;&#x4E0D;&#x723D;&#x7684; GC&#xFF0C;&#x751A;&#x81F3;&#x51FA;&#x73B0;&#x5185;&#x5B58;&#x4E0D;&#x8DB3;&#x7684;&#x9519;&#x8BEF;&#x3002;</p>
+<p><code>WS</code> &#x53EF;&#x4EE5;&#x8BA9;&#x4F60;&#x901A;&#x8FC7; <a href="https://www.playframework.com/documentation/2.3.x/Iteratees" target="_blank">iteratee</a> &#x6765;&#x589E;&#x91CF;&#x5730;&#x4F7F;&#x7528;&#x54CD;&#x5E94;&#x3002;<code>WSRequestHolder</code> &#x7684; <code>stream()</code> &#x548C; <code>getStream()</code> &#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A; <code>Future[(WSResponseHeaders, Enumerator[Array[Byte]])]</code>&#x3002;&#x5176;&#x4E2D;&#xFF0C;&#x679A;&#x4E3E;&#x5668;&#x5305;&#x542B;&#x4E86;&#x54CD;&#x5E94;&#x4F53;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E2A;&#x5E38;&#x89C1;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x4F7F;&#x7528; iteratee &#x8BA1;&#x7B97;&#x54CD;&#x5E94;&#x8FD4;&#x56DE;&#x7684;&#x5B57;&#x8282;&#x6570;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.iteratee._
+
+<span class="hljs-comment">// Make the request</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResponse</span>:</span> <span class="hljs-type">Future</span>[(<span class="hljs-type">WSResponseHeaders</span>, <span class="hljs-type">Enumerator</span>[<span class="hljs-type">Array</span>[<span class="hljs-type">Byte</span>]])] =
+  <span class="hljs-type">WS</span>.url(url).getStream()
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">bytesReturned</span>:</span> <span class="hljs-type">Future</span>[<span class="hljs-type">Long</span>] = futureResponse.flatMap {
+  <span class="hljs-keyword">case</span> (headers, body) =&gt;
+    <span class="hljs-comment">// Count the number of bytes returned</span>
+    body |&gt;&gt;&gt; <span class="hljs-type">Iteratee</span>.fold(<span class="hljs-number">0</span>l) { (total, bytes) =&gt;
+      total + bytes.length
+    }
+}
+</code></pre>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#x4F60;&#x4E0D;&#x4F1A;&#x50CF;&#x4E0A;&#x9762;&#x90A3;&#x6837;&#x53EA;&#x662F;&#x8BA1;&#x7B97;&#x6570;&#x636E;&#x7684;&#x5B57;&#x8282;&#x6570;&#xFF0C;&#x66F4;&#x5E38;&#x89C1;&#x7684;&#x60C5;&#x51B5;&#x662F;&#x628A;&#x54CD;&#x5E94;&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#x5199;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x5730;&#x65B9;&#x53BB;&#xFF0C;&#x6BD4;&#x5982;&#x5199;&#x5165;&#x6587;&#x4EF6;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.iteratee._
+
+<span class="hljs-comment">// Make the request</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResponse</span>:</span> <span class="hljs-type">Future</span>[(<span class="hljs-type">WSResponseHeaders</span>, <span class="hljs-type">Enumerator</span>[<span class="hljs-type">Array</span>[<span class="hljs-type">Byte</span>]])] =
+  <span class="hljs-type">WS</span>.url(url).getStream()
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">downloadedFile</span>:</span> <span class="hljs-type">Future</span>[<span class="hljs-type">File</span>] = futureResponse.flatMap {
+  <span class="hljs-keyword">case</span> (headers, body) =&gt;
+    <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">outputStream</span> =</span> <span class="hljs-keyword">new</span> <span class="hljs-type">FileOutputStream</span>(file)
+
+    <span class="hljs-comment">// The iteratee that writes to the output stream</span>
+    <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">iteratee</span> =</span> <span class="hljs-type">Iteratee</span>.foreach[<span class="hljs-type">Array</span>[<span class="hljs-type">Byte</span>]] { bytes =&gt;
+      outputStream.write(bytes)
+    }
+
+    <span class="hljs-comment">// Feed the body into the iteratee</span>
+    (body |&gt;&gt;&gt; iteratee).andThen {
+      <span class="hljs-keyword">case</span> result =&gt;
+        <span class="hljs-comment">// Close the output stream whether there was an error or not</span>
+        outputStream.close()
+        <span class="hljs-comment">// Get the result or rethrow the error</span>
+        result.get
+    }.map(_ =&gt; file)
+}
+</code></pre>
+<p>&#x53E6;&#x4E00;&#x79CD;&#x60C5;&#x51B5;&#x662F;&#xFF0C;&#x5F53;&#x524D;&#x670D;&#x52A1;&#x5668;&#x628A;&#x62FF;&#x5230;&#x7684;&#x54CD;&#x5E94;&#x4F53;&#x6D41;&#x5F0F;&#x5199;&#x5165;&#x53E6;&#x4E00;&#x4E2A;&#x54CD;&#x5E94;&#x4E2D;&#xFF0C;&#x8FD4;&#x56DE;&#x7ED9;&#x5B83;&#x6240;&#x670D;&#x52A1;&#x7684;&#x5BF9;&#x8C61;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">downloadFile</span> =</span> <span class="hljs-type">Action</span>.async {
+
+  <span class="hljs-comment">// Make the request</span>
+  <span class="hljs-type">WS</span>.url(url).getStream().map {
+    <span class="hljs-keyword">case</span> (response, body) =&gt;
+
+      <span class="hljs-comment">// Check that the response was successful</span>
+      <span class="hljs-keyword">if</span> (response.status == <span class="hljs-number">200</span>) {
+
+        <span class="hljs-comment">// Get the content type</span>
+        <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">contentType</span> =</span> response.headers.get(<span class="hljs-string">&quot;Content-Type&quot;</span>).flatMap(_.headOption)
+          .getOrElse(<span class="hljs-string">&quot;application/octet-stream&quot;</span>)
+
+        <span class="hljs-comment">// If there&apos;s a content length, send that, otherwise return the body chunked</span>
+        response.headers.get(<span class="hljs-string">&quot;Content-Length&quot;</span>) <span class="hljs-keyword">match</span> {
+          <span class="hljs-keyword">case</span> <span class="hljs-type">Some</span>(<span class="hljs-type">Seq</span>(length)) =&gt;
+            <span class="hljs-type">Ok</span>.feed(body).as(contentType).withHeaders(<span class="hljs-string">&quot;Content-Length&quot;</span> -&gt; length)
+          <span class="hljs-keyword">case</span> _ =&gt;
+            <span class="hljs-type">Ok</span>.chunked(body).as(contentType)
+        }
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-type">BadGateway</span>
+      }
+  }
+}
+</code></pre>
+<p><code>POST</code> &#x548C; <code>PUT</code> &#x7684;&#x8C03;&#x7528;&#x9700;&#x8981;&#x624B;&#x52A8;&#x8C03;&#x7528; <code>withMethod</code> &#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResponse</span>:</span> <span class="hljs-type">Future</span>[(<span class="hljs-type">WSResponseHeaders</span>, <span class="hljs-type">Enumerator</span>[<span class="hljs-type">Array</span>[<span class="hljs-type">Byte</span>]])] =
+  <span class="hljs-type">WS</span>.url(url).withMethod(<span class="hljs-string">&quot;PUT&quot;</span>).withBody(<span class="hljs-string">&quot;some body&quot;</span>).stream()
+</code></pre>
+<h2 id="%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%94%A8%E4%BE%8B">&#x5E38;&#x89C1;&#x6A21;&#x5F0F;&#x548C;&#x7528;&#x4F8B;</h2>
+<h3 id="%E9%93%BE%E5%BC%8F-ws-%E8%B0%83%E7%94%A8">&#x94FE;&#x5F0F; WS &#x8C03;&#x7528;</h3>
+<p>&#x4F7F;&#x7528; for &#x89E3;&#x6790;&#x662F;&#x4E00;&#x79CD;&#x94FE;&#x63A5; WS &#x8C03;&#x7528;&#x7684;&#x597D;&#x65B9;&#x5F0F;&#x3002;for &#x89E3;&#x6790;&#x5E94;&#x8BE5;&#x548C; <a href="http://www.scala-lang.org/api/current/index.html#scala.concurrent.Future" target="_blank">Future.recover</a> &#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x7528;&#x4E8E;&#x5904;&#x7406;&#x53EF;&#x80FD;&#x7684;&#x5931;&#x8D25;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">futureResponse</span>:</span> <span class="hljs-type">Future</span>[<span class="hljs-type">WSResponse</span>] = <span class="hljs-keyword">for</span> {
+  responseOne &lt;- <span class="hljs-type">WS</span>.url(urlOne).get()
+  responseTwo &lt;- <span class="hljs-type">WS</span>.url(responseOne.body).get()
+  responseThree &lt;- <span class="hljs-type">WS</span>.url(responseTwo.body).get()
+} <span class="hljs-keyword">yield</span> responseThree
+
+futureResponse.recover {
+  <span class="hljs-keyword">case</span> e: <span class="hljs-type">Exception</span> =&gt;
+    <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">exceptionData</span> =</span> <span class="hljs-type">Map</span>(<span class="hljs-string">&quot;error&quot;</span> -&gt; <span class="hljs-type">Seq</span>(e.getMessage))
+    <span class="hljs-type">WS</span>.url(exceptionUrl).post(exceptionData)
+}
+</code></pre>
+<h3 id="%E5%9C%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8">&#x5728;&#x63A7;&#x5236;&#x5668;&#x4E2D;&#x4F7F;&#x7528;</h3>
+<p>&#x5F53;&#x5728;&#x63A7;&#x5236;&#x5668;&#x4E2D;&#x6784;&#x5EFA;&#x8BF7;&#x6C42;&#x65F6;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5C06;&#x54CD;&#x5E94;&#x6620;&#x5C04;&#x4E3A; <code>Future[Result]</code>&#x3002;&#x8FD9;&#x53EF;&#x4EE5;&#x4E0E; Play &#x7684; <code>Action.async</code> &#x7ED3;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x8BE6;&#x89C1;&#xFF1A;<a href="https://www.playframework.com/documentation/2.3.x/ScalaAsync" target="_blank">Handling Asynchronous Results</a>&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">wsAction</span> =</span> <span class="hljs-type">Action</span>.async {
+  <span class="hljs-type">WS</span>.url(url).get().map { response =&gt;
+    <span class="hljs-type">Ok</span>(response.body)
+  }
+}
+status(wsAction(<span class="hljs-type">FakeRequest</span>())) must_== <span class="hljs-type">OK</span>
+</code></pre>
+<h2 id="%E4%BD%BF%E7%94%A8-wsclient">&#x4F7F;&#x7528; WSClient</h2>
+<p>WSClient &#x662F;&#x5E95;&#x5C42; AsyncHttpClient &#x7684; wrapper&#x3002;&#x6709;&#x65F6;&#x5019;&#x4F60;&#x9700;&#x8981;&#x5B9A;&#x4E49;&#x591A;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x5EFA;&#x8BAE;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x6216;&#x4F7F;&#x7528;&#x6A21;&#x62DF;&#x7684;&#x65B9;&#x5F0F;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x53EF;&#x4EE5;&#x7531; WS &#x5355;&#x4F8B;&#x8C03;&#x7528;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">client</span>:</span> <span class="hljs-type">WSClient</span> = <span class="hljs-type">WS</span>.client
+</code></pre>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4ECE;&#x4EE3;&#x7801;&#x4E2D;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A; WS &#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x901A;&#x8FC7; <code>WS.clientUrl()</code> &#x9690;&#x5F0F;&#x5730;&#x4F7F;&#x7528;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x5F53;&#x4F60;&#x914D;&#x7F6E;&#x4F60;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x65F6;&#xFF0C;&#x4F60;&#x5E94;&#x8BE5;&#x4F7F;&#x7528; <code>NingAsyncHttpClientConfigBuilder</code> &#x6765;&#x505A; TLS &#x914D;&#x7F6E;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">clientConfig</span> =</span> <span class="hljs-keyword">new</span> <span class="hljs-type">DefaultWSClientConfig</span>()
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">secureDefaults</span>:</span>com.ning.http.client.<span class="hljs-type">AsyncHttpClientConfig</span> = <span class="hljs-keyword">new</span> <span class="hljs-type">NingAsyncHttpClientConfigBuilder</span>(clientConfig).build()
+<span class="hljs-comment">// You can directly use the builder for specific options once you have secure TLS defaults...</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">builder</span> =</span> <span class="hljs-keyword">new</span> com.ning.http.client.<span class="hljs-type">AsyncHttpClientConfig</span>.<span class="hljs-type">Builder</span>(secureDefaults)
+builder.setCompressionEnabled(<span class="hljs-literal">true</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">secureDefaultsWithSpecificOptions</span>:</span>com.ning.http.client.<span class="hljs-type">AsyncHttpClientConfig</span> = builder.build()
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">implicitClient</span> =</span> <span class="hljs-keyword">new</span> play.api.libs.ws.ning.<span class="hljs-type">NingWSClient</span>(secureDefaultsWithSpecificOptions)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">response</span> =</span> <span class="hljs-type">WS</span>.clientUrl(url).get()
+</code></pre>
+<blockquote>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x5982;&#x679C;&#x4F60;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A; NingWSClient &#x5BF9;&#x8C61;&#xFF0C;&#x5B83;&#x5E76;&#x4E0D;&#x4F1A;&#x4F7F;&#x7528; WS &#x63D2;&#x4EF6;&#x7CFB;&#x7EDF;&#xFF0C;&#x56E0;&#x6B64;&#x5B83;&#x4E0D;&#x4F1A;&#x5728; <code>Application.onStop</code> &#x91CC;&#x81EA;&#x52A8;&#x5173;&#x95ED;&#x3002;&#x5F53;&#x5904;&#x7406;&#x7ED3;&#x675F;&#x65F6;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x4F7F;&#x7528; <code>client.close()</code> &#x6765;&#x624B;&#x52A8;&#x5173;&#x95ED;&#x5BA2;&#x6237;&#x7AEF;&#x3002;&#x8FD9;&#x4F1A;&#x91CA;&#x653E; AsyncHttpClient &#x4F7F;&#x7528;&#x7684;&#x5E95;&#x5C42; ThreadPoolExecutor&#x3002;&#x5BA2;&#x6237;&#x7AEF;&#x5173;&#x95ED;&#x5931;&#x8D25;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x5185;&#x5B58;&#x4E0D;&#x8DB3;&#x7684;&#x5F02;&#x5E38;&#xFF08;&#x5C24;&#x5176;&#x5728;&#x5F00;&#x53D1;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x9700;&#x8981;&#x7ECF;&#x5E38;&#x6027;&#x91CD;&#x65B0;&#x52A0;&#x8F7D;&#x5E94;&#x7528;&#x7684;&#x65F6;&#x5019;&#xFF09;&#x3002;</p>
+</blockquote>
+<p>&#x4E5F;&#x53EF;&#x4EE5;&#x50CF;&#x4E0B;&#x9762;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">response</span> =</span> client.url(url).get()
+</code></pre>
+<p>&#x6216;&#x4F7F;&#x7528;&#x78C1;&#x94C1;&#x6A21;&#x5F0F;&#xFF08;magnet pattern&#xFF09;&#x6765;&#x81EA;&#x52A8;&#x5339;&#x914D;&#x5408;&#x9002;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">PairMagnet</span> {</span>
+  <span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fromPair</span>(</span>pair: (<span class="hljs-type">WSClient</span>, java.net.<span class="hljs-type">URL</span>)) =
+    <span class="hljs-keyword">new</span> <span class="hljs-type">WSRequestHolderMagnet</span> {
+      <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">apply</span>(</span>): <span class="hljs-type">WSRequestHolder</span> = {
+        <span class="hljs-function"><span class="hljs-keyword">val</span> (</span>client, netUrl) = pair
+        client.url(netUrl.toString)
+      }
+    }
+}
+
+<span class="hljs-keyword">import</span> scala.language.implicitConversions
+<span class="hljs-keyword">import</span> <span class="hljs-type">PairMagnet</span>._
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">client</span> =</span> <span class="hljs-type">WS</span>.client
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">exampleURL</span> =</span> <span class="hljs-keyword">new</span> java.net.<span class="hljs-type">URL</span>(url)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">response</span> =</span> <span class="hljs-type">WS</span>.url(client -&gt; exampleURL).get()
+</code></pre>
+<p>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x914D;&#x7F6E;&#x4E00;&#x822C;&#x5199;&#x5728; <code>application.conf</code> &#x91CC;&#xFF0C;&#x4F46;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5728;&#x4EE3;&#x7801;&#x4E2D;&#x8BBE;&#x7F6E;&#x914D;&#x7F6E;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> com.typesafe.config.<span class="hljs-type">ConfigFactory</span>
+<span class="hljs-keyword">import</span> play.api.libs.ws._
+<span class="hljs-keyword">import</span> play.api.libs.ws.ning._
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">configuration</span> =</span> play.api.<span class="hljs-type">Configuration</span>(<span class="hljs-type">ConfigFactory</span>.parseString(
+  <span class="hljs-string">&quot;&quot;&quot;
+    |ws.followRedirects = true
+  &quot;&quot;&quot;</span>.stripMargin))
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">classLoader</span> =</span> app.classloader <span class="hljs-comment">// Play.current.classloader or other</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">parser</span> =</span> <span class="hljs-keyword">new</span> <span class="hljs-type">DefaultWSConfigParser</span>(configuration, classLoader)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">builder</span> =</span> <span class="hljs-keyword">new</span> <span class="hljs-type">NingAsyncHttpClientConfigBuilder</span>(parser.parse())
+</code></pre>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x5E95;&#x5C42;&#x7684; <a href="http://sonatype.github.io/async-http-client/apidocs/reference/com/ning/http/client/AsyncHttpClient.html" target="_blank">async client</a>&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> com.ning.http.client.<span class="hljs-type">AsyncHttpClient</span>
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">client</span>:</span> <span class="hljs-type">AsyncHttpClient</span> = <span class="hljs-type">WS</span>.client.underlying
+</code></pre>
+<p>&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x5E95;&#x5C42;&#x7C7B;&#x662F;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;&#xFF0C;&#x56E0;&#x4E3A; WS &#x5728;&#x6709;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x6709;&#x4E00;&#x4E9B;&#x9650;&#x5236;&#xFF1A;</p>
+<ul>
+<li><code>WS</code> &#x5E76;&#x4E0D;&#x76F4;&#x63A5;&#x652F;&#x6301; multi-part-form &#x6570;&#x636E;&#x7684;&#x4E0A;&#x4F20;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5E95;&#x5C42;&#x5BA2;&#x6237;&#x7AEF;&#x7684; <a href="http://asynchttpclient.github.io/async-http-client/apidocs/com/ning/http/client/RequestBuilder.html" target="_blank">RequestBuilder.addBodyPart</a> &#x6765;&#x505A;&#x3002;</li>
+<li><code>WS</code> &#x4E0D;&#x652F;&#x6301;&#x6D41;&#x5F0F;&#x6570;&#x636E;&#x4E0A;&#x4F20;&#x3002;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4F60;&#x5E94;&#x8BE5;&#x4F7F;&#x7528; AsyncHttpClient &#x63D0;&#x4F9B;&#x7684; <code>FeedableBodyGenerator</code>&#x3002;</li>
+</ul>
+<h2 id="%E9%85%8D%E7%BD%AE-ws">&#x914D;&#x7F6E; WS</h2>
+<p>&#x5728; <code>application.conf</code> &#x6587;&#x4EF6;&#x4E2D;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x5C5E;&#x6027;&#x6765;&#x914D;&#x7F6E; WS &#x5BA2;&#x6237;&#x7AEF;&#xFF1A;</p>
+<ul>
+<li><code>ws.followRedirects</code>&#xFF1A;&#x914D;&#x7F6E;&#x5BA2;&#x6237;&#x7AEF;&#x505A; 301&#x3001;302 &#x91CD;&#x5B9A;&#x5411;&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A; true&#xFF09;&#x3002;</li>
+<li><code>ws.useProxyProperties</code>&#xFF1A;&#x4F7F;&#x7528;&#x7CFB;&#x7EDF;&#x7684; http &#x4EE3;&#x7406;&#x8BBE;&#x7F6E;&#xFF08;http.proxyHost&#xFF0C;http.proxyPort&#xFF09;&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A; true&#xFF09;&#x3002;</li>
+<li><code>ws.useragent</code>&#xFF1A;&#x914D;&#x7F6E; User-Agent &#x62A5;&#x5934;&#x3002;</li>
+<li><code>ws.compressionEnabled</code>&#xFF1A;&#x5982;&#x679C;&#x4F7F;&#x7528; gzip/deflater &#x7F16;&#x7801;&#xFF0C;&#x5219;&#x5C06;&#x5B83;&#x8BBE;&#x7F6E;&#x4E3A; true&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A; false&#xFF09;&#x3002;</li>
+</ul>
+<h3 id="%E7%94%A8-ssl-%E9%85%8D%E7%BD%AE-ws">&#x7528; SSL &#x914D;&#x7F6E; WS</h3>
+<p>&#x60F3;&#x8981;&#x914D;&#x7F6E; WS &#x5728; SSL/TLS&#xFF08;HTTPS&#xFF09;&#x4E4B;&#x4E0A;&#x4F7F;&#x7528; HTTP&#xFF0C;&#x8BF7;&#x79FB;&#x6B65;&#xFF1A;<a href="https://www.playframework.com/documentation/2.3.x/WsSSL" target="_blank">&#x914D;&#x7F6E; WS SSL</a></p>
+<h3 id="%E9%85%8D%E7%BD%AE%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4">&#x914D;&#x7F6E;&#x8D85;&#x65F6;&#x65F6;&#x95F4;</h3>
+<p>WS &#x4E2D;&#x6709; 3 &#x79CD;&#x4E0D;&#x540C;&#x7684;&#x8D85;&#x65F6;&#x3002;&#x8D85;&#x65F6;&#x4F1A;&#x5BFC;&#x81F4; WS &#x8BF7;&#x6C42;&#x4E2D;&#x65AD;&#x3002;</p>
+<ul>
+<li><code>ws.timeout.connection</code>&#xFF1A;&#x8FDE;&#x63A5;&#x8FDC;&#x7A0B;&#x4E3B;&#x673A;&#x7684;&#x6700;&#x5927;&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#xFF08;&#x9ED8;&#x8BA4;&#x662F; 120 &#x79D2;&#xFF09;&#x3002;</li>
+<li><code>ws.timeout.idle</code>&#xFF1A;&#x8BF7;&#x6C42;&#x4FDD;&#x6301;&#x7A7A;&#x95F2;&#x72B6;&#x6001;&#x7684;&#x6700;&#x5927;&#x65F6;&#x95F4;&#xFF08;&#x6B64;&#x65F6;&#x8FDE;&#x63A5;&#x5DF2;&#x7ECF;&#x5EFA;&#x7ACB;&#xFF0C;&#x5728;&#x7B49;&#x5F85;&#x66F4;&#x591A;&#x7684;&#x6570;&#x636E;&#xFF09;&#xFF08;&#x9ED8;&#x8BA4;&#x662F; 120 &#x79D2;&#xFF09;&#x3002;</li>
+<li><code>ws.timeout.request</code>&#xFF1A;&#x4F60;&#x80FD;&#x5141;&#x8BB8;&#x7684;&#x8BF7;&#x6C42;&#x4F7F;&#x7528;&#x7684;&#x603B;&#x65F6;&#x95F4;&#xFF08;&#x5F53;&#x8FBE;&#x5230;&#x8FD9;&#x4E2A;&#x65F6;&#x95F4;&#x65F6;&#xFF0C;&#x8BF7;&#x6C42;&#x5C31;&#x4F1A;&#x4E2D;&#x65AD;&#xFF0C;&#x54EA;&#x6015;&#x8FDC;&#x7A0B;&#x4E3B;&#x673A;&#x4ECD;&#x7136;&#x5728;&#x53D1;&#x9001;&#x6570;&#x636E;&#xFF09;&#xFF08;&#x9ED8;&#x8BA4;&#x662F; none&#xFF0C;&#x4E3A;&#x7684;&#x662F;&#x53EF;&#x4EE5;&#x5904;&#x7406;&#x6D41;&#x5F0F;&#x6570;&#x636E;&#xFF09;&#x3002;</li>
+</ul>
+<p>&#x5728;&#x4E00;&#x4E2A;&#x5177;&#x4F53;&#x7684;&#x8FDE;&#x63A5;&#x4E2D;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x7528; <code>withRequestTimeout()</code> &#x6765;&#x8986;&#x76D6;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x8BF7;&#x6C42;&#x8D85;&#x65F6;&#x8BBE;&#x7F6E;&#xFF08;&#x8BE6;&#x89C1;&#x300C;&#x6784;&#x9020;&#x8BF7;&#x6C42;&#x300D;&#x4E00;&#x8282;&#xFF09;&#x3002;</p>
 
                     
                     </section>

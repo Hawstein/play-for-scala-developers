@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="14.3" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="14.3" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,7 +1087,195 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="testing-with-specs2">Testing with specs2</h1>
+<h1 id="%E4%BD%BF%E7%94%A8specs2%E6%9D%A5%E6%B5%8B%E8%AF%95%E4%BD%A0%E7%9A%84%E5%BA%94%E7%94%A8">&#x4F7F;&#x7528;specs2&#x6765;&#x6D4B;&#x8BD5;&#x4F60;&#x7684;&#x5E94;&#x7528;</h1>
+<p>&#x4E3A;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x7F16;&#x5199;&#x6D4B;&#x8BD5;&#x662F;&#x4E00;&#x4E2A;&#x53C2;&#x4E0E;&#x7684;&#x8FC7;&#x7A0B;&#x3002;Play&#x4E3A;&#x4F60;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x9ED8;&#x8BA4;&#x7684;&#x6D4B;&#x8BD5;&#x6846;&#x67B6;&#xFF0C;&#x5E76;&#x63D0;&#x4F9B;&#x4E86;&#x5E2E;&#x52A9;&#x5668;&#x548C;&#x5E94;&#x7528;&#x5B58;&#x6839;&#x4F7F;&#x6D4B;&#x8BD5;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x7B80;&#x5355;&#x3002;</p>
+<h2 id="%E6%A6%82%E8%BF%B0">&#x6982;&#x8FF0;</h2>
+<p>&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#x7684;&#x4F4D;&#x7F6E;&#x5728;&quot;test&quot;&#x6587;&#x4EF6;&#x5939;&#x4E2D;&#x3002;&#x8FD9;&#x91CC;&#x6709;&#x4E24;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#x5176;&#x53EF;&#x4EE5;&#x88AB;&#x7528;&#x4F5C;&#x4E3A;&#x6A21;&#x677F;&#x3002;</p>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x4ECE;Play&#x63A7;&#x5236;&#x53F0;&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;&#x3002;</p>
+<pre><code>&#x70B9;&#x51FB;test&#x6765;&#x6309;&#x94AE;&#x8FD0;&#x884C;&#x6240;&#x6709;&#x6D4B;&#x8BD5;&#x3002;
+&#x70B9;&#x51FB;&#x6807;&#x6CE8;&#x6D4B;&#x8BD5;&#x7C7B;&#x540D;&#x5B57;&#x6BD4;&#x5982;&#xFF1A;test-only my.namespace.MySpec&#x7684;test-only&#x6309;&#x94AE;&#x6765;&#x8FD0;&#x884C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x7C7B;&#x3002;
+&#x70B9;&#x51FB;test-quick&#x6309;&#x94AE;&#x6765;&#x8FD0;&#x884C;&#x4F1A;&#x5931;&#x8D25;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x3002;
+&#x8FD0;&#x884C;&#x4E00;&#x4E2A;&#x524D;&#x9762;&#x5E26;&#x6CE2;&#x6D6A;&#x7EBF;&#x7684;&#x7684;&#x547D;&#x4EE4;&#x6BD4;&#x5982;~test-quick&#x6765;&#x6301;&#x7EED;&#x7684;&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;&#x3002;
+&#x70B9;&#x51FB;test:console&#x6309;&#x94AE;&#x6765;&#x5728;&#x63A7;&#x5236;&#x53F0;&#x4E2D;&#x8BBF;&#x95EE;&#x6D4B;&#x8BD5;&#x5E2E;&#x52A9;&#x5668;&#x5982;FakeApplication.
+</code></pre><p>Testing in Play is based on SBT, and a full description is available in the testing SBT chapter.
+&#x5728;Play&#x4E2D;&#x6D4B;&#x8BD5;&#x662F;&#x57FA;&#x4E8E;SBT&#xFF0C;&#x5B8C;&#x6574;&#x7684;&#x63CF;&#x8FF0;&#x8BF7;&#x53C2;&#x8003;<a href="http://www.scala-sbt.org/0.13.0/docs/Detailed-Topics/Testing" target="_blank">testing SBT</a>&#x7AE0;&#x8282;&#x3002;</p>
+<h2 id="%E4%BD%BF%E7%94%A8specs2">&#x4F7F;&#x7528;specs2</h2>
+<p>&#x5728;specs2&#x4E2D;&#xFF0C;&#x6D4B;&#x8BD5;&#x7EC4;&#x7EC7;&#x6210;&#x89C4;&#x683C;&#xFF0C;&#x5176;&#x5305;&#x542B;&#x4E86;&#x8FD0;&#x884C;&#x57FA;&#x4E8E;&#x4E0D;&#x540C;&#x4EE3;&#x7801;&#x8DEF;&#x5F84;&#x8FD0;&#x884C;&#x7684;&#x6D4B;&#x8BD5;&#x7684;&#x7CFB;&#x7EDF;&#x3002;</p>
+<p>&#x89C4;&#x683C;&#x6269;&#x5C55;&#x4E86;Specification&#x7279;&#x6027;big&#x4F7F;&#x7528;should/in&#x683C;&#x5F0F;&#xFF1A;</p>
+<pre><code>import org.specs2.mutable._
 
+class HelloWorldSpec extends Specification {
+
+      &quot;The &apos;Hello world&apos; string&quot; should {
+        &quot;contain 11 characters&quot; in {
+          &quot;Hello world&quot; must have size(11)
+    }
+    &quot;start with &apos;Hello&apos;&quot; in {
+          &quot;Hello world&quot; must startWith(&quot;Hello&quot;)
+    }
+    &quot;end with &apos;world&apos;&quot; in {
+          &quot;Hello world&quot; must endWith(&quot;world&quot;)
+        }
+      }
+}
+</code></pre><p>&#x89C4;&#x683C;&#x53EF;&#x4EE5;&#x5728;IntelliJ IDEA(&#x4F7F;&#x7528;Scala&#x63D2;&#x4EF6;)&#x6216;Eclipse&#xFF08;&#x4F7F;&#x7528;Scala IDE&#xFF09;&#x4E2D;&#x8FD0;&#x884C;&#xFF0C;&#x66F4;&#x591A;&#x7EC6;&#x8282;&#x8BF7;&#x53C2;&#x8003;<a href="https://www.playframework.com/documentation/2.3.x/IDE" target="_blank">IDE&#x7F51;&#x9875;</a>&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF1A; &#x57FA;&#x4E8E;<a href="https://scala-ide-portfolio.assembla.com/spaces/scala-ide/support/tickets/1001843-specs2-tests-with-junit-runner-are-not-recognized-if-there-is-package-directory-mismatch#/activity/ticket:" target="_blank">&#x5C55;&#x793A;&#x7F16;&#x8BD1;&#x5668;</a>&#x7684;&#x4E00;&#x4E2A;&#x6F0F;&#x6D1E;&#xFF0C;&#x5728;Eclipse&#x4E2D;&#x6D4B;&#x8BD5;&#x5FC5;&#x987B;&#x88AB;&#x5B9A;&#x4E49;&#x4E3A;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x683C;&#x5F0F;&#xFF1A;</p>
+<pre><code>&#x5305;&#x540D;&#x5B57;&#x5FC5;&#x987B;&#x4E0E;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&#x540D;&#x5B8C;&#x5168;&#x4E00;&#x81F4;&#x3002;
+&#x89C4;&#x683C;&#x5FC5;&#x987B;&#x4E0E;@RunWith(classOf[JUnitRunner])&#x4E00;&#x8D77;&#x58F0;&#x660E;&#x3002;
+</code></pre><p>&#x8FD9;&#x91CC;&#x4E00;&#x4E2A;Eclipse&#x4E2D;&#x53EF;&#x7528;&#x7684;&#x89C4;&#x683C;&#xFF1A;
+    package models // &#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x5FC5;&#x987B;&#x5B58;&#x5728;&#x4E8E;&#x4E00;&#x4E2A;&#x540D;&#x5B57;&#x4E3A;&#x201C;models&#x201D;&#x7684;&#x76EE;&#x5F55;&#x4E2D;</p>
+<pre><code>import org.specs2.mutable._
+import org.specs2.runner._
+import org.junit.runner._
+
+@RunWith(classOf[JUnitRunner])
+class ApplicationSpec extends Specification {
+      ...
+}
+</code></pre><h2 id="%E9%80%82%E9%85%8D%E5%99%A8">&#x9002;&#x914D;&#x5668;</h2>
+<p>&#x5F53;&#x4F60;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x793A;&#x4F8B;&#xFF0C;&#x4F60;&#x5FC5;&#x987B;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x793A;&#x4F8B;&#x7ED3;&#x679C;&#xFF0C;&#x901A;&#x5E38;&#xFF0C;&#x4F60;&#x5C06;&#x770B;&#x5230;&#x4E00;&#x4E2A;&#x5305;&#x542B;mast&#x5B57;&#x6BB5;&#x7684;&#x58F0;&#x660E;&#xFF1A;
+    &quot;Hello world&quot; must endWith(&quot;world&quot;)
+&#x8FD9;&#x4E2A;&#x8DDF;&#x968F;must&#x5173;&#x952E;&#x8BCD;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x88AB;&#x79F0;&#x4E3A;matchers.&#x9002;&#x914D;&#x5668;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x793A;&#x4F8B;&#x7ED3;&#x679C;&#xFF0C;&#x901A;&#x5E38;&#x6210;&#x529F;&#x6216;&#x5931;&#x8D25;&#x3002;&#x8FD9;&#x4E2A;&#x793A;&#x4F8B;&#x4E0D;&#x4F1A;&#x88AB;&#x7F16;&#x8BD1;&#x5982;&#x679C;&#x5176;&#x4E0D;&#x4F1A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x7ED3;&#x679C;&#x3002;
+&#x6700;&#x6709;&#x7528;&#x7684;&#x9002;&#x914D;&#x5668;&#x662F;<a href="http://etorreborre.github.io/specs2/guide/org.specs2.guide.Matchers.html#Match+results" target="_blank">&#x5339;&#x914D;&#x7ED3;&#x679C;</a>&#x3002;&#x7528;&#x6765;&#x68C0;&#x6D4B;&#x76F8;&#x7B49;&#x6027;&#xFF0C;&#x5224;&#x65AD;&#x90E8;&#x5206;&#x548C;&#x4E24;&#x8005;&#x5176;&#x4E00;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x751A;&#x81F3;&#x68C0;&#x6D4B;&#x662F;&#x5426;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x3002;
+&#x8FD9;&#x91CC;&#x540C;&#x65F6;&#x6709;&#x90E8;&#x5206;&#x6027;&#x9002;&#x914D;&#x5668;&#x5176;&#x5141;&#x8BB8;&#x5728;&#x6D4B;&#x8BD5;&#x4E2D;&#x4F7F;&#x7528;XML&#x548C;JSON&#x5339;&#x914D;&#x3002;</p>
+<h2 id="mockito">Mockito</h2>
+<p>Mocks &#x7528;&#x6765;&#x9694;&#x79BB;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x548C;&#x5916;&#x90E8;&#x4F9D;&#x8D56;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7684;&#x7C7B;&#x4EE5;&#x6765;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x7684;DataService&#x7C7B;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x9488;&#x5BF9;&#x4F60;&#x7684;&#x7C7B;&#x8F93;&#x5165;&#x9002;&#x5F53;&#x7684;&#x6570;&#x636E;&#x800C;&#x4E0D;&#x9700;&#x8981;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A;DataService&#x5BF9;&#x8C61;&#x3002;</p>
+<p>Mockito&#x7EE7;&#x627F;&#x4E0E;specs2&#x4E2D;&#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x7684;mocking&#x5E93;&#x3002;
+&#x4E3A;&#x4E86;&#x4F7F;&#x7528;Mockito,&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x7684;&#x5F15;&#x7528;&#x5230;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF1A;</p>
+<pre><code>import org.specs2.mock._
+
+&#x4F60;&#x53EF;&#x4EE5;&#x6A21;&#x62DF;&#x51FA;&#x5F15;&#x7528;&#x7C7B;&#x5982;&#xFF1A;
+trait DataService {
+      def findData: Data
+}
+
+case class Data(retrievalDate: java.util.Date)
+
+import org.specs2.mock._
+import org.specs2.mutable._
+
+import java.util._
+
+class ExampleMockitoSpec extends Specification with Mockito {
+
+      &quot;MyService#isDailyData&quot; should {
+        &quot;return true if the data is from today&quot; in {
+              val mockDataService = mock[DataService]
+              mockDataService.findData returns Data(retrievalDate = new java.util.Date())
+
+              val myService = new MyService() {
+            override def dataService = mockDataService
+          }
+
+          val actual = myService.isDailyData
+          actual must equalTo(true)
+        }
+      }
+
+}
+</code></pre><p>Mocking &#x5728;&#x6D4B;&#x8BD5;&#x7C7B;&#x7684;&#x516C;&#x5171;&#x65B9;&#x6CD5;&#x65F6;&#x5C24;&#x5176;&#x6709;&#x6548;&#x3002;Mocking&#x5BF9;&#x8C61;&#x548C;&#x79C1;&#x6709;&#x65B9;&#x6CD5;&#x4E5F;&#x53EF;&#x4EE5;&#x4F46;&#x662F;&#x5F02;&#x5E38;&#x56F0;&#x96BE;&#x3002;</p>
+<h2 id="%E4%BD%BF%E7%94%A8%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9D%97">&#x4F7F;&#x7528;&#x6D4B;&#x8BD5;&#x6A21;&#x5757;</h2>
+<p>Play&#x4E0D;&#x9700;&#x8981;&#x6A21;&#x5757;&#x6765;&#x4F7F;&#x7528;&#x7279;&#x5B9A;&#x7684;&#x6570;&#x636E;&#x5E93;&#x6570;&#x636E;&#x8BBF;&#x95EE;&#x5C42;&#x3002;&#x8BBE;&#x7F6E;&#x5982;&#x679C;&#x5E94;&#x7528;&#x4F7F;&#x7528;Anorm&#x6216;Slick,&#x8FD9;&#x4E2A;&#x6A21;&#x5757;&#x5185;&#x90E8;&#x5C06;&#x62E5;&#x6709;&#x4E00;&#x4E2A;&#x9488;&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x8BBF;&#x95EE;&#x7684;&#x5F15;&#x7528;&#x3002;</p>
+<pre><code>import anorm._
+import anorm.SqlParser._
+
+case class User(id: String, name: String, email: String) {
+       def roles = DB.withConnection { implicit connection =&gt;
+          ...
+    }
+}
+</code></pre><p>&#x9488;&#x5BF9;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#xFF0C;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x6280;&#x5DE7;&#x7684;&#x6A21;&#x62DF;&#x51FA;roles&#x65B9;&#x6CD5;&#x3002;
+&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#x4FDD;&#x6301;&#x6A21;&#x5757;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x5206;&#x79BB;&#x51FA;&#x6765;&#x5E76;&#x4E14;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x903B;&#x8F91;&#x5316;&#xFF0C;&#x5E76;&#x62BD;&#x8C61;&#x51FA;&#x57FA;&#x4E8E;&#x4E00;&#x4E2A;&#x5E93;&#x5C42;&#x7684;&#x6570;&#x636E;&#x5E93;&#x8BBF;&#x95EE;&#x3002;</p>
+<pre><code>case class Role(name:String)
+
+case class User(id: String, name: String, email:String)
+
+trait UserRepository {
+      def roles(user:User) : Set[Role]
+}
+
+class AnormUserRepository extends UserRepository {
+      import anorm._
+      import anorm.SqlParser._
+
+      def roles(user:User) : Set[Role] = {
+        ...
+      }
+}
+</code></pre><p>&#x7136;&#x540E;&#x901A;&#x8FC7;&#x670D;&#x52A1;&#x8BBF;&#x95EE;&#x5B83;&#x4EEC;&#xFF1A;</p>
+<pre><code>class UserService(userRepository : UserRepository) {
+
+      def isAdmin(user:User) : Boolean = {
+        userRepository.roles(user).contains(Role(&quot;ADMIN&quot;))
+      }
+}
+</code></pre><p>&#x4EE5;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;isAdmin&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6A21;&#x62DF;&#x51FA;UserRepository&#x5F15;&#x7528;&#x5E76;&#x4F20;&#x9012;&#x5176;&#x5230;&#x670D;&#x52A1;&#x4E2D;&#x6765;&#x88AB;&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<pre><code>object UserServiceSpec extends Specification with Mockito {
+
+      &quot;UserService#isAdmin&quot; should {
+        &quot;be true when the role is admin&quot; in {
+              val userRepository = mock[UserRepository]
+              userRepository.roles(any[User]) returns Set(Role(&quot;ADMIN&quot;))
+
+              val userService = new UserService(userRepository)
+              val actual = userService.isAdmin(User(&quot;11&quot;, &quot;Steve&quot;, &quot;user@example.org&quot;))
+              actual must beTrue
+            }
+          }
+    }
+</code></pre><h2 id="%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%8E%A7%E5%88%B6%E5%99%A8">&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x63A7;&#x5236;&#x5668;</h2>
+<p>Controllers are defined as objects in Play, and so can be trickier to unit test. In Play this can be alleviated by dependency injection using getControllerInstance. Another way to finesse unit testing with a controller is to use a trait with an explicitly typed self reference to the controller:
+&#x5728;Play&#x4E2D;&#x63A7;&#x5236;&#x5668;&#x88AB;&#x5B9A;&#x4E49;&#x4E3A;&#x5BF9;&#x8C61;&#xFF0C;&#x56E0;&#x6B64;&#x66F4;&#x96BE;&#x88AB;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x4F7F;&#x7528;&#x3002;&#x5728;Play&#x4E2D;&#x8FD9;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x4F7F;&#x7528;getControllerInstance&#x6765;&#x7F13;&#x89E3;&#x3002;&#x53E6;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x53BB;&#x5904;&#x7406;&#x6709;&#x4E00;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x7684;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x662F;&#x9488;&#x5BF9;&#x8FD9;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x6709;<a href="http://www.naildrivin5.com/scalatour/wiki_pages/ExplcitlyTypedSelfReferences" target="_blank">&#x663E;&#x793A;&#x7684;&#x7C7B;&#x578B;&#x81EA;&#x6211;&#x5F15;&#x7528;</a>&#x7684;&#x7279;&#x6027;&#x3002;</p>
+<pre><code>trait ExampleController {
+      this: Controller =&gt;
+
+      def index() = Action {
+        Ok(&quot;ok&quot;)
+      }
+}
+
+object ExampleController extends Controller with ExampleController
+
+&#x7136;&#x540E;&#x6D4B;&#x8BD5;&#x8BE5;&#x7279;&#x6027;&#xFF1A;
+import play.api.mvc._
+import play.api.test._
+import scala.concurrent.Future
+
+object ExampleControllerSpec extends PlaySpecification with Results {
+
+      class TestController() extends Controller with ExampleController
+
+      &quot;Example Page#index&quot; should {
+        &quot;should be valid&quot; in {
+              val controller = new TestController()
+              val result: Future[Result] = controller.index().apply(FakeRequest())
+              val bodyText: String = contentAsString(result)
+              bodyText must be equalTo &quot;ok&quot;
+        }
+      }
+}
+</code></pre><h2 id="%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95essentialaction">&#x5355;&#x5143;&#x6D4B;&#x8BD5;EssentialAction</h2>
+<p>&#x6D4B;&#x8BD5;Action&#x6216;Filter&#x9700;&#x8981;&#x6D4B;&#x8BD5;&#x4E00;&#x4E2A;EssentialAction(<a href="https://www.playframework.com/documentation/2.3.x/HttpApi" target="_blank">&#x66F4;&#x8BE6;&#x7EC6;&#x7684;&#x4FE1;&#x606F;&#x8BF7;&#x53C2;&#x89C1;&#x4EC0;&#x4E48;&#x662F;EssentialAction</a>)</p>
+<p>&#x5BF9;&#x6B64;&#xFF0C;&#x8FD9;&#x4E2A;&#x6D4B;&#x8BD5;Helpers.call&#x53EF;&#x662F;&#x8FD9;&#x6837;&#x4F7F;&#x7528;&#xFF1A;</p>
+<pre><code>object ExampleEssentialActionSpec extends PlaySpecification {
+
+      &quot;An essential action&quot; should {
+        &quot;can parse a JSON body&quot; in {
+              val action: EssentialAction = Action { request =&gt;
+            val value = (request.body.asJson.get \ &quot;field&quot;).as[String]
+            Ok(value)
+              }
+
+      val request = FakeRequest(POST, &quot;/&quot;).withJsonBody(Json.parse(&quot;&quot;&quot;{ &quot;field&quot;: &quot;value&quot; }&quot;&quot;&quot;))
+
+      val result = call(action, request)
+
+      status(result) mustEqual OK
+      contentAsString(result) mustEqual &quot;value&quot;
+        }
+      }
+}
+</code></pre>
                     
                     </section>
                 

@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="3.2" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="3.2" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,149 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="common-use-cases">Common use cases</h1>
+<p>&#x6A21;&#x677F;&#x4F5C;&#x4E3A;&#x7B80;&#x5355;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x53EF;&#x4EE5;&#x7531;&#x4EFB;&#x610F;&#x7684;&#x65B9;&#x5F0F;&#x6784;&#x6210;&#x3002;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E9B;&#x5E38;&#x89C1;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;&#x3002;</p>
+<h2 id="%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80%EF%BC%88layout%EF%BC%89">&#x9875;&#x9762;&#x5E03;&#x5C40;&#xFF08;layout&#xFF09;</h2>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x58F0;&#x660E;&#x4E00;&#x4E2A; <code>views/main.scala.html</code> &#x6A21;&#x677F;&#x6765;&#x4F5C;&#x4E3A;&#x4E3B;&#x8981;&#x7684;&#x5E03;&#x5C40;&#x6A21;&#x677F;&#xFF1A;</p>
+<pre><code class="lang-html">@(title: String)(content: Html)
+<span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>@title<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">section</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;content&quot;</span>&gt;</span>@content<span class="hljs-tag">&lt;/<span class="hljs-title">section</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre>
+<p>&#x6B63;&#x5982;&#x4F60;&#x6240;&#x89C1;&#xFF0C;&#x8FD9;&#x4E2A;&#x6A21;&#x677F;&#x63A5;&#x6536;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#xFF1A;&#x6807;&#x9898;&#xFF08;title&#xFF09;&#x548C; HTML &#x5185;&#x5BB9;&#x5757;&#xFF08;content&#xFF09;&#x3002;&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x5728;&#x53E6;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#xFF08;<code>views/Application/index.scala.html</code>&#xFF09;&#x4E2D;&#x4F7F;&#x7528;&#x5B83;&#xFF1A;</p>
+<pre><code class="lang-html">@main(title = &quot;Home&quot;) {
+
+  <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Home page<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+
+}
+</code></pre>
+<blockquote>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x6709;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x547D;&#x540D;&#x53C2;&#x6570;&#xFF0C;&#x5982; <code>@main(title = &quot;Home&quot;)</code>&#xFF0C;&#x800C;&#x4E0D;&#x662F; <code>@main(&quot;Home&quot;)</code>&#x3002;&#x8FD9;&#x4E2A;&#x89C6;&#x5177;&#x4F53;&#x60C5;&#x51B5;&#xFF0C;&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x8868;&#x8FF0;&#x6E05;&#x695A;&#x7684;&#x5373;&#x53EF;&#x3002;</p>
+</blockquote>
+<p>&#x6709;&#x65F6;&#x5019;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x53E6;&#x4E00;&#x4E2A;&#x9875;&#x9762;&#x5185;&#x5BB9;&#x6765;&#x4F5C;&#x4E3A;&#x4FA7;&#x8FB9;&#x680F;&#xFF08;sidebar&#xFF09;&#xFF0C;&#x8FD9;&#x65F6;&#x4F60;&#x53EF;&#x4EE5;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x989D;&#x5916;&#x7684;&#x53C2;&#x6570;&#x6765;&#x505A;&#x5230;&#xFF1A;</p>
+<pre><code class="lang-html">@(title: String)(sidebar: Html)(content: Html)
+<span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>@title<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">section</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;sidebar&quot;</span>&gt;</span>@sidebar<span class="hljs-tag">&lt;/<span class="hljs-title">section</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">section</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;content&quot;</span>&gt;</span>@content<span class="hljs-tag">&lt;/<span class="hljs-title">section</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre>
+<p>&#x5728;&#x6211;&#x4EEC;&#x7684; <code>index</code> &#x6A21;&#x677F;&#x4E2D;&#x4F7F;&#x7528;&#xFF1A;</p>
+<pre><code class="lang-html">@main(&quot;Home&quot;) {
+  <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Sidebar<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+
+} {
+  <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Home page<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+
+}
+</code></pre>
+<p>&#x6216;&#x8005;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5355;&#x72EC;&#x58F0;&#x660E;&#x4FA7;&#x8FB9;&#x680F;&#xFF1A;</p>
+<pre><code class="lang-html">@sidebar = {
+  <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Sidebar<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+}
+
+@main(&quot;Home&quot;)(sidebar) {
+  <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Home page<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+
+}
+</code></pre>
+<h2 id="%E6%A0%87%E7%AD%BE%EF%BC%88%E5%AE%83%E4%BB%AC%E4%B9%9F%E6%98%AF%E5%87%BD%E6%95%B0%EF%BC%89">&#x6807;&#x7B7E;&#xFF08;&#x5B83;&#x4EEC;&#x4E5F;&#x662F;&#x51FD;&#x6570;&#xFF09;</h2>
+<p>&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x6765;&#x5199;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x6807;&#x7B7E; <code>views/tags/notice.scala.html</code>&#xFF0C;&#x7528;&#x4E8E;&#x663E;&#x793A; HTML &#x901A;&#x77E5;&#xFF1A;</p>
+<pre><code class="lang-html">@(level: String = &quot;error&quot;)(body: (String) =&gt; Html)
+
+@level match {
+
+  case &quot;success&quot; =&gt; {
+    <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;success&quot;</span>&gt;</span>
+      @body(&quot;green&quot;)
+    <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+  }
+
+  case &quot;warning&quot; =&gt; {
+    <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;warning&quot;</span>&gt;</span>
+      @body(&quot;orange&quot;)
+    <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+  }
+
+  case &quot;error&quot; =&gt; {
+    <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;error&quot;</span>&gt;</span>
+      @body(&quot;red&quot;)
+    <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+  }
+
+}
+</code></pre>
+<p>&#x73B0;&#x5728;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x53E6;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#x4E2D;&#x4F7F;&#x7528;&#x5B83;&#xFF1A;</p>
+<pre><code class="lang-html">@import tags._
+
+@notice(&quot;error&quot;) { color =&gt;
+  Oops, something is <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">&quot;color:@color&quot;</span>&gt;</span>wrong<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+}
+</code></pre>
+<h2 id="includes">Includes</h2>
+<p>&#x540C;&#x6837;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x7279;&#x522B;&#x4E4B;&#x5904;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8C03;&#x7528;&#x4EFB;&#x610F;&#x5176;&#x5B83;&#x6A21;&#x677F;&#xFF08;&#x4E8B;&#x5B9E;&#x4E0A;&#x53EF;&#x4EE5;&#x8C03;&#x7528;&#x4EFB;&#x610F;&#x5730;&#x65B9;&#x7684;&#x4EFB;&#x610F;&#x51FD;&#x6570;&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">&quot;side&quot;</span>&gt;</span>
+  @common.sideBar()
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+</code></pre>
+<h2 id="morescripts-%E4%B8%8E-morestyles-%E7%AD%89%E4%BB%B7%E7%89%A9">moreScripts &#x4E0E; moreStyles &#x7B49;&#x4EF7;&#x7269;</h2>
+<p>&#x60F3;&#x5728; Scala &#x6A21;&#x677F;&#x4E2D;&#x5B9A;&#x4E49; moreScripts &#x548C; moreStyles &#x7B49;&#x4EF7;&#x7269;&#xFF08;&#x50CF;&#x5728; Play! 1.x &#x90A3;&#x6837;&#xFF09;&#xFF0C;&#x4F60;&#x53EA;&#x9700;&#x50CF;&#x4E0B;&#x9762;&#x90A3;&#x6837;&#x5728;&#x4E3B;&#x6A21;&#x677F;&#x4E2D;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;&#xFF1A;</p>
+<pre><code class="lang-html">@(title: String, scripts: Html = Html(&quot;&quot;))(content: Html)
+
+<span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>@title<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">&quot;stylesheet&quot;</span> <span class="hljs-attribute">media</span>=<span class="hljs-value">&quot;screen&quot;</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">&quot;@routes.Assets.at(&quot;</span><span class="hljs-value">stylesheets</span>/<span class="hljs-attribute">main.css</span>&quot;)&quot;&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">&quot;shortcut icon&quot;</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;image/png&quot;</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">&quot;@routes.Assets.at(&quot;</span><span class="hljs-value">images</span>/<span class="hljs-attribute">favicon.png</span>&quot;)&quot;&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">&quot;@routes.Assets.at(&quot;</span><span class="hljs-value">javascripts</span>/<span class="hljs-attribute">jquery-1.7.1.min.js</span>&quot;)&quot; <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+        @scripts
+    <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;navbar navbar-fixed-top&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;navbar-inner&quot;</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;container&quot;</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;brand&quot;</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">&quot;#&quot;</span>&gt;</span>Movies<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;container&quot;</span>&gt;</span>
+            @content
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre>
+<p>&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x9700;&#x8981;&#x989D;&#x5916;&#x811A;&#x672C;&#x7684;&#x6269;&#x5C55;&#x6A21;&#x677F;&#xFF0C;&#x7528;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-html">@scripts = {
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript">alert(<span class="hljs-string">&quot;hello !&quot;</span>);</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+}
+
+@main(&quot;Title&quot;,scripts){
+
+   Html content here ...
+
+}
+</code></pre>
+<p>&#x5982;&#x679C;&#x6269;&#x5C55;&#x6A21;&#x677F;&#x4E0D;&#x9700;&#x8981;&#x989D;&#x5916;&#x811A;&#x672C;&#xFF0C;&#x5219;&#xFF1A;</p>
+<pre><code class="lang-html">@main(&quot;Title&quot;){
+
+   Html content here ...
+
+}
+</code></pre>
 
                     
                     </section>

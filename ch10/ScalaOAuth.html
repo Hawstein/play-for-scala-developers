@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="10.3" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="10.3" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,90 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="accessing-resources-protected-by-oauth">Accessing resources protected by OAuth</h1>
+<p><a href="http://oauth.net/" target="_blank">OAuth</a> &#x662F;&#x53D1;&#x5E03;&#x53D7;&#x4FDD;&#x62A4;&#x6570;&#x636E;&#x5E76;&#x4E0E;&#x4E4B;&#x4EA4;&#x4E92;&#x7684;&#x4E00;&#x79CD;&#x7B80;&#x5355;&#x65B9;&#x5F0F;&#x3002;&#x5B83;&#x662F;&#x6388;&#x4E0E;&#x4F60;&#x8BBF;&#x95EE;&#x6743;&#x7684;&#x66F4;&#x5B89;&#x5168;&#x53EF;&#x9760;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5B83;&#x8BBF;&#x95EE;&#x4F60;&#x5728; Twitter &#x4E0A;&#x7684;&#x7528;&#x6237;&#x6570;&#x636E;&#x3002;</p>
+<p>OAuth &#x6709; 2 &#x4E2A;&#x975E;&#x5E38;&#x4E0D;&#x540C;&#x7684;&#x7248;&#x672C;&#xFF1A;<a href="http://tools.ietf.org/html/rfc5849" target="_blank">OAuth 1.0</a> &#x548C; <a href="http://oauth.net/2/" target="_blank">OAuth 2.0</a>&#x3002;&#x7248;&#x672C; 2 &#x975E;&#x5E38;&#x7B80;&#x5355;&#xFF0C;&#x65E0;&#x9700;&#x5E93;&#x548C; helper &#x7684;&#x652F;&#x6301;&#x3002;&#x56E0;&#x6B64; Play &#x53EA;&#x63D0;&#x4F9B; OAuth 1.0 &#x7684;&#x652F;&#x6301;&#x3002;</p>
+<h2 id="%E7%94%A8%E6%B3%95">&#x7528;&#x6CD5;</h2>
+<p>&#x60F3;&#x7528; OAuth&#xFF0C;&#x9996;&#x5148;&#x9700;&#x8981;&#x628A; <code>ws</code> &#x5E93;&#x6DFB;&#x52A0;&#x5230;&#x4F60;&#x7684; <code>build.sbt</code> &#x6587;&#x4EF6;&#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-scala">libraryDependencies ++= <span class="hljs-type">Seq</span>(
+  ws
+)
+</code></pre>
+<h2 id="%E9%9C%80%E8%A6%81%E7%9A%84%E4%BF%A1%E6%81%AF">&#x9700;&#x8981;&#x7684;&#x4FE1;&#x606F;</h2>
+<p>OAuth &#x9700;&#x8981;&#x4F60;&#x5C06;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x6CE8;&#x518C;&#x5230;&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x65B9;&#x3002;&#x786E;&#x4FDD;&#x68C0;&#x67E5;&#x4E86;&#x4F60;&#x63D0;&#x4F9B;&#x7684;&#x56DE;&#x8C03; URL&#xFF0C;&#x56E0;&#x4E3A;&#x5982;&#x679C;&#x56DE;&#x8C03; URL &#x4E0D;&#x5339;&#x914D;&#x7684;&#x8BDD;&#xFF0C;&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x65B9;&#x53EF;&#x80FD;&#x4F1A;&#x62D2;&#x7EDD;&#x4F60;&#x7684;&#x8C03;&#x7528;&#x3002;&#x672C;&#x5730;&#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5728; <code>/etc/hosts</code> &#x4E2D;&#x4E3A;&#x672C;&#x673A;&#x4F2A;&#x9020;&#x4E00;&#x4E2A;&#x57DF;&#x540D;&#x3002;</p>
+<p>&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x65B9;&#x4F1A;&#x7ED9;&#x4F60;&#xFF1A;</p>
+<ul>
+<li>&#x5E94;&#x7528; ID</li>
+<li>&#x5BC6;&#x94A5;</li>
+<li>&#x8BF7;&#x6C42;&#x4EE4;&#x724C; URL&#xFF08;Request Token URL&#xFF09;</li>
+<li>&#x8BBF;&#x95EE;&#x4EE4;&#x724C; URL&#xFF08;Access Token URL&#xFF09;</li>
+<li>&#x6388;&#x6743; URL</li>
+</ul>
+<h2 id="%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B">&#x9A8C;&#x8BC1;&#x6D41;&#x7A0B;</h2>
+<p>&#x5927;&#x90E8;&#x5206;&#x4E8B;&#x60C5;&#x90FD;&#x7531; Play &#x7684;&#x5E93;&#x5B8C;&#x6210;&#x3002;</p>
+<ul>
+<li>&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x83B7;&#x53D6;&#x8BF7;&#x6C42;&#x4EE4;&#x724C;&#xFF08;&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x95F4;&#x7684;&#x8C03;&#x7528;&#xFF09;&#x3002;</li>
+<li>&#x5C06;&#x7528;&#x6237;&#x91CD;&#x5B9A;&#x5411;&#x5230;&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x65B9;&#xFF0C;&#x5728;&#x90A3;&#x91CC;&#x4ED6;&#x4F1A;&#x6388;&#x6743;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4ED6;&#x7684;&#x6570;&#x636E;&#x3002;</li>
+<li>&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x65B9;&#x4F1A;&#x5C06;&#x7528;&#x6237;&#x91CD;&#x5B9A;&#x5411;&#x56DE;&#x53BB;&#xFF0C;&#x5E76;&#x7ED9;&#x4F60;&#x4E00;&#x4E2A;&#x68C0;&#x9A8C;&#x5668;&#x3002;</li>
+<li>&#x6709;&#x4E86;&#x68C0;&#x9A8C;&#x5668;&#xFF0C;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x5C06;&#x8BF7;&#x6C42;&#x4EE4;&#x724C;&#x6362;&#x6210;&#x8BBF;&#x95EE;&#x4EE4;&#x724C;&#xFF08;&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x95F4;&#x7684;&#x8C03;&#x7528;&#xFF09;&#x3002;</li>
+</ul>
+<p>&#x73B0;&#x5728;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x8BBF;&#x95EE;&#x4EE4;&#x724C;&#x53BB;&#x8BBF;&#x95EE;&#x53D7;&#x4FDD;&#x62A4;&#x7684;&#x7528;&#x6237;&#x6570;&#x636E;&#x4E86;&#x3002;</p>
+<h2 id="%E4%BE%8B%E5%AD%90">&#x4F8B;&#x5B50;</h2>
+<pre><code class="lang-scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Twitter</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Controller</span> {</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">KEY</span> =</span> <span class="hljs-type">ConsumerKey</span>(<span class="hljs-string">&quot;xxxxx&quot;</span>, <span class="hljs-string">&quot;xxxxx&quot;</span>)
+
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">TWITTER</span> =</span> <span class="hljs-type">OAuth</span>(<span class="hljs-type">ServiceInfo</span>(
+    <span class="hljs-string">&quot;https://api.twitter.com/oauth/request_token&quot;</span>,
+    <span class="hljs-string">&quot;https://api.twitter.com/oauth/access_token&quot;</span>,
+    <span class="hljs-string">&quot;https://api.twitter.com/oauth/authorize&quot;</span>, <span class="hljs-type">KEY</span>),
+    <span class="hljs-literal">true</span>)
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">authenticate</span> =</span> <span class="hljs-type">Action</span> { request =&gt;
+    request.getQueryString(<span class="hljs-string">&quot;oauth_verifier&quot;</span>).map { verifier =&gt;
+      <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">tokenPair</span> =</span> sessionTokenPair(request).get
+      <span class="hljs-comment">// We got the verifier; now get the access token, store it and back to index</span>
+      <span class="hljs-type">TWITTER</span>.retrieveAccessToken(tokenPair, verifier) <span class="hljs-keyword">match</span> {
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Right</span>(t) =&gt; {
+          <span class="hljs-comment">// We received the authorized tokens in the OAuth object - store it before we proceed</span>
+          <span class="hljs-type">Redirect</span>(routes.<span class="hljs-type">Application</span>.index).withSession(<span class="hljs-string">&quot;token&quot;</span> -&gt; t.token, <span class="hljs-string">&quot;secret&quot;</span> -&gt; t.secret)
+        }
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Left</span>(e) =&gt; <span class="hljs-keyword">throw</span> e
+      }
+    }.getOrElse(
+      <span class="hljs-type">TWITTER</span>.retrieveRequestToken(<span class="hljs-string">&quot;http://localhost:9000/auth&quot;</span>) <span class="hljs-keyword">match</span> {
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Right</span>(t) =&gt; {
+          <span class="hljs-comment">// We received the unauthorized tokens in the OAuth object - store it before we proceed</span>
+          <span class="hljs-type">Redirect</span>(<span class="hljs-type">TWITTER</span>.redirectUrl(t.token)).withSession(<span class="hljs-string">&quot;token&quot;</span> -&gt; t.token, <span class="hljs-string">&quot;secret&quot;</span> -&gt; t.secret)
+        }
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Left</span>(e) =&gt; <span class="hljs-keyword">throw</span> e
+      })
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sessionTokenPair</span>(</span><span class="hljs-keyword">implicit</span> request: <span class="hljs-type">RequestHeader</span>): <span class="hljs-type">Option</span>[<span class="hljs-type">RequestToken</span>] = {
+    <span class="hljs-keyword">for</span> {
+      token &lt;- request.session.get(<span class="hljs-string">&quot;token&quot;</span>)
+      secret &lt;- request.session.get(<span class="hljs-string">&quot;secret&quot;</span>)
+    } <span class="hljs-keyword">yield</span> {
+      <span class="hljs-type">RequestToken</span>(token, secret)
+    }
+  }
+}
+</code></pre>
+<pre><code class="lang-scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Application</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Controller</span> {</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">timeline</span> =</span> <span class="hljs-type">Action</span>.async { <span class="hljs-keyword">implicit</span> request =&gt;
+    <span class="hljs-type">Twitter</span>.sessionTokenPair <span class="hljs-keyword">match</span> {
+      <span class="hljs-keyword">case</span> <span class="hljs-type">Some</span>(credentials) =&gt; {
+        <span class="hljs-type">WS</span>.url(<span class="hljs-string">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span>)
+          .sign(<span class="hljs-type">OAuthCalculator</span>(<span class="hljs-type">Twitter</span>.<span class="hljs-type">KEY</span>, credentials))
+          .get
+          .map(result =&gt; <span class="hljs-type">Ok</span>(result.json))
+      }
+      <span class="hljs-keyword">case</span> _ =&gt; <span class="hljs-type">Future</span>.successful(<span class="hljs-type">Redirect</span>(routes.<span class="hljs-type">Twitter</span>.authenticate))
+    }
+  }
+}
+</code></pre>
 
                     
                     </section>

@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="1.1" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="1.1" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,99 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="actions-controllers-and-results">Actions, Controllers and Results</h1>
+<h2 id="%E4%BB%80%E4%B9%88%E6%98%AF-action">&#x4EC0;&#x4E48;&#x662F; Action</h2>
+<p>Play &#x5E94;&#x7528;&#x6536;&#x5230;&#x7684;&#x5927;&#x90E8;&#x5206;&#x8BF7;&#x6C42;&#x90FD;&#x662F;&#x7531; <code>Action</code> &#x6765;&#x5904;&#x7406;&#x7684;&#x3002;</p>
+<p><code>play.api.mvc.Action</code> &#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x6536;&#x5230;&#x7684;&#x8BF7;&#x6C42;&#x7136;&#x540E;&#x4EA7;&#x751F;&#x7ED3;&#x679C;&#x53D1;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x51FD;&#x6570;&#xFF08;<code>play.api.mvc.Request =&gt; play.api.mvc.Result</code>&#xFF09;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">echo</span> =</span> <span class="hljs-type">Action</span> { request =&gt;
+  <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Got request [&quot;</span> + request + <span class="hljs-string">&quot;]&quot;</span>)
+}
+</code></pre>
+<p>Action &#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x4E3A; <code>play.api.mvc.Result</code> &#x7684;&#x503C;&#xFF0C;&#x4EE3;&#x8868;&#x4E86;&#x53D1;&#x9001;&#x5230; web &#x5BA2;&#x6237;&#x7AEF;&#x7684; HTTP &#x54CD;&#x5E94;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;<code>OK</code> &#x6784;&#x9020;&#x4E86;&#x4E00;&#x4E2A; <strong>200 OK</strong> &#x7684;&#x54CD;&#x5E94;&#xFF0C;&#x5E76;&#x5305;&#x542B;&#x4E00;&#x4E2A; <strong>text/plain</strong> &#x7C7B;&#x578B;&#x7684;&#x54CD;&#x5E94;&#x4F53;&#x3002;</p>
+<h2 id="%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA-action">&#x6784;&#x5EFA;&#x4E00;&#x4E2A; Action</h2>
+<p><code>play.api.mvc.Action</code> &#x7684;&#x4F34;&#x751F;&#x5BF9;&#x8C61;&#xFF08;companion object&#xFF09;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E9B; helper &#x65B9;&#x6CD5;&#x6765;&#x6784;&#x9020;&#x4E00;&#x4E2A; Action &#x503C;&#x3002;</p>
+<p>&#x6700;&#x7B80;&#x5355;&#x7684;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x662F; <code>OK</code>&#xFF0C;&#x5B83;&#x63A5;&#x53D7;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#x5757;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x5E76;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A; <code>Result</code>&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">Action</span> {
+  <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Hello world&quot;</span>)
+}
+</code></pre>
+<p>&#x8FD9;&#x662F;&#x6784;&#x9020; Action &#x7684;&#x6700;&#x7B80;&#x5355;&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x5728;&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x5E76;&#x6CA1;&#x6709;&#x4F7F;&#x7528;&#x4F20;&#x8FDB;&#x6765;&#x7684;&#x8BF7;&#x6C42;&#x3002;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x5E38;&#x5E38;&#x8981;&#x4F7F;&#x7528;&#x8C03;&#x7528;&#x8FD9;&#x4E2A; Action &#x7684; HTTP &#x8BF7;&#x6C42;&#x3002;</p>
+<p>&#x56E0;&#x6B64;&#xFF0C;&#x8FD8;&#x6709;&#x53E6;&#x4E00;&#x79CD; Action &#x6784;&#x9020;&#x5668;&#xFF0C;&#x5B83;&#x63A5;&#x53D7;&#x4E00;&#x4E2A;&#x51FD;&#x6570; <code>Request =&gt; Result</code> &#x4F5C;&#x4E3A;&#x8F93;&#x5165;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">Action</span> { request =&gt;
+  <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Got request [&quot;</span> + request + <span class="hljs-string">&quot;]&quot;</span>)
+}
+</code></pre>
+<p>&#x5B9E;&#x8DF5;&#x4E2D;&#x5E38;&#x5E38;&#x628A; <code>request</code> &#x6807;&#x8BB0;&#x4E3A; <code>implicit</code>&#xFF0C;&#x8FD9;&#x6837;&#x4E00;&#x6765;&#xFF0C;&#x5176;&#x5B83;&#x9700;&#x8981;&#x5B83;&#x7684; API &#x80FD;&#x591F;&#x9690;&#x5F0F;&#x4F7F;&#x7528;&#x5B83;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">Action</span> { <span class="hljs-keyword">implicit</span> request =&gt;
+  <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Got request [&quot;</span> + request + <span class="hljs-string">&quot;]&quot;</span>)
+}
+</code></pre>
+<p>&#x6700;&#x540E;&#x4E00;&#x79CD;&#x521B;&#x5EFA; Action &#x7684;&#x65B9;&#x6CD5;&#x662F;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x989D;&#x5916;&#x7684; <code>BodyParser</code> &#x53C2;&#x6570;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">Action</span>(parse.json) { <span class="hljs-keyword">implicit</span> request =&gt;
+  <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Got request [&quot;</span> + request + <span class="hljs-string">&quot;]&quot;</span>)
+}
+</code></pre>
+<p>&#x8FD9;&#x4EFD;&#x624B;&#x518C;&#x540E;&#x9762;&#x4F1A;&#x8BB2;&#x5230; Body &#x89E3;&#x6790;&#x5668;&#xFF08;Body Parser&#xFF09;&#x3002;&#x73B0;&#x5728;&#x4F60;&#x53EA;&#x9700;&#x8981;&#x77E5;&#x9053;&#xFF0C;&#x4E0A;&#x9762;&#x8BB2;&#x5230;&#x7684;&#x5176;&#x5B83;&#x6784;&#x9020; Action &#x7684;&#x65B9;&#x6CD5;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x9ED8;&#x8BA4;&#x7684;&#x89E3;&#x6790;&#x5668;&#xFF1A;<strong>&#x4EFB;&#x610F;&#x5185;&#x5BB9; body &#x89E3;&#x6790;&#x5668;</strong>&#xFF08;Any content body parser&#xFF09;&#x3002;</p>
+<h2 id="%E6%8E%A7%E5%88%B6%E5%99%A8%EF%BC%88controller%EF%BC%89%E6%98%AF-action-%E7%94%9F%E6%88%90%E5%99%A8">&#x63A7;&#x5236;&#x5668;&#xFF08;Controller&#xFF09;&#x662F; action &#x751F;&#x6210;&#x5668;</h2>
+<p>&#x4E00;&#x4E2A; <code>Controller</code> &#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x4EA7;&#x751F; <code>Action</code> &#x503C;&#x7684;&#x5355;&#x4F8B;&#x5BF9;&#x8C61;&#x3002;</p>
+<p>&#x5B9A;&#x4E49;&#x4E00;&#x4E2A; action &#x751F;&#x6210;&#x5668;&#x7684;&#x6700;&#x7B80;&#x5355;&#x65B9;&#x5F0F;&#x5C31;&#x662F;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x65E0;&#x53C2;&#x65B9;&#x6CD5;&#xFF0C;&#x8BA9;&#x5B83;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A; <code>Action</code> &#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">package</span> controllers
+
+<span class="hljs-keyword">import</span> play.api.mvc._
+
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Application</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Controller</span> {</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span> =</span> <span class="hljs-type">Action</span> {
+    <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;It works!&quot;</span>)
+  }
+
+}
+</code></pre>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x751F;&#x6210; action &#x7684;&#x65B9;&#x6CD5;&#x4E5F;&#x53EF;&#x4EE5;&#x5E26;&#x53C2;&#x6570;&#xFF0C;&#x5E76;&#x4E14;&#x8FD9;&#x4E9B;&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x5728; <code>Action</code> &#x95ED;&#x5305;&#x4E2D;&#x8BBF;&#x95EE;&#x5230;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello</span>(</span>name: <span class="hljs-type">String</span>) = <span class="hljs-type">Action</span> {
+  <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Hello &quot;</span> + name)
+}
+</code></pre>
+<h2 id="%E7%AE%80%E5%8D%95%E7%BB%93%E6%9E%9C">&#x7B80;&#x5355;&#x7ED3;&#x679C;</h2>
+<p>&#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EA;&#x5BF9;&#x7B80;&#x5355;&#x7ED3;&#x679C;&#x611F;&#x5174;&#x8DA3;&#xFF1A;HTTP &#x7ED3;&#x679C;&#x3002;&#x5B83;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A;&#x72B6;&#x6001;&#x7801;&#xFF0C;&#x4E00;&#x7EC4; HTTP &#x62A5;&#x5934;&#x548C;&#x53D1;&#x9001;&#x7ED9; web &#x5BA2;&#x6237;&#x7AEF;&#x7684; body&#x3002;</p>
+<p>&#x8FD9;&#x4E9B;&#x7ED3;&#x679C;&#x7531; <code>play.api.mvc.Result</code> &#x5B9A;&#x4E49;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span> =</span> <span class="hljs-type">Action</span> {
+  <span class="hljs-type">Result</span>(
+    header = <span class="hljs-type">ResponseHeader</span>(<span class="hljs-number">200</span>, <span class="hljs-type">Map</span>(<span class="hljs-type">CONTENT_TYPE</span> -&gt; <span class="hljs-string">&quot;text/plain&quot;</span>)),
+    body = <span class="hljs-type">Enumerator</span>(<span class="hljs-string">&quot;Hello world!&quot;</span>.getBytes())
+  )
+}
+</code></pre>
+<p>&#x5F53;&#x7136;&#xFF0C;Play &#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E9B; helper &#x65B9;&#x6CD5;&#x6765;&#x6784;&#x9020;&#x5E38;&#x89C1;&#x7ED3;&#x679C;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4; <code>OK</code>&#x3002;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x548C;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x662F;&#x7B49;&#x6548;&#x7684;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span> =</span> <span class="hljs-type">Action</span> {
+  <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Hello world!&quot;</span>)
+}
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x4E24;&#x6BB5;&#x4EE3;&#x7801;&#x4EA7;&#x751F;&#x7684;&#x7ED3;&#x679C;&#x662F;&#x4E00;&#x6837;&#x7684;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x751F;&#x6210;&#x4E0D;&#x540C;&#x7ED3;&#x679C;&#x7684;&#x4E00;&#x4E9B;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">ok</span> =</span> <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Hello world!&quot;</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">notFound</span> =</span> <span class="hljs-type">NotFound</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">pageNotFound</span> =</span> <span class="hljs-type">NotFound</span>(&lt;h1&gt;<span class="hljs-type">Page</span> not found&lt;/h1&gt;)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">badRequest</span> =</span> <span class="hljs-type">BadRequest</span>(views.html.form(formWithErrors))
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">oops</span> =</span> <span class="hljs-type">InternalServerError</span>(<span class="hljs-string">&quot;Oops&quot;</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">anyStatus</span> =</span> <span class="hljs-type">Status</span>(<span class="hljs-number">488</span>)(<span class="hljs-string">&quot;Strange response type&quot;</span>)
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x7684; helper &#x65B9;&#x6CD5;&#x90FD;&#x53EF;&#x4EE5;&#x5728; <code>play.api.mvc.Results</code> &#x7279;&#x6027;&#xFF08;trait&#xFF09;&#x548C;&#x4F34;&#x751F;&#x5BF9;&#x8C61;&#xFF08;companion object&#xFF09;&#x4E2D;&#x627E;&#x5230;&#x3002;</p>
+<h2 id="%E9%87%8D%E5%AE%9A%E5%90%91%E4%B9%9F%E6%98%AF%E7%AE%80%E5%8D%95%E7%BB%93%E6%9E%9C">&#x91CD;&#x5B9A;&#x5411;&#x4E5F;&#x662F;&#x7B80;&#x5355;&#x7ED3;&#x679C;</h2>
+<p>&#x91CD;&#x5B9A;&#x5411;&#x5230;&#x4E00;&#x4E2A;&#x65B0;&#x7684; URL &#x662F;&#x53E6;&#x4E00;&#x79CD;&#x7B80;&#x5355;&#x7ED3;&#x679C;&#x3002;&#x7136;&#x800C;&#x8FD9;&#x4E9B;&#x7ED3;&#x679C;&#x7C7B;&#x578B;&#x5E76;&#x4E0D;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x54CD;&#x5E94;&#x4F53;&#x3002;</p>
+<p>&#x540C;&#x6837;&#x5730;&#xFF0C;&#x6709;&#x4E00;&#x4E9B; helper &#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x6765;&#x521B;&#x5EFA;&#x91CD;&#x5B9A;&#x5411;&#x7ED3;&#x679C;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span> =</span> <span class="hljs-type">Action</span> {
+  <span class="hljs-type">Redirect</span>(<span class="hljs-string">&quot;/user/home&quot;</span>)
+}
+</code></pre>
+<p>&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;&#x7684;&#x54CD;&#x5E94;&#x7C7B;&#x578B;&#x662F;&#xFF1A;<code>303 SEE_OTHER</code>&#xFF0C;&#x5F53;&#x7136;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x6709;&#x9700;&#x8981;&#xFF0C;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x8BBE;&#x5B9A;&#x72B6;&#x6001;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span> =</span> <span class="hljs-type">Action</span> {
+  <span class="hljs-type">Redirect</span>(<span class="hljs-string">&quot;/user/home&quot;</span>, <span class="hljs-type">MOVED_PERMANENTLY</span>)
+}
+</code></pre>
+<h2 id="%E3%80%8Ctodo%E3%80%8D-dummy-%E9%A1%B5%E9%9D%A2">&#x300C;TODO&#x300D; dummy &#x9875;&#x9762;</h2>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x5B9A;&#x4E49;&#x4E3A; <code>TODO</code> &#x7684;&#x7A7A;&#x7684; <code>Action</code> &#x5B9E;&#x73B0;&#xFF0C;&#x5B83;&#x7684;&#x7ED3;&#x679C;&#x662F;&#x4E00;&#x4E2A;&#x6807;&#x51C6;&#x7684; <code>Not implemented yet</code> &#x9875;&#x9762;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span>(</span>name:<span class="hljs-type">String</span>) = <span class="hljs-type">TODO</span>
+</code></pre>
 
                     
                     </section>

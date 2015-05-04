@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="9.1" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="9.1" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,7 +1087,76 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="the-play-cache-api">The Play cache API</h1>
+<h2 id="play-%E7%BC%93%E5%AD%98-api">Play &#x7F13;&#x5B58; API</h2>
+<p>&#x4F7F;&#x7528;<a href="http://ehcache.org/" target="_blank">EHCache</a>&#x4E3A;&#x7F13;&#x5B58;API&#x7684;&#x9ED8;&#x8BA4;&#x5B9E;&#x73B0;.&#x4F60;&#x540C;&#x65F6;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x63D2;&#x4EF6;&#x6765;&#x63D0;&#x4F9B;&#x4F60;&#x81EA;&#x5DF1;&#x7684;&#x5B9E;&#x73B0;&#x3002;</p>
+<h2 id="%E8%BD%BD%E5%85%A5%E7%BC%93%E5%AD%98api">&#x8F7D;&#x5165;&#x7F13;&#x5B58;API</h2>
+<p>Add cache into your dependencies list. For example, in build.sbt:
+&#x5C06;cache&#x52A0;&#x5165;&#x5230;&#x4F60;&#x7684;&#x5173;&#x8054;&#x5217;&#x8868;&#x4E2D;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5728;build.sbt&#x4E2D;&#xFF1A;</p>
+<pre><code>libraryDependencies ++= Seq(
+      cache,
+      ...
+    )
+</code></pre><h2 id="%E8%AE%BF%E9%97%AE%E7%BC%93%E5%AD%98api">&#x8BBF;&#x95EE;&#x7F13;&#x5B58;API</h2>
+<p>play.api.cache.Cache&#x5BF9;&#x8C61;&#x63D0;&#x4F9B;&#x4E86;&#x7F13;&#x5B58;API.&#x5176;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x6CE8;&#x518C;&#x7684;&#x7F13;&#x5B58;&#x63D2;&#x4EF6;&#x3002;</p>
+<pre><code>&#x6CE8;&#x610F;&#xFF1A; &#x8BE5;API&#x6709;&#x610F;&#x7684;&#x6700;&#x5C0F;&#x5316;&#x5141;&#x8BB8;&#x591A;&#x79CD;&#x5B9E;&#x73B0;&#x53EF;&#x88AB;&#x5D4C;&#x5165;&#x3002;&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x66F4;&#x5177;&#x4F53;&#x7684;API&#xFF0C;&#x4F7F;&#x7528;&#x4F60;&#x7684;&#x7F13;&#x5B58;&#x63D2;&#x4EF6;&#x63D0;&#x4F9B;&#x7684;&#x90A3;&#x4E00;&#x4E2A;&#x3002;
+</code></pre><p>&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x7B80;&#x5355;&#x7684;API&#x4F60;&#x65E2;&#x53EF;&#x4EE5;&#x5B58;&#x50A8;&#x6570;&#x636E;&#x4E8E;&#x7F13;&#x5B58;&#x4E2D;&#xFF1A;</p>
+<pre><code>Cache.set(&quot;item.key&quot;, connectedUser)
+</code></pre><p>&#x5E76;&#x5728;&#x4E0D;&#x4E45;&#x540E;&#x83B7;&#x53D6;&#x5B83;&#xFF1A;</p>
+<pre><code>val maybeUser: Option[User] = Cache.getAs[User](&quot;item.key&quot;)
+</code></pre><p>&#x5F53;&#x5176;&#x4E0D;&#x5B58;&#x5728;&#x65F6;&#x5019;&#x8FD9;&#x91CC;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x7B80;&#x6D01;&#x7684;&#x5E2E;&#x52A9;&#x5668;&#x53BB;&#x4ECE;&#x7F13;&#x5B58;&#x4E2D;&#x83B7;&#x53D6;&#x6216;&#x5728;&#x7F13;&#x5B58;&#x4E2D;&#x8BBE;&#x5B9A;&#x503C;&#xFF1A;</p>
+<pre><code>val user: User = Cache.getOrElse[User](&quot;item.key&quot;) {
+      User.findById(connectedUser)
+}
+</code></pre><p>To remove an item from the cache use the remove method:
+&#x4F7F;&#x7528;remove&#x65B9;&#x6CD5;&#x53BB;&#x4ECE;&#x7F13;&#x5B58;&#x4E2D;&#x79FB;&#x9664;&#x4E00;&#x4E2A;&#x6761;&#x76EE;&#xFF1A;</p>
+<pre><code>Cache.remove(&quot;item.key&quot;)
+</code></pre><h2 id="%E7%BC%93%E5%AD%98http%E5%9B%9E%E5%BA%94">&#x7F13;&#x5B58;HTTP&#x56DE;&#x5E94;</h2>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6807;&#x51C6;&#x7684;Action&#x7EC4;&#x5408;&#x3002;</p>
+<pre><code>&#x6CE8;&#x610F;&#xFF1A; Play HTTP &#x7ED3;&#x679C;&#x5B9E;&#x4F8B;&#x5BF9;&#x7F13;&#x5B58;&#x662F;&#x5B89;&#x5168;&#x7684;&#x5E76;&#x53EF;&#x4EE5;&#x4E4B;&#x540E;&#x4ECE;&#x7528;&#x3002;
+</code></pre><p>Play&#x4E3A;&#x9ED8;&#x8BA4;&#x7684;&#x4F8B;&#x5B50;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x9ED8;&#x8BA4;&#x7684;&#x5D4C;&#x5165;&#x5E2E;&#x52A9;&#x5668;&#xFF1A;</p>
+<pre><code>def index = Cached(&quot;homePage&quot;) {
+      Action {
+        Ok(&quot;Hello world&quot;)
+          }
+}
+</code></pre><p>&#x751A;&#x81F3;&#x4E8E;&#xFF1A;</p>
+<pre><code>def userProfile = Authenticated {
+      user =&gt;
+    Cached(req =&gt; &quot;profile.&quot; + user) {
+          Action {
+            Ok(views.html.profile(User.find(user)))
+                  }
+        }
+}
+</code></pre><h2 id="%E7%BC%93%E5%AD%98%E6%8E%A7%E5%88%B6">&#x7F13;&#x5B58;&#x63A7;&#x5236;</h2>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x7B80;&#x5355;&#x7684;&#x63A7;&#x5236;&#x4EC0;&#x4E48;&#x662F;&#x4F60;&#x60F3;&#x7F13;&#x5B58;&#x7684;&#x6216;&#x8005;&#x4EC0;&#x4E48;&#x662F;&#x4F60;&#x4E0D;&#x60F3;&#x7F13;&#x5B58;&#x7684;&#x3002;</p>
+<p>&#x4F60;&#x53EF;&#x80FD;&#x4EC5;&#x9700;&#x8981;&#x7ED3;&#x679C;&#x4E3A;&#x201C;&#x7F13;&#x5B58;200 OK&#x201D;</p>
+<pre><code>def get(index: Int) = Cached.status(_ =&gt; &quot;/resource/&quot;+ index, 200) {
+      Action {
+    if (index &gt; 0) {
+          Ok(Json.obj(&quot;id&quot; -&gt; index))
+        } else {
+              NotFound
+        }
+      }
+    }
+</code></pre><p>&#x6216;&#x8005;&#x201C;&#x7F13;&#x5B58;404&#x672A;&#x627E;&#x5230;&#x201D;&#x7684;&#x4FE1;&#x606F;&#x4EC5;&#x5B58;&#x5728;&#x51E0;&#x5206;&#x949F;</p>
+<pre><code>def get(index: Int) = {
+      val caching = Cached
+        .status(_ =&gt; &quot;/resource/&quot;+ index, 200)
+        .includeStatus(404, 600)
 
+      caching {
+        Action {
+          if (index % 2 == 1) {
+            Ok(Json.obj(&quot;id&quot; -&gt; index))
+          } else {
+            NotFound
+                  }
+        }
+     }
+}
+</code></pre>
                     
                     </section>
                 

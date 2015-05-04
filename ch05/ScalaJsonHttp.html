@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="5.2" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="5.2" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,159 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="json-with-http">JSON with HTTP</h1>
+<p>&#x901A;&#x8FC7; HTTP API &#x4E0E; JSON &#x5E93;&#x7684;&#x7EC4;&#x5408;&#xFF0C;Play &#x53EF;&#x4EE5;&#x652F;&#x6301; Content-Type &#x4E3A; JSON &#x7684; HTTP &#x8BF7;&#x6C42;&#x548C;&#x54CD;&#x5E94;&#x3002;</p>
+<blockquote>
+<p>&#x5173;&#x4E8E;&#x63A7;&#x5236;&#x5668;&#xFF0C;Action &#x548C;&#x8DEF;&#x7531;&#xFF0C;&#x8BE6;&#x60C5;&#x53EF;&#x89C1; <a href="https://www.playframework.com/documentation/2.3.x/ScalaActions" target="_blank">HTTP &#x7F16;&#x7A0B;</a></p>
+</blockquote>
+<p>&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x8BBE;&#x8BA1;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x3001;Restful &#x7684; web &#x670D;&#x52A1;&#x6765;&#x8BF4;&#x660E;&#x4E00;&#x4E9B;&#x5FC5;&#x8981;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x901A;&#x8FC7; GET &#x6765;&#x5F97;&#x5230;&#x5B9E;&#x4F53;&#x5217;&#x8868;&#xFF0C;POST &#x6765;&#x521B;&#x5EFA;&#x65B0;&#x7684;&#x5B9E;&#x4F53;&#x3002;&#x5BF9;&#x4E8E;&#x6240;&#x6709;&#x6570;&#x636E;&#xFF0C;&#x8BE5; web &#x670D;&#x52A1;&#x4F7F;&#x7528;&#x7684; Content-Type &#x5747;&#x4E3A; JSON&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x662F;&#x7528;&#x4E8E;&#x6211;&#x4EEC;&#x670D;&#x52A1;&#x7684;&#x6A21;&#x578B;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Location</span>(</span>lat: <span class="hljs-type">Double</span>, long: <span class="hljs-type">Double</span>)
+
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Place</span>(</span>name: <span class="hljs-type">String</span>, location: <span class="hljs-type">Location</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Place</span> {</span>
+
+  <span class="hljs-keyword">var</span> list: <span class="hljs-type">List</span>[<span class="hljs-type">Place</span>] = {
+    <span class="hljs-type">List</span>(
+      <span class="hljs-type">Place</span>(
+        <span class="hljs-string">&quot;Sandleford&quot;</span>,
+        <span class="hljs-type">Location</span>(<span class="hljs-number">51.377797</span>, -<span class="hljs-number">1.318965</span>)
+      ),
+      <span class="hljs-type">Place</span>(
+        <span class="hljs-string">&quot;Watership Down&quot;</span>,
+        <span class="hljs-type">Location</span>(<span class="hljs-number">51.235685</span>, -<span class="hljs-number">1.309197</span>)
+      )
+    )
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">save</span>(</span>place: <span class="hljs-type">Place</span>) = {
+    list = list ::: <span class="hljs-type">List</span>(place)
+  }
+}
+</code></pre>
+<h2 id="%E4%BB%A5-json-%E6%A0%BC%E5%BC%8F%E6%8F%90%E4%BE%9B%E5%AE%9E%E4%BD%93%E5%88%97%E8%A1%A8">&#x4EE5; JSON &#x683C;&#x5F0F;&#x63D0;&#x4F9B;&#x5B9E;&#x4F53;&#x5217;&#x8868;</h2>
+<p>&#x9996;&#x5148;&#xFF0C;&#x5728;&#x63A7;&#x5236;&#x5668;&#x4E2D;&#x5BFC;&#x5165;&#x5FC5;&#x8981;&#x7684;&#x4E1C;&#x897F;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.mvc._
+<span class="hljs-keyword">import</span> play.api.libs.json._
+<span class="hljs-keyword">import</span> play.api.libs.functional.syntax._
+
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Application</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Controller</span> {</span>
+
+}
+</code></pre>
+<p>&#x5728;&#x5199; <code>Action</code> &#x4E4B;&#x524D;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x8981;&#x5904;&#x7406;&#x6A21;&#x578B;&#x5230; <code>JsValue</code> &#x8F6C;&#x6362;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x901A;&#x8FC7;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x7684; <code>Writes[Place]</code> &#x5373;&#x53EF;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">locationWrites</span>:</span> <span class="hljs-type">Writes</span>[<span class="hljs-type">Location</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;lat&quot;</span>).write[<span class="hljs-type">Double</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;long&quot;</span>).write[<span class="hljs-type">Double</span>]
+)(unlift(<span class="hljs-type">Location</span>.unapply))
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">placeWrites</span>:</span> <span class="hljs-type">Writes</span>[<span class="hljs-type">Place</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;name&quot;</span>).write[<span class="hljs-type">String</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;location&quot;</span>).write[<span class="hljs-type">Location</span>]
+)(unlift(<span class="hljs-type">Place</span>.unapply))
+</code></pre>
+<p>&#x63A5;&#x7740;&#x5C31;&#x53EF;&#x4EE5;&#x5199; <code>Action</code> &#x4E86;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">listPlaces</span> =</span> <span class="hljs-type">Action</span> {
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">json</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-type">Place</span>.list)
+  <span class="hljs-type">Ok</span>(json)
+}
+</code></pre>
+<p><code>Action</code> &#x62FF;&#x5230;&#x4E00;&#x4E2A;&#x5305;&#x542B; <code>Place</code> &#x5BF9;&#x8C61;&#x7684;&#x5217;&#x8868;&#xFF0C;&#x4F7F;&#x7528; <code>Json.toJson</code> &#x5C06;&#x5B83;&#x4EEC;&#x8F6C;&#x6362;&#x4E3A; <code>JsValue</code>&#xFF08;&#x7528;&#x7684;&#x662F;&#x9690;&#x5F0F; <code>Writes[Place]</code>&#xFF09;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x8FD9;&#x4E2A;&#x4F5C;&#x4E3A;&#x7ED3;&#x679C;&#x7684; body &#x8FD4;&#x56DE;&#x3002;Play &#x8BC6;&#x522B;&#x51FA;&#x8BE5;&#x7ED3;&#x679C;&#x662F; JSON &#x683C;&#x5F0F;&#xFF0C;&#x7136;&#x540E;&#x4E3A;&#x54CD;&#x5E94;&#x8BBE;&#x7F6E;&#x9002;&#x5F53;&#x7684; <code>Content-Type</code> &#x548C; body&#x3002;</p>
+<p>&#x6700;&#x540E;&#x4E00;&#x6B65;&#x662F;&#x4E3A;&#x6211;&#x4EEC;&#x7684; <code>Action</code> &#x6DFB;&#x52A0;&#x8DEF;&#x7531;&#xFF0C;&#x5199;&#x5728; <code>conf/routes</code> &#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">GET</span>   /places               controllers.<span class="hljs-type">Application</span>.listPlaces
+</code></pre>
+<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6D4F;&#x89C8;&#x5668;&#x6216; HTTP &#x5DE5;&#x5177;&#x6765;&#x53D1;&#x9001;&#x8BF7;&#x6C42;&#x8FDB;&#x884C;&#x6D4B;&#x8BD5;&#xFF0C;&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x901A;&#x8FC7; curl &#x8FDB;&#x884C;&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<pre><code class="lang-shell">curl --include http://localhost:9000/places
+</code></pre>
+<p>&#x54CD;&#x5E94;&#x662F;&#xFF1A;</p>
+<pre><code class="lang-shell">HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Content-Length: 141
+
+[{&quot;name&quot;:&quot;Sandleford&quot;,&quot;location&quot;:{&quot;lat&quot;:51.377797,&quot;long&quot;:-1.318965}},{&quot;name&quot;:&quot;Watership Down&quot;,&quot;location&quot;:{&quot;lat&quot;:51.235685,&quot;long&quot;:-1.309197}}]
+</code></pre>
+<h2 id="%E5%88%9B%E5%BB%BA%E6%96%B0%E5%AE%9E%E4%BD%93">&#x521B;&#x5EFA;&#x65B0;&#x5B9E;&#x4F53;</h2>
+<p>&#x5BF9;&#x4E8E;&#x63A5;&#x4E0B;&#x6765;&#x7684; <code>Action</code>&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x7684; <code>Reads[Place]</code> &#x6765;&#x5C06; <code>JsValue</code> &#x8F6C;&#x6362;&#x6210;&#x6211;&#x4EEC;&#x7684;&#x6A21;&#x578B;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">locationReads</span>:</span> <span class="hljs-type">Reads</span>[<span class="hljs-type">Location</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;lat&quot;</span>).read[<span class="hljs-type">Double</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;long&quot;</span>).read[<span class="hljs-type">Double</span>]
+)(<span class="hljs-type">Location</span>.apply _)
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">placeReads</span>:</span> <span class="hljs-type">Reads</span>[<span class="hljs-type">Place</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;name&quot;</span>).read[<span class="hljs-type">String</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;location&quot;</span>).read[<span class="hljs-type">Location</span>]
+)(<span class="hljs-type">Place</span>.apply _)
+</code></pre>
+<p>&#x7136;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x5B9A;&#x4E49;&#x8FD9;&#x4E2A; <code>Action</code>&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">savePlace</span> =</span> <span class="hljs-type">Action</span>(<span class="hljs-type">BodyParsers</span>.parse.json) { request =&gt;
+  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">placeResult</span> =</span> request.body.validate[<span class="hljs-type">Place</span>]
+  placeResult.fold(
+    errors =&gt; {
+      <span class="hljs-type">BadRequest</span>(<span class="hljs-type">Json</span>.obj(<span class="hljs-string">&quot;status&quot;</span> -&gt;<span class="hljs-string">&quot;KO&quot;</span>, <span class="hljs-string">&quot;message&quot;</span> -&gt; <span class="hljs-type">JsError</span>.toFlatJson(errors)))
+    },
+    place =&gt; {
+      <span class="hljs-type">Place</span>.save(place)
+      <span class="hljs-type">Ok</span>(<span class="hljs-type">Json</span>.obj(<span class="hljs-string">&quot;status&quot;</span> -&gt;<span class="hljs-string">&quot;OK&quot;</span>, <span class="hljs-string">&quot;message&quot;</span> -&gt; (<span class="hljs-string">&quot;Place &apos;&quot;</span>+place.name+<span class="hljs-string">&quot;&apos; saved.&quot;</span>) ))
+    }
+  )
+}
+</code></pre>
+<p>&#x8FD9;&#x4E2A; <code>Action</code> &#x6BD4;&#x524D;&#x9762;&#x90A3;&#x4E2A;&#x8981;&#x590D;&#x6742;&#xFF0C;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x4EE5;&#x4E0B;&#x51E0;&#x70B9;&#xFF1A;</p>
+<ul>
+<li>&#x8BE5; <code>Action</code> &#x63A5;&#x6536;&#x7684;&#x8BF7;&#x6C42;&#x7684; <code>Content-Type</code> &#x9700;&#x8981;&#x662F; <code>text/json</code> &#x6216; <code>application/json</code>&#xFF0C;body &#x5305;&#x542B;&#x7684;&#x662F;&#x8981;&#x521B;&#x5EFA;&#x7684;&#x5B9E;&#x4F53;&#x7684; JSON &#x8868;&#x793A;&#x3002;</li>
+<li>&#x5B83;&#x4F7F;&#x7528;&#x9488;&#x5BF9; JSON &#x7684; <code>BodyParser</code> &#x6765;&#x89E3;&#x6790;&#x8BF7;&#x6C42;&#xFF0C;&#x5E76;&#x5C06; <code>request.body</code> &#x89E3;&#x6790;&#x6210; <code>JsValue</code>&#x3002;</li>
+<li>&#x6211;&#x4EEC;&#x4F7F;&#x7528; <code>validate</code> &#x65B9;&#x6CD5;&#x6765;&#x505A;&#x8F6C;&#x6362;&#xFF0C;&#x5B83;&#x4F9D;&#x8D56;&#x4E8E;&#x524D;&#x9762;&#x5B9A;&#x4E49;&#x7684;&#x9690;&#x5F0F; <code>Reads[Place]</code>&#x3002;</li>
+<li>&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x5E26;&#x6709;&#x9519;&#x8BEF;&#x548C;&#x6210;&#x529F;&#x5904;&#x7406;&#x7684; <code>fold</code> &#x6765;&#x5904;&#x7406; <code>validate</code> &#x7684;&#x7ED3;&#x679C;&#x3002;&#x8FD9;&#x79CD;&#x6A21;&#x5F0F;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x8868;&#x5355;&#x63D0;&#x4EA4;&#x3002;</li>
+<li>&#x8BE5; <code>Action</code> &#x53D1;&#x9001;&#x7684;&#x54CD;&#x5E94;&#x4E5F;&#x662F; JSON &#x683C;&#x5F0F;&#x7684;&#x3002;</li>
+</ul>
+<p>&#x6700;&#x540E;&#x6211;&#x4EEC;&#x5728; <code>conf/routes</code> &#x4E2D;&#x52A0;&#x4E0A;&#x8DEF;&#x7531;&#x7ED1;&#x5B9A;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">POST</span>  /places               controllers.<span class="hljs-type">Application</span>.savePlace
+</code></pre>
+<p>&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x7528;&#x6709;&#x6548;&#x53CA;&#x65E0;&#x6548;&#x7684;&#x8BF7;&#x6C42;&#x6765;&#x6D4B;&#x8BD5;&#x8FD9;&#x4E2A; action&#xFF0C;&#x4EE5;&#x9A8C;&#x8BC1;&#x6210;&#x529F;&#x53CA;&#x9519;&#x8BEF;&#x5904;&#x7406;&#x7684;&#x5DE5;&#x4F5C;&#x6D41;&#x3002;</p>
+<p>&#x4F7F;&#x7528;&#x6709;&#x6548;&#x6570;&#x636E;&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<pre><code class="lang-scala">curl --include
+  --request <span class="hljs-type">POST</span>
+  --header <span class="hljs-string">&quot;Content-type: application/json&quot;</span>
+  --data &apos;{<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Nuthanger Farm&quot;</span>,<span class="hljs-string">&quot;location&quot;</span>:{<span class="hljs-string">&quot;lat&quot;</span> : <span class="hljs-number">51.244031</span>,<span class="hljs-string">&quot;long&quot;</span> : -<span class="hljs-number">1.263224</span>}}&apos;
+  http:<span class="hljs-comment">//localhost:9000/places</span>
+</code></pre>
+<p>&#x54CD;&#x5E94;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">HTTP</span>/<span class="hljs-number">1.1</span> <span class="hljs-number">200</span> <span class="hljs-type">OK</span>
+<span class="hljs-type">Content</span>-<span class="hljs-type">Type</span>: application/json; charset=utf-<span class="hljs-number">8</span>
+<span class="hljs-type">Content</span>-<span class="hljs-type">Length</span>: <span class="hljs-number">57</span>
+
+{<span class="hljs-string">&quot;status&quot;</span>:<span class="hljs-string">&quot;OK&quot;</span>,<span class="hljs-string">&quot;message&quot;</span>:<span class="hljs-string">&quot;Place &apos;Nuthanger Farm&apos; saved.&quot;</span>}
+</code></pre>
+<p>&#x4F7F;&#x7528;&#x65E0;&#x6548;&#x6570;&#x636E;&#x6D4B;&#x8BD5;&#xFF08;&#x201C;name&#x201D; &#x5B57;&#x6BB5;&#x7F3A;&#x5931;&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-scala">curl --include
+  --request <span class="hljs-type">POST</span>
+  --header <span class="hljs-string">&quot;Content-type: application/json&quot;</span>
+  --data &apos;{<span class="hljs-string">&quot;location&quot;</span>:{<span class="hljs-string">&quot;lat&quot;</span> : <span class="hljs-number">51.244031</span>,<span class="hljs-string">&quot;long&quot;</span> : -<span class="hljs-number">1.263224</span>}}&apos;
+  http:<span class="hljs-comment">//localhost:9000/places</span>
+</code></pre>
+<p>&#x54CD;&#x5E94;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">HTTP</span>/<span class="hljs-number">1.1</span> <span class="hljs-number">400</span> <span class="hljs-type">Bad</span> <span class="hljs-type">Request</span>
+<span class="hljs-type">Content</span>-<span class="hljs-type">Type</span>: application/json; charset=utf-<span class="hljs-number">8</span>
+<span class="hljs-type">Content</span>-<span class="hljs-type">Length</span>: <span class="hljs-number">79</span>
+
+{<span class="hljs-string">&quot;status&quot;</span>:<span class="hljs-string">&quot;KO&quot;</span>,<span class="hljs-string">&quot;message&quot;</span>:{<span class="hljs-string">&quot;obj.name&quot;</span>:[{<span class="hljs-string">&quot;msg&quot;</span>:<span class="hljs-string">&quot;error.path.missing&quot;</span>,<span class="hljs-string">&quot;args&quot;</span>:[]}]}}
+</code></pre>
+<p>&#x4F7F;&#x7528;&#x65E0;&#x6548;&#x6570;&#x636E;&#x6D4B;&#x8BD5;&#xFF08;&#x201C;lat&#x201D; &#x6570;&#x636E;&#x7C7B;&#x578B;&#x9519;&#x8BEF;&#xFF09;&#xFF1A;</p>
+<pre><code class="lang-scala">curl --include
+  --request <span class="hljs-type">POST</span>
+  --header <span class="hljs-string">&quot;Content-type: application/json&quot;</span>
+  --data &apos;{<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Nuthanger Farm&quot;</span>,<span class="hljs-string">&quot;location&quot;</span>:{<span class="hljs-string">&quot;lat&quot;</span> : <span class="hljs-string">&quot;xxx&quot;</span>,<span class="hljs-string">&quot;long&quot;</span> : -<span class="hljs-number">1.263224</span>}}&apos;
+  http:<span class="hljs-comment">//localhost:9000/places</span>
+</code></pre>
+<p>&#x54CD;&#x5E94;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">HTTP</span>/<span class="hljs-number">1.1</span> <span class="hljs-number">400</span> <span class="hljs-type">Bad</span> <span class="hljs-type">Request</span>
+<span class="hljs-type">Content</span>-<span class="hljs-type">Type</span>: application/json; charset=utf-<span class="hljs-number">8</span>
+<span class="hljs-type">Content</span>-<span class="hljs-type">Length</span>: <span class="hljs-number">92</span>
+
+{<span class="hljs-string">&quot;status&quot;</span>:<span class="hljs-string">&quot;KO&quot;</span>,<span class="hljs-string">&quot;message&quot;</span>:{<span class="hljs-string">&quot;obj.location.lat&quot;</span>:[{<span class="hljs-string">&quot;msg&quot;</span>:<span class="hljs-string">&quot;error.expected.jsnumber&quot;</span>,<span class="hljs-string">&quot;args&quot;</span>:[]}]}}
+</code></pre>
+<h2 id="%E6%80%BB%E7%BB%93">&#x603B;&#x7ED3;</h2>
+<p>Play &#x5929;&#x751F;&#x652F;&#x6301; REST &#x548C; JSON&#xFF0C;&#x56E0;&#x6B64;&#x5F00;&#x53D1;&#x6B64;&#x7C7B;&#x670D;&#x52A1;&#x5E94;&#x8BE5;&#x662F;&#x76F8;&#x5F53;&#x7B80;&#x5355;&#x76F4;&#x89C2;&#x7684;&#x3002;&#x5927;&#x90E8;&#x5206;&#x7684;&#x5DE5;&#x4F5C;&#x5C31;&#x662F;&#x5728;&#x4E3A;&#x4F60;&#x7684;&#x6A21;&#x578B;&#x5199; <code>Reads</code> &#x548C; <code>Writes</code>&#xFF0C;&#x4E0B;&#x4E00;&#x8282;&#x6211;&#x4EEC;&#x5C06;&#x6765;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;&#x3002;</p>
 
                     
                     </section>

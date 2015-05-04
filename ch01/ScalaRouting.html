@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="1.2" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="1.2" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,125 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="http-routing">HTTP routing</h1>
+<h2 id="%E5%86%85%E5%BB%BA-http-%E8%B7%AF%E7%94%B1">&#x5185;&#x5EFA; HTTP &#x8DEF;&#x7531;</h2>
+<p>&#x8DEF;&#x7531;&#x662F;&#x4E00;&#x4E2A;&#x8D1F;&#x8D23;&#x5C06;&#x4F20;&#x5165;&#x7684; HTTP &#x8BF7;&#x6C42;&#x8F6C;&#x6362;&#x4E3A; Action &#x7684;&#x7EC4;&#x4EF6;&#x3002;</p>
+<p>&#x4E00;&#x4E2A; HTTP&#x8BF7;&#x6C42;&#x901A;&#x5E38;&#x88AB; MVC &#x6846;&#x67B6;&#x89C6;&#x4E3A;&#x4E00;&#x4E2A;&#x4E8B;&#x4EF6;&#xFF08;event&#xFF09;&#x3002;&#x8FD9;&#x4E2A;&#x4E8B;&#x4EF6;&#x5305;&#x542B;&#x4E86;&#x4E24;&#x4E2A;&#x4E3B;&#x8981;&#x4FE1;&#x606F;&#xFF1A;</p>
+<ul>
+<li>&#x8BF7;&#x6C42;&#x8DEF;&#x5F84;&#xFF08;&#x4F8B;&#x5982;&#xFF1A;<code>/clients/1542</code>&#xFF0C;<code>/photos/list</code>&#xFF09;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x62EC;&#x4E86;&#x67E5;&#x8BE2;&#x4E32;&#xFF08;&#x5982; ?page=1&amp;max=3&#xFF09;</li>
+<li>HTTP &#x65B9;&#x6CD5;&#xFF08;&#x4F8B;&#x5982;&#xFF1A;GET&#xFF0C;POST &#x7B49;&#xFF09;</li>
+</ul>
+<p>&#x8DEF;&#x7531;&#x5B9A;&#x4E49;&#x5728;&#x4E86; <code>conf/routes</code> &#x6587;&#x4EF6;&#x91CC;&#xFF0C;&#x8BE5;&#x6587;&#x4EF6;&#x4F1A;&#x88AB;&#x7F16;&#x8BD1;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x4F60;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5728;&#x4F60;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x770B;&#x5230;&#x8FD9;&#x6837;&#x7684;&#x8DEF;&#x7531;&#x9519;&#x8BEF;&#xFF1A;</p>
+<p><img src="https://www.playframework.com/documentation/2.3.x/resources/manual/scalaGuide/main/http/images/routesError.png" alt="Route Error in Browser"></p>
+<h2 id="%E8%B7%AF%E7%94%B1%E6%96%87%E4%BB%B6%E7%9A%84%E8%AF%AD%E6%B3%95">&#x8DEF;&#x7531;&#x6587;&#x4EF6;&#x7684;&#x8BED;&#x6CD5;</h2>
+<p>Play &#x7684;&#x8DEF;&#x7531;&#x4F7F;&#x7528; <code>conf/routes</code> &#x4F5C;&#x4E3A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x5217;&#x51FA;&#x4E86;&#x8BE5;&#x5E94;&#x7528;&#x9700;&#x8981;&#x7684;&#x6240;&#x6709;&#x8DEF;&#x7531;&#x3002;&#x6BCF;&#x4E2A;&#x8DEF;&#x7531;&#x90FD;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A; HTTP &#x65B9;&#x6CD5;&#x548C;&#x4E00;&#x4E2A; URI &#x6A21;&#x5F0F;&#xFF0C;&#x4E24;&#x8005;&#x88AB;&#x5173;&#x8054;&#x5230;&#x4E00;&#x4E2A; Action &#x751F;&#x6210;&#x5668;&#x3002;</p>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x4E0B;&#x8DEF;&#x7531;&#x7684;&#x5B9A;&#x4E49;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">GET</span>   /clients/:id           controllers.<span class="hljs-type">Clients</span>.show(id: <span class="hljs-type">Long</span>)
+</code></pre>
+<p>&#x6BCF;&#x4E2A;&#x8DEF;&#x7531;&#x90FD;&#x4EE5; HTTP &#x65B9;&#x6CD5;&#x5F00;&#x5934;&#xFF0C;&#x540E;&#x9762;&#x8DDF;&#x7740;&#x4E00;&#x4E2A; URI &#x6A21;&#x5F0F;&#x3002;&#x6700;&#x540E;&#x662F;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x7684;&#x8C03;&#x7528;&#x3002;</p>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>#</code> &#x5B57;&#x7B26;&#x6DFB;&#x52A0;&#x6CE8;&#x91CA;&#xFF1A;</p>
+<pre><code class="lang-scala"># &#x663E;&#x793A;&#x4E00;&#x4E2A; client
+<span class="hljs-type">GET</span>   /clients/:id           controllers.<span class="hljs-type">Clients</span>.show(id: <span class="hljs-type">Long</span>)
+</code></pre>
+<h2 id="http-%E6%96%B9%E6%B3%95">HTTP &#x65B9;&#x6CD5;</h2>
+<p>HTTP &#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55; HTTP &#x652F;&#x6301;&#x7684;&#x6709;&#x6548;&#x65B9;&#x6CD5;&#xFF08;<code>GET</code>&#xFF0C;<code>POST</code>&#xFF0C;<code>PUT</code>&#xFF0C;<code>DELETE</code>&#xFF0C;<code>HEAD</code>&#xFF09;&#x3002;</p>
+<h2 id="uri-%E6%A8%A1%E5%BC%8F">URI &#x6A21;&#x5F0F;</h2>
+<p>URI &#x6A21;&#x5F0F;&#x5B9A;&#x4E49;&#x4E86;&#x8DEF;&#x7531;&#x7684;&#x8BF7;&#x6C42;&#x8DEF;&#x5F84;&#x3002;&#x5176;&#x4E2D;&#x90E8;&#x5206;&#x7684;&#x8BF7;&#x6C42;&#x8DEF;&#x5F84;&#x53EF;&#x4EE5;&#x662F;&#x52A8;&#x6001;&#x7684;&#x3002;</p>
+<h3 id="%E9%9D%99%E6%80%81%E8%B7%AF%E5%BE%84">&#x9759;&#x6001;&#x8DEF;&#x5F84;</h3>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x4E3A;&#x4E86;&#x80FD;&#x591F;&#x51C6;&#x786E;&#x5730;&#x5339;&#x914D; <code>GET /clients/all</code> &#x8BF7;&#x6C42;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x5B9A;&#x4E49;&#x8DEF;&#x7531;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">GET</span>   /clients/all           controllers.<span class="hljs-type">Clients</span>.list()
+</code></pre>
+<h3 id="%E5%8A%A8%E6%80%81%E5%8C%B9%E9%85%8D">&#x52A8;&#x6001;&#x5339;&#x914D;</h3>
+<p>&#x5982;&#x679C;&#x4F60;&#x60F3;&#x8981;&#x5728;&#x5B9A;&#x4E49;&#x7684;&#x8DEF;&#x7531;&#x4E2D;&#x6839;&#x636E; ID &#x83B7;&#x53D6;&#x4E00;&#x4E2A; client&#xFF0C;&#x5219;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x52A8;&#x6001;&#x90E8;&#x5206;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">GET</span>   /clients/:id           controllers.<span class="hljs-type">Clients</span>.show(id: <span class="hljs-type">Long</span>)
+</code></pre>
+<blockquote>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x4E00;&#x4E2A; URI &#x6A21;&#x5F0F;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x52A8;&#x6001;&#x7684;&#x90E8;&#x5206;&#x3002;</p>
+</blockquote>
+<p>&#x52A8;&#x6001;&#x90E8;&#x5206;&#x7684;&#x9ED8;&#x8BA4;&#x5339;&#x914D;&#x7B56;&#x7565;&#x662F;&#x901A;&#x8FC7;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F; <code>[^/]+</code> &#x5B9A;&#x4E49;&#x7684;&#xFF0C;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x4EFB;&#x4F55;&#x88AB;&#x5B9A;&#x4E49;&#x4E3A; <code>:id</code> &#x7684;&#x52A8;&#x6001;&#x90E8;&#x5206;&#x53EA;&#x4F1A;&#x5339;&#x914D;&#x4E00;&#x4E2A; URI&#x3002;</p>
+<h3 id="%E8%B7%A8-%E5%AD%97%E7%AC%A6%E7%9A%84%E5%8A%A8%E6%80%81%E5%8C%B9%E9%85%8D">&#x8DE8; / &#x5B57;&#x7B26;&#x7684;&#x52A8;&#x6001;&#x5339;&#x914D;</h3>
+<p>&#x5982;&#x679C;&#x4F60;&#x60F3;&#x8981;&#x4E00;&#x4E2A;&#x52A8;&#x6001;&#x90E8;&#x5206;&#x80FD;&#x591F;&#x5339;&#x914D;&#x591A;&#x4E2A;&#x7531; <code>/</code> &#x5206;&#x9694;&#x5F00;&#x7684; URI &#x8DEF;&#x5F84;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x7528; <code>*id</code> &#x6765;&#x5B9A;&#x4E49;&#xFF0C;&#x6B64;&#x65F6;&#x5339;&#x914D;&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x5219;&#x4E3A; <code>.+</code>&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">GET</span>   /file<span class="hljs-comment">/*name            controllers.Application.download(name)</span>
+</code></pre>
+<p>&#x5BF9;&#x4E8E;&#x50CF; <code>GET /files/images/logo.png</code> &#x8FD9;&#x6837;&#x7684;&#x8BF7;&#x6C42;&#xFF0C;&#x52A8;&#x6001;&#x90E8;&#x5206; <code>name</code> &#x5339;&#x914D;&#x5230;&#x7684;&#x662F; <code>images/logo.png</code>&#x3002;</p>
+<h3 id="%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%81%9A%E5%8A%A8%E6%80%81%E5%8C%B9%E9%85%8D">&#x4F7F;&#x7528;&#x81EA;&#x5B9A;&#x4E49;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x505A;&#x52A8;&#x6001;&#x5339;&#x914D;</h3>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x4E3A;&#x52A8;&#x6001;&#x90E8;&#x5206;&#x81EA;&#x5B9A;&#x4E49;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x8BED;&#x6CD5;&#x4E3A; <code>$id&lt;regex&gt;</code>&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">GET</span>   /items/$id&lt;[<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]+&gt;     controllers.<span class="hljs-type">Items</span>.show(id: <span class="hljs-type">Long</span>)
+</code></pre>
+<h2 id="%E8%B0%83%E7%94%A8-action-%E7%94%9F%E6%88%90%E5%99%A8%E6%96%B9%E6%B3%95">&#x8C03;&#x7528; Action &#x751F;&#x6210;&#x5668;&#x65B9;&#x6CD5;</h2>
+<p>&#x8DEF;&#x7531;&#x5B9A;&#x4E49;&#x7684;&#x6700;&#x540E;&#x4E00;&#x90E8;&#x5206;&#x662F;&#x4E2A;&#x65B9;&#x6CD5;&#x7684;&#x8C03;&#x7528;&#x3002;&#x8FD9;&#x91CC;&#x5FC5;&#x987B;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x8FD4;&#x56DE; <code>play.api.mvc.Action</code> &#x7684;&#x5408;&#x6CD5;&#x65B9;&#x6CD5;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x4E00;&#x4E2A;&#x63A7;&#x5236;&#x5668; action &#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x8BE5;&#x65B9;&#x6CD5;&#x4E0D;&#x63A5;&#x6536;&#x4EFB;&#x4F55;&#x53C2;&#x6570;&#xFF0C;&#x5219;&#x53EA;&#x9700;&#x7ED9;&#x51FA;&#x5B8C;&#x6574;&#x7684;&#x65B9;&#x6CD5;&#x540D;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">GET</span>   /                      controllers.<span class="hljs-type">Application</span>.homePage()
+</code></pre>
+<p>&#x5982;&#x679C;&#x8FD9;&#x4E2A; action &#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x4E86;&#x53C2;&#x6570;&#xFF0C;Play &#x5219;&#x4F1A;&#x5728;&#x8BF7;&#x6C42; URI &#x4E2D;&#x67E5;&#x627E;&#x6240;&#x6709;&#x53C2;&#x6570;&#x3002;&#x4ECE; URI &#x8DEF;&#x5F84;&#x81EA;&#x8EAB;&#x67E5;&#x627E;&#xFF0C;&#x6216;&#x662F;&#x5728;&#x67E5;&#x8BE2;&#x4E32;&#x91CC;&#x67E5;&#x627E;&#xFF1A;</p>
+<pre><code class="lang-scala"># &#x4ECE;&#x8DEF;&#x5F84;&#x4E2D;&#x63D0;&#x53D6;&#x53C2;&#x6570; page
+<span class="hljs-type">GET</span>   /:page                 controllers.<span class="hljs-type">Application</span>.show(page)
+</code></pre>
+<pre><code class="lang-scala"># &#x4ECE;&#x67E5;&#x8BE2;&#x4E32;&#x4E2D;&#x63D0;&#x53D6;&#x53C2;&#x6570; page
+<span class="hljs-type">GET</span>   /                      controllers.<span class="hljs-type">Application</span>.show(page)
+</code></pre>
+<p>&#x8FD9;&#x662F;&#x5B9A;&#x4E49;&#x5728; <code>controllers.Application</code> &#x91CC;&#x7684; <code>show</code> &#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">show</span>(</span>page: <span class="hljs-type">String</span>) = <span class="hljs-type">Action</span> {
+  loadContentFromDatabase(page).map { htmlContent =&gt;
+    <span class="hljs-type">Ok</span>(htmlContent).as(<span class="hljs-string">&quot;text/html&quot;</span>)
+  }.getOrElse(<span class="hljs-type">NotFound</span>)
+}
+</code></pre>
+<h3 id="%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B">&#x53C2;&#x6570;&#x7C7B;&#x578B;</h3>
+<p>&#x5BF9;&#x4E8E;&#x7C7B;&#x578B;&#x4E3A; <code>String</code> &#x7684;&#x53C2;&#x6570;&#x6765;&#x8BF4;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x5199;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#x3002;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x8981; Play &#x5E2E;&#x4F60;&#x628A;&#x4F20;&#x5165;&#x7684;&#x53C2;&#x6570;&#x8F6C;&#x6362;&#x4E3A;&#x7279;&#x5B9A;&#x7684; Scala &#x7C7B;&#x578B;&#xFF0C;&#x5219;&#x5FC5;&#x987B;&#x663E;&#x5F0F;&#x58F0;&#x660E;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-type">GET</span>   /clients/:id           controllers.<span class="hljs-type">Clients</span>.show(id: <span class="hljs-type">Long</span>)
+</code></pre>
+<p>&#x540C;&#x6837;&#x7684;&#xFF0C;<code>controllers.Clients</code> &#x91CC;&#x7684; <code>show</code> &#x65B9;&#x6CD5;&#x4E5F;&#x9700;&#x8981;&#x505A;&#x76F8;&#x5E94;&#x66F4;&#x6539;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">show</span>(</span>id: <span class="hljs-type">Long</span>) = <span class="hljs-type">Action</span> {
+  <span class="hljs-type">Client</span>.findById(id).map { client =&gt;
+    <span class="hljs-type">Ok</span>(views.html.<span class="hljs-type">Clients</span>.display(client))
+  }.getOrElse(<span class="hljs-type">NotFound</span>)
+}
+</code></pre>
+<h3 id="%E8%AE%BE%E5%AE%9A%E5%8F%82%E6%95%B0%E5%9B%BA%E5%AE%9A%E5%80%BC">&#x8BBE;&#x5B9A;&#x53C2;&#x6570;&#x56FA;&#x5B9A;&#x503C;</h3>
+<p>&#x6709;&#x65F6;&#x5019;&#xFF0C;&#x4F60;&#x4F1A;&#x60F3;&#x7ED9;&#x53C2;&#x6570;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x56FA;&#x5B9A;&#x503C;&#xFF1A;</p>
+<pre><code class="lang-scala"># &#x4ECE;&#x8DEF;&#x5F84;&#x4E2D;&#x63D0;&#x53D6;&#x53C2;&#x6570; page&#xFF0C;&#x6216;&#x662F;&#x4E3A; / &#x8BBE;&#x7F6E;&#x56FA;&#x5B9A;&#x503C;
+<span class="hljs-type">GET</span>   /                     controllers.<span class="hljs-type">Application</span>.show(page = <span class="hljs-string">&quot;home&quot;</span>)
+<span class="hljs-type">GET</span>   /:page                controllers.<span class="hljs-type">Application</span>.show(page)
+</code></pre>
+<h3 id="%E8%AE%BE%E7%BD%AE%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC">&#x8BBE;&#x7F6E;&#x53C2;&#x6570;&#x9ED8;&#x8BA4;&#x503C;</h3>
+<p>&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x7ED9;&#x53C2;&#x6570;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x9ED8;&#x8BA4;&#x503C;&#xFF0C;&#x5F53;&#x4F20;&#x5165;&#x7684;&#x8BF7;&#x6C42;&#x4E2D;&#x627E;&#x4E0D;&#x5230;&#x4EFB;&#x4F55;&#x76F8;&#x5173;&#x503C;&#x65F6;&#xFF0C;&#x5C31;&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#xFF1A;</p>
+<pre><code class="lang-scala"># &#x5206;&#x9875;&#x94FE;&#x63A5;&#xFF0C;&#x5982; /clients?page=<span class="hljs-number">3</span>
+<span class="hljs-type">GET</span>   /clients              controllers.<span class="hljs-type">Clients</span>.list(page: <span class="hljs-type">Int</span> ?= <span class="hljs-number">1</span>)
+</code></pre>
+<h3 id="%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0">&#x53EF;&#x9009;&#x53C2;&#x6570;</h3>
+<p>&#x540C;&#x6837;&#x7684;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x53C2;&#x6570;&#xFF0C;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x4E0D;&#x51FA;&#x73B0;&#x5728;&#x8BF7;&#x6C42;&#x4E2D;&#xFF1A;</p>
+<pre><code class="lang-scala"># &#x53C2;&#x6570; version &#x662F;&#x53EF;&#x9009;&#x7684;&#x3002;&#x5982; /api/list-all?version=<span class="hljs-number">3.0</span>
+<span class="hljs-type">GET</span>   /api/list-all         controllers.<span class="hljs-type">Api</span>.list(version: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>])
+</code></pre>
+<h2 id="%E8%B7%AF%E7%94%B1%E4%BC%98%E5%85%88%E7%BA%A7">&#x8DEF;&#x7531;&#x4F18;&#x5148;&#x7EA7;</h2>
+<p>&#x591A;&#x4E2A;&#x8DEF;&#x7531;&#x53EF;&#x80FD;&#x4F1A;&#x5339;&#x914D;&#x5230;&#x540C;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x3002;&#x5982;&#x679C;&#x51FA;&#x73B0;&#x4E86;&#x7C7B;&#x4F3C;&#x7684;&#x51B2;&#x7A81;&#x60C5;&#x51B5;&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;&#x5B9A;&#x4E49;&#x7684;&#x8DEF;&#x7531;&#xFF08;&#x4EE5;&#x5B9A;&#x4E49;&#x987A;&#x5E8F;&#x4E3A;&#x51C6;&#xFF09;&#x4F1A;&#x88AB;&#x542F;&#x7528;&#x3002;</p>
+<h2 id="%E5%8F%8D%E5%90%91%E8%B7%AF%E7%94%B1">&#x53CD;&#x5411;&#x8DEF;&#x7531;</h2>
+<p>&#x8DEF;&#x7531;&#x540C;&#x6837;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; Scala &#x7684;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x6765;&#x751F;&#x6210; URL&#x3002;&#x8FD9;&#x6837;&#x505A;&#x80FD;&#x591F;&#x5C06;&#x6240;&#x6709;&#x7684; URI &#x6A21;&#x5F0F;&#x5B9A;&#x4E49;&#x5728;&#x4E00;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x8BA9;&#x4F60;&#x5728;&#x91CD;&#x6784;&#x5E94;&#x7528;&#x65F6;&#x66F4;&#x6709;&#x628A;&#x63E1;&#x3002;</p>
+<p>Play &#x7684;&#x8DEF;&#x7531;&#x4F1A;&#x4E3A;&#x8DEF;&#x7531;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x91CC;&#x5B9A;&#x4E49;&#x7684;&#x6BCF;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#xFF0C;&#x5728; <code>routes</code> &#x5305;&#x4E2D;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x300C;&#x53CD;&#x5411;&#x63A7;&#x5236;&#x5668;&#x300D;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x542B;&#x4E86;&#x540C;&#x6837;&#x7684; action &#x65B9;&#x6CD5;&#x548C;&#x7B7E;&#x540D;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD4;&#x56DE;&#x503C;&#x7C7B;&#x578B;&#x4E3A; <code>play.api.mvc.Call</code> &#x800C;&#x975E; <code>play.api.mvc.Action</code>&#x3002;</p>
+<p><code>play.api.mvc.Call</code> &#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A; HTTP &#x8C03;&#x7528;&#xFF0C;&#x5E76;&#x4E14;&#x63D0;&#x4F9B;&#x4E86; HTTP &#x8BF7;&#x6C42;&#x65B9;&#x6CD5;&#x548C; URI&#x3002;</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x521B;&#x5EFA;&#x4E86;&#x8FD9;&#x6837;&#x4E00;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">package</span> controllers
+
+<span class="hljs-keyword">import</span> play.api._
+<span class="hljs-keyword">import</span> play.api.mvc._
+
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Application</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Controller</span> {</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello</span>(</span>name: <span class="hljs-type">String</span>) = <span class="hljs-type">Action</span> {
+    <span class="hljs-type">Ok</span>(<span class="hljs-string">&quot;Hello &quot;</span> + name + <span class="hljs-string">&quot;!&quot;</span>)
+  }
+}
+</code></pre>
+<p>&#x5E76;&#x4E14;&#x5728; <code>conf/routes</code> &#x4E2D;&#x8BBE;&#x7F6E;&#x4E86;&#x8BE5;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code class="lang-scala"># <span class="hljs-type">Hello</span> action
+<span class="hljs-type">GET</span>   /hello/:name          controllers.<span class="hljs-type">Application</span>.hello(name)
+</code></pre>
+<p>&#x63A5;&#x7740;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x8C03;&#x7528; <code>controllers.routes.Application</code> &#x7684; <code>hello</code> action &#x65B9;&#x6CD5;&#xFF0C;&#x53CD;&#x5411;&#x5F97;&#x5230;&#x76F8;&#x5E94;&#x7684; URL&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-comment">// &#x91CD;&#x5B9A;&#x5411;&#x5230; /hello/Bob</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">helloBob</span> =</span> <span class="hljs-type">Action</span> {
+  <span class="hljs-type">Redirect</span>(routes.<span class="hljs-type">Application</span>.hello(<span class="hljs-string">&quot;Bob&quot;</span>))
+}
+</code></pre>
 
                     
                     </section>

@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="5.1" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="5.1" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1086,7 +1086,328 @@
                 
                     <section class="normal" id="section-">
                     
-                        <h1 id="json-basics">JSON basics</h1>
+                        <h1 id="json-%E5%9F%BA%E7%A1%80">JSON &#x57FA;&#x7840;</h1>
+<p>&#x73B0;&#x4EE3;Web&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7ECF;&#x5E38;&#x9700;&#x8981;&#x89E3;&#x6790;&#x548C;&#x751F;&#x6210;JSON&#xFF08;JavaScrpit Object Notation&#xFF09;&#x683C;&#x5F0F;&#x7684;&#x6570;&#x636E;&#x3002;Play&#x6846;&#x67B6;&#x901A;&#x8FC7;JSON&#x5E93;&#x7684;&#x652F;&#x6301;&#x53EF;&#x4EE5;&#x5B8C;&#x6210;&#x4E0A;&#x8FF0;&#x4EFB;&#x52A1;&#x3002;</p>
+<p>JSON&#x662F;&#x4E00;&#x79CD;&#x8F7B;&#x91CF;&#x7EA7;&#x7684;&#x6570;&#x636E;&#x4EA4;&#x6362;&#x683C;&#x5F0F;&#xFF0C;&#x8BF7;&#x770B;&#x4E0B;&#x9762;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code>{
+  &quot;name&quot; : &quot;Watership Down&quot;,
+  &quot;location&quot; : {
+    &quot;lat&quot; : 51.235685,
+    &quot;long&quot; : -1.309197
+  },
+  &quot;residents&quot; : [ {
+    &quot;name&quot; : &quot;Fiver&quot;,
+    &quot;age&quot; : 4,
+    &quot;role&quot; : null
+  }, {
+    &quot;name&quot; : &quot;Bigwig&quot;,
+    &quot;age&quot; : 6,
+    &quot;role&quot; : &quot;Owsla&quot;
+  } ]
+}
+</code></pre><p>&#x5982;&#x679C;&#x60F3;&#x4E86;&#x89E3;&#x8DDF;&#x591A;&#x5173;&#x4E8E;JSON&#x7684;&#x77E5;&#x8BC6;&#xFF0C;&#x8BF7;&#x8BBF;&#x95EE;<a href="http://json.org/" target="_blank">json.org</a></p>
+<h2 id="play%E6%A1%86%E6%9E%B6%E7%9A%84json%E5%BA%93">Play&#x6846;&#x67B6;&#x7684;JSON&#x5E93;</h2>
+<p><code>play.api.libs.json</code>&#x5305;&#x4E2D;&#x5305;&#x542B;&#x8868;&#x793A;JSON&#x6570;&#x636E;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x548C;&#x7528;&#x4E8E;&#x5C06;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x4E0E;&#x5176;&#x4ED6;&#x6570;&#x636E;&#x683C;&#x5F0F;&#x4E92;&#x76F8;&#x8F6C;&#x6362;&#x7684;&#x5B9E;&#x7528;&#x5DE5;&#x5177;&#x3002;</p>
+<h3 id="jsvalue">JsValue</h3>
+<p>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7279;&#x8D28;&#xFF08;trait&#xFF09;&#xFF0C;&#x53EF;&#x4EE5;&#x8868;&#x793A;&#x4EFB;&#x4F55;JSON&#x503C;&#x3002;JSON&#x5E93;&#x4E2D;&#x901A;&#x8FC7;&#x4E00;&#x7CFB;&#x5217;&#x5BF9;JsVlaue&#x8FDB;&#x884C;&#x6269;&#x5C55;&#x7684;case&#x7C7B;&#x6765;&#x8868;&#x793A;&#x5404;&#x79CD;&#x6709;&#x6548;&#x7684;JSON&#x7C7B;&#x578B;&#x3002;</p>
+<ul>
+<li>JsString</li>
+<li>JsNumber</li>
+<li>JsBoolean</li>
+<li>JsObject</li>
+<li>JsArray</li>
+<li>JsNull</li>
+</ul>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x8FD9;&#x4E9B;&#x591A;&#x79CD;&#x591A;&#x6837;&#x7684;JsValue&#x7C7B;&#x578B;&#x6765;&#x6784;&#x9020;&#x4EFB;&#x4F55;JSON&#x7ED3;&#x6784;&#x3002;</p>
+<h3 id="json">Json</h3>
+<p>Json&#x5BF9;&#x8C61;&#x63D0;&#x4F9B;&#x4E00;&#x4E9B;&#x5DE5;&#x5177;&#xFF0C;&#x8FD9;&#x4E9B;&#x5DE5;&#x5177;&#x7528;&#x4E8E;&#x5C06;&#x6570;&#x636E;&#x683C;&#x5F0F;&#x8F6C;&#x6362;&#x4E3A;JsValue&#x7ED3;&#x6784;&#x6216;&#x8005;&#x9006;&#x5411;&#x8F6C;&#x6362;&#x3002;</p>
+<h3 id="jspath">JsPath</h3>
+<p>JsPath&#x7528;&#x4E8E;&#x8868;&#x793A;JsValue&#x5185;&#x90E8;&#x7ED3;&#x6784;&#x7684;&#x8DEF;&#x5F84;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;XPath&#x5BF9;XML&#x7684;&#x610F;&#x4E49;&#x3002;&#x53EF;&#x4EE5;&#x5229;&#x7528;JsPath&#x6790;&#x53D6;JsValue&#x7ED3;&#x6784;&#xFF0C;&#x6216;&#x8005;&#x5BF9;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#x8FDB;&#x884C;&#x6A21;&#x5F0F;&#x5339;&#x914D;&#x3002;</p>
+<h2 id="%E6%9E%84%E9%80%A0jsvalue%E5%AE%9E%E4%BE%8B">&#x6784;&#x9020;JsValue&#x5B9E;&#x4F8B;</h2>
+<h3 id="%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A7%A3%E6%9E%90">&#x5B57;&#x7B26;&#x4E32;&#x89E3;&#x6790;</h3>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.json._
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">json</span>:</span> <span class="hljs-type">JsValue</span> = <span class="hljs-type">Json</span>.parse(<span class="hljs-string">&quot;&quot;&quot;
+{
+  &quot;name&quot; : &quot;Watership Down&quot;,
+  &quot;location&quot; : {
+    &quot;lat&quot; : 51.235685,
+    &quot;long&quot; : -1.309197
+  },
+  &quot;residents&quot; : [ {
+    &quot;name&quot; : &quot;Fiver&quot;,
+    &quot;age&quot; : 4,
+    &quot;role&quot; : null
+  }, {
+    &quot;name&quot; : &quot;Bigwig&quot;,
+    &quot;age&quot; : 6,
+    &quot;role&quot; : &quot;Owsla&quot;
+  } ]
+}
+&quot;&quot;&quot;</span>)
+</code></pre>
+<h3 id="%E7%B1%BB%E6%9E%84%E9%80%A0%E5%99%A8">&#x7C7B;&#x6784;&#x9020;&#x5668;</h3>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.json._
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">json</span>:</span> <span class="hljs-type">JsValue</span> = <span class="hljs-type">JsObject</span>(<span class="hljs-type">Seq</span>(
+  <span class="hljs-string">&quot;name&quot;</span> -&gt; <span class="hljs-type">JsString</span>(<span class="hljs-string">&quot;Watership Down&quot;</span>),
+  <span class="hljs-string">&quot;location&quot;</span> -&gt; <span class="hljs-type">JsObject</span>(<span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;lat&quot;</span> -&gt; <span class="hljs-type">JsNumber</span>(<span class="hljs-number">51.235685</span>), <span class="hljs-string">&quot;long&quot;</span> -&gt; <span class="hljs-type">JsNumber</span>(-<span class="hljs-number">1.309197</span>))),
+  <span class="hljs-string">&quot;residents&quot;</span> -&gt; <span class="hljs-type">JsArray</span>(<span class="hljs-type">Seq</span>(
+    <span class="hljs-type">JsObject</span>(<span class="hljs-type">Seq</span>(
+      <span class="hljs-string">&quot;name&quot;</span> -&gt; <span class="hljs-type">JsString</span>(<span class="hljs-string">&quot;Fiver&quot;</span>),
+      <span class="hljs-string">&quot;age&quot;</span> -&gt; <span class="hljs-type">JsNumber</span>(<span class="hljs-number">4</span>),
+      <span class="hljs-string">&quot;role&quot;</span> -&gt; <span class="hljs-type">JsNull</span>
+    )),
+    <span class="hljs-type">JsObject</span>(<span class="hljs-type">Seq</span>(
+      <span class="hljs-string">&quot;name&quot;</span> -&gt; <span class="hljs-type">JsString</span>(<span class="hljs-string">&quot;Bigwig&quot;</span>),
+      <span class="hljs-string">&quot;age&quot;</span> -&gt; <span class="hljs-type">JsNumber</span>(<span class="hljs-number">6</span>),
+      <span class="hljs-string">&quot;role&quot;</span> -&gt; <span class="hljs-type">JsString</span>(<span class="hljs-string">&quot;Owsla&quot;</span>)
+    ))
+  ))
+))
+</code></pre>
+<p>&#x901A;&#x8FC7;<code>Json.obj</code>&#x548C;<code>Json.arr</code>&#x6784;&#x9020;&#x53EF;&#x80FD;&#x66F4;&#x7B80;&#x5355;&#x4E9B;&#x3002;&#x6CE8;&#x610F;&#x5927;&#x90E8;&#x5206;&#x503C;&#x4E0D;&#x9700;&#x8981;&#x663E;&#x5F0F;&#x5F97;&#x7528;JsValue&#x7C7B;&#x5C01;&#x88C5;&#xFF0C;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x4F1A;&#x6267;&#x884C;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#xFF08;&#x63A5;&#x4E0B;&#x6765;&#x662F;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF09;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.json.{<span class="hljs-type">JsNull</span>,<span class="hljs-type">Json</span>,<span class="hljs-type">JsString</span>,<span class="hljs-type">JsValue</span>}
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">json</span>:</span> <span class="hljs-type">JsValue</span> = <span class="hljs-type">Json</span>.obj(
+  <span class="hljs-string">&quot;name&quot;</span> -&gt; <span class="hljs-string">&quot;Watership Down&quot;</span>,
+  <span class="hljs-string">&quot;location&quot;</span> -&gt; <span class="hljs-type">Json</span>.obj(<span class="hljs-string">&quot;lat&quot;</span> -&gt; <span class="hljs-number">51.235685</span>, <span class="hljs-string">&quot;long&quot;</span> -&gt; -<span class="hljs-number">1.309197</span>),
+  <span class="hljs-string">&quot;residents&quot;</span> -&gt; <span class="hljs-type">Json</span>.arr(
+    <span class="hljs-type">Json</span>.obj(
+      <span class="hljs-string">&quot;name&quot;</span> -&gt; <span class="hljs-string">&quot;Fiver&quot;</span>,
+      <span class="hljs-string">&quot;age&quot;</span> -&gt; <span class="hljs-number">4</span>,
+      <span class="hljs-string">&quot;role&quot;</span> -&gt; <span class="hljs-type">JsNull</span>
+    ),
+    <span class="hljs-type">Json</span>.obj(
+      <span class="hljs-string">&quot;name&quot;</span> -&gt; <span class="hljs-string">&quot;Bigwig&quot;</span>,
+      <span class="hljs-string">&quot;age&quot;</span> -&gt; <span class="hljs-number">6</span>,
+      <span class="hljs-string">&quot;role&quot;</span> -&gt; <span class="hljs-string">&quot;Owsla&quot;</span>
+    )
+  )
+)
+</code></pre>
+<h3 id="writers%E8%BD%AC%E6%8D%A2%E5%99%A8">Writers&#x8F6C;&#x6362;&#x5668;</h3>
+<p>Scala&#x4E2D;&#x901A;&#x8FC7;&#x5DE5;&#x5177;&#x65B9;&#x6CD5;<code>Json.toJson[T](T)(implicit writes:Writes[T])</code>&#x3002;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x901A;&#x8FC7;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x5668;<code>Writes[T]</code>&#x5C06;T&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;&#x8F6C;&#x6362;&#x4E3A;JsValue&#x3002;</p>
+<p>Play&#x6846;&#x67B6;&#x7684;JSON&#x5E93;API&#x63A5;&#x53E3;&#x63D0;&#x4F9B;&#x4E86;&#x5927;&#x90E8;&#x5206;&#x57FA;&#x7840;&#x7C7B;&#x578B;&#x7684;&#x9690;&#x5F0F;<code>Writes</code>&#xFF0C;&#x4F8B;&#x5982;<code>Int</code>&#xFF0C;<code>Double</code>&#xFF0C;<code>String</code>&#x548C;<code>Boolean</code>&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x8BE5;JSON&#x5E93;&#x4E5F;&#x6709;&#x9488;&#x5BF9;&#x5305;&#x542B;&#x4E0A;&#x8FF0;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x5143;&#x7D20;&#x7684;&#x96C6;&#x5408;&#x7684;<code>Writes</code>&#x8F6C;&#x6362;&#x5668;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.json._
+
+<span class="hljs-comment">// basic types</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonString</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-string">&quot;Fiver&quot;</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonNumber</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-number">4</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonBoolean</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-literal">false</span>)
+
+<span class="hljs-comment">// collections of basic types</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonArrayOfInts</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-type">Seq</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>))
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonArrayOfStrings</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-type">List</span>(<span class="hljs-string">&quot;Fiver&quot;</span>, <span class="hljs-string">&quot;Bigwig&quot;</span>))
+</code></pre>
+<p>&#x5982;&#x679C;&#x60F3;&#x628A;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x7684;&#x6A21;&#x578B;&#x8F6C;&#x6362;&#x6210;JsValues&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x5B9A;&#x4E49;&#x9690;&#x5F0F;&#x7684;<code>Writes</code>&#x8F6C;&#x6362;&#x5668;&#xFF0C;&#x5E76;&#x5C06;&#x5B83;&#x4EEC;&#x5F15;&#x5165;&#x6267;&#x884C;&#x73AF;&#x5883;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.json._
+
+<span class="hljs-comment">// basic types</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonString</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-string">&quot;Fiver&quot;</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonNumber</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-number">4</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonBoolean</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-literal">false</span>)
+
+<span class="hljs-comment">// collections of basic types</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonArrayOfInts</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-type">Seq</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>))
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">jsonArrayOfStrings</span> =</span> <span class="hljs-type">Json</span>.toJson(<span class="hljs-type">List</span>(<span class="hljs-string">&quot;Fiver&quot;</span>, <span class="hljs-string">&quot;Bigwig&quot;</span>))
+<span class="hljs-type">To</span> convert your own models to <span class="hljs-type">JsValues</span>, you must define <span class="hljs-keyword">implicit</span> <span class="hljs-type">Writes</span> converters and provide them in scope.
+
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Location</span>(</span>lat: <span class="hljs-type">Double</span>, long: <span class="hljs-type">Double</span>)
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Resident</span>(</span>name: <span class="hljs-type">String</span>, age: <span class="hljs-type">Int</span>, role: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>])
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Place</span>(</span>name: <span class="hljs-type">String</span>, location: <span class="hljs-type">Location</span>, residents: <span class="hljs-type">Seq</span>[<span class="hljs-type">Resident</span>])
+<span class="hljs-keyword">import</span> play.api.libs.json._
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">locationWrites</span> =</span> <span class="hljs-keyword">new</span> <span class="hljs-type">Writes</span>[<span class="hljs-type">Location</span>] {
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">writes</span>(</span>location: <span class="hljs-type">Location</span>) = <span class="hljs-type">Json</span>.obj(
+    <span class="hljs-string">&quot;lat&quot;</span> -&gt; location.lat,
+    <span class="hljs-string">&quot;long&quot;</span> -&gt; location.long
+  )
+}
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">residentWrites</span> =</span> <span class="hljs-keyword">new</span> <span class="hljs-type">Writes</span>[<span class="hljs-type">Resident</span>] {
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">writes</span>(</span>resident: <span class="hljs-type">Resident</span>) = <span class="hljs-type">Json</span>.obj(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; resident.name,
+    <span class="hljs-string">&quot;age&quot;</span> -&gt; resident.age,
+    <span class="hljs-string">&quot;role&quot;</span> -&gt; resident.role
+  )
+}
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">placeWrites</span> =</span> <span class="hljs-keyword">new</span> <span class="hljs-type">Writes</span>[<span class="hljs-type">Place</span>] {
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">writes</span>(</span>place: <span class="hljs-type">Place</span>) = <span class="hljs-type">Json</span>.obj(
+    <span class="hljs-string">&quot;name&quot;</span> -&gt; place.name,
+    <span class="hljs-string">&quot;location&quot;</span> -&gt; place.location,
+    <span class="hljs-string">&quot;residents&quot;</span> -&gt; place.residents)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">place</span> =</span> <span class="hljs-type">Place</span>(
+  <span class="hljs-string">&quot;Watership Down&quot;</span>,
+  <span class="hljs-type">Location</span>(<span class="hljs-number">51.235685</span>, -<span class="hljs-number">1.309197</span>),
+  <span class="hljs-type">Seq</span>(
+    <span class="hljs-type">Resident</span>(<span class="hljs-string">&quot;Fiver&quot;</span>, <span class="hljs-number">4</span>, <span class="hljs-type">None</span>),
+    <span class="hljs-type">Resident</span>(<span class="hljs-string">&quot;Bigwig&quot;</span>, <span class="hljs-number">6</span>, <span class="hljs-type">Some</span>(<span class="hljs-string">&quot;Owsla&quot;</span>))
+  )
+)
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">json</span> =</span> <span class="hljs-type">Json</span>.toJson(place)
+</code></pre>
+<p>&#x4F5C;&#x4E3A;&#x5907;&#x9009;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x914D;&#x5408;&#x6A21;&#x5F0F;&#xFF08;combinator pattern&#xFF09;&#x6765;&#x5B9A;&#x4E49;&#x81EA;&#x5DF1;&#x7684;<code>Writes</code>&#x8F6C;&#x6362;&#x5668;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x5173;&#x4E8E;&#x914D;&#x5408;&#x6A21;&#x5F0F;&#xFF08;combinator pattern&#xFF09;&#x5728;<a href="ScalaJsonCombinators.htmlnull">JSON Reads/Writes/Formats &#x9009;&#x62E9;&#x5668;</a>&#x4E00;&#x8282;&#x4E2D;&#x6709;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> play.api.libs.json._
+<span class="hljs-keyword">import</span> play.api.libs.functional.syntax._
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">locationWrites</span>:</span> <span class="hljs-type">Writes</span>[<span class="hljs-type">Location</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;lat&quot;</span>).write[<span class="hljs-type">Double</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;long&quot;</span>).write[<span class="hljs-type">Double</span>]
+)(unlift(<span class="hljs-type">Location</span>.unapply))
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">residentWrites</span>:</span> <span class="hljs-type">Writes</span>[<span class="hljs-type">Resident</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;name&quot;</span>).write[<span class="hljs-type">String</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;age&quot;</span>).write[<span class="hljs-type">Int</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;role&quot;</span>).writeNullable[<span class="hljs-type">String</span>]
+)(unlift(<span class="hljs-type">Resident</span>.unapply))
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">placeWrites</span>:</span> <span class="hljs-type">Writes</span>[<span class="hljs-type">Place</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;name&quot;</span>).write[<span class="hljs-type">String</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;location&quot;</span>).write[<span class="hljs-type">Location</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;residents&quot;</span>).write[<span class="hljs-type">Seq</span>[<span class="hljs-type">Resident</span>]]
+)(unlift(<span class="hljs-type">Place</span>.unapply))
+</code></pre>
+<h2 id="%E6%9E%90%E5%8F%96jsvalue%E7%BB%93%E6%9E%84">&#x6790;&#x53D6;JsValue&#x7ED3;&#x6784;</h2>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x6790;&#x53D6;JsValue&#x7ED3;&#x6784;&#x5E76;&#x8BFB;&#x53D6;&#x7279;&#x5B9A;&#x7684;&#x503C;&#x3002;&#x8BED;&#x6CD5;&#x548C;&#x529F;&#x80FD;&#x7C7B;&#x4F3C;&#x4E8E;Scala&#x5904;&#x7406;XML&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+<pre><code>&#x6CE8;&#x610F;&#xFF1A;&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x5E94;&#x7528;&#x5728;&#x524D;&#x9762;&#x521B;&#x5EFA;&#x7684;JsValue&#x7ED3;&#x6784;&#x4E0A;
+</code></pre><h3 id="simple-path">Simple path<code>\</code></h3>
+<p>&#x5C06;<code>\</code>&#x64CD;&#x4F5C;&#x7B26;&#x5E94;&#x7528;&#x4E8E;&#x4E00;&#x4E2A;<code>JsValue</code>&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;&#x8DDF;&#x76F8;&#x5173;&#x57DF;&#x5BF9;&#x5E94;&#x7684;&#x5C5E;&#x6027;&#x3002;&#x4E0B;&#x9762;&#x5047;&#x8BBE;&#x6709;&#x4E00;&#x4E2A;JsObject&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">lat</span> =</span> json \ <span class="hljs-string">&quot;location&quot;</span> \ <span class="hljs-string">&quot;lat&quot;</span>
+<span class="hljs-comment">// &#x8FD4;&#x56DE;JsNumber(51.235685)</span>
+</code></pre>
+<h3 id="recursive-path">Recursive path<code>\\</code></h3>
+<p>&#x4F7F;&#x7528;<code>\\</code>&#x64CD;&#x4F5C;&#x7B26;&#x5C06;&#x4F1A;&#x9012;&#x5F52;&#x67E5;&#x627E;&#x5F53;&#x524D;&#x5BF9;&#x8C61;&#x4E2D;&#x4EE5;&#x53CA;&#x6240;&#x6709;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x5BF9;&#x5E94;&#x57DF;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">names</span> =</span> json \\ <span class="hljs-string">&quot;name&quot;</span> 
+<span class="hljs-comment">// returns Seq(JsString(&quot;Watership Down&quot;), JsString(&quot;Fiver&quot;), JsString(&quot;Bigwig&quot;))</span>
+</code></pre>
+<h3 id="index-lookup-for-jsarrays">Index lookup(for JsArrays)</h3>
+<p>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x7D22;&#x5F15;&#x503C;&#x4ECE;<code>JsArray</code>&#x4E2D;&#x83B7;&#x53D6;&#x503C;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">bigwig</span> =</span> (json \ <span class="hljs-string">&quot;residents&quot;</span>)(<span class="hljs-number">1</span>)
+<span class="hljs-comment">// returns {&quot;name&quot;:&quot;Bigwig&quot;,&quot;age&quot;:6,&quot;role&quot;:&quot;Owsla&quot;}</span>
+</code></pre>
+<h2 id="%E8%A7%A3%E6%9E%90jsvalue%E7%BB%93%E6%9E%84">&#x89E3;&#x6790;JsValue&#x7ED3;&#x6784;</h2>
+<h3 id="%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B7%A5%E5%85%B7">&#x5B57;&#x7B26;&#x4E32;&#x5DE5;&#x5177;</h3>
+<ul>
+<li>&#x5FAE;&#x578B;</li>
+</ul>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">minifiedString</span>:</span> <span class="hljs-type">String</span> = <span class="hljs-type">Json</span>.stringify(json)
+{<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Watership Down&quot;</span>,<span class="hljs-string">&quot;location&quot;</span>:{<span class="hljs-string">&quot;lat&quot;</span>:<span class="hljs-number">51.235685</span>,<span class="hljs-string">&quot;long&quot;</span>:-<span class="hljs-number">1.309197</span>},<span class="hljs-string">&quot;residents&quot;</span>:[{<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Fiver&quot;</span>,<span class="hljs-string">&quot;age&quot;</span>:<span class="hljs-number">4</span>,<span class="hljs-string">&quot;role&quot;</span>:nul
+</code></pre>
+<ul>
+<li>&#x53EF;&#x8BFB;&#x7684;</li>
+</ul>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">readableString</span>:</span> <span class="hljs-type">String</span> = <span class="hljs-type">Json</span>.prettyPrint(json)
+{
+  <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;Watership Down&quot;</span>,
+  <span class="hljs-string">&quot;location&quot;</span> : {
+    <span class="hljs-string">&quot;lat&quot;</span> : <span class="hljs-number">51.235685</span>,
+    <span class="hljs-string">&quot;long&quot;</span> : -<span class="hljs-number">1.309197</span>
+  },
+  <span class="hljs-string">&quot;residents&quot;</span> : [ {
+    <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;Fiver&quot;</span>,
+    <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">4</span>,
+    <span class="hljs-string">&quot;role&quot;</span> : <span class="hljs-literal">null</span>
+  }, {
+    <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;Bigwig&quot;</span>,
+    <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">6</span>,
+    <span class="hljs-string">&quot;role&quot;</span> : <span class="hljs-string">&quot;Owsla&quot;</span>
+  } ]
+}
+</code></pre>
+<h3 id="jsvalue-as%E6%88%96%E8%80%85jsvalue-asopt">JsValue.as&#x6216;&#x8005;Jsvalue.asOpt</h3>
+<p>&#x5C06;JsValue&#x5BF9;&#x8C61;&#x8F6C;&#x6362;&#x6210;&#x5176;&#x4ED6;&#x7C7B;&#x578B;&#x7684;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x4F7F;&#x7528;<code>JsValue.as[T](implicit fjs&#xFF1A;Reads[T]):T</code> &#x9700;&#x8981;&#x81EA;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x5668;<code>Reads[T]</code>&#x6765;&#x8BB2;<code>JsValue</code>&#x8F6C;&#x6362;&#x6210;<code>T</code>&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;(<code>&#x548C;Writes[T]&#x76F8;&#x53CD;</code>)&#x3002; &#x8DDF;<code>Writes</code>&#x4E00;&#x6837;&#xFF0C;JSON&#x5E93;&#x63D0;&#x4F9B;&#x4E86;<code>Reads</code>&#x8F6C;&#x6362;&#x5668;&#x9700;&#x8981;&#x7684;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">name</span> =</span> (json \ <span class="hljs-string">&quot;name&quot;</span>).as[<span class="hljs-type">String</span>]
+<span class="hljs-comment">// &quot;Watership Down&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">names</span> =</span> (json \\ <span class="hljs-string">&quot;name&quot;</span>).map(_.as[<span class="hljs-type">String</span>])
+<span class="hljs-comment">// Seq(&quot;Watership Down&quot;, &quot;Fiver&quot;, &quot;Bigwig&quot;)</span>
+</code></pre>
+<p>&#x5982;&#x679C;&#x8DEF;&#x5F84;&#xFF08;path&#xFF09;&#x4E0D;&#x5B58;&#x5728;&#x6216;&#x8005;&#x8F6C;&#x6362;&#x5931;&#x8D25;&#xFF0C;<code>as</code>&#x65B9;&#x6CD5;&#x4F1A;&#x629B;&#x51FA;<code>JsResultException</code>&#x5F02;&#x5E38;&#x3002;&#x66F4;&#x5B89;&#x5168;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x4F7F;&#x7528;<code>JsValue.asOpt[T](implicit fjs:Reads[T]):Option[T]</code></p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">nameOption</span> =</span> (json \ <span class="hljs-string">&quot;name&quot;</span>).asOpt[<span class="hljs-type">String</span>]
+<span class="hljs-comment">// Some(&quot;Watership Down&quot;)</span>
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">bogusOption</span> =</span> (json \ <span class="hljs-string">&quot;bogus&quot;</span>).asOpt[<span class="hljs-type">String</span>]
+<span class="hljs-comment">// None</span>
+</code></pre>
+<p>&#x5C3D;&#x7BA1;asOpt&#x65B9;&#x6CD5;&#x66F4;&#x5B89;&#x5168;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x6709;&#x9519;&#x8BEF;&#x4E5F;&#x4E0D;&#x80FD;&#x6355;&#x6349;&#x5230;&#x3002;</p>
+<h3 id="%E4%BD%BF%E7%94%A8%E6%9C%89%E6%95%88%E6%80%A7%EF%BC%88validation%EF%BC%89">&#x4F7F;&#x7528;&#x6709;&#x6548;&#x6027;&#xFF08;validation&#xFF09;</h3>
+<p>&#x63A8;&#x8350;&#x4F7F;&#x7528;<code>validate</code>&#x65B9;&#x6CD5;&#x5C06;<code>JsValue</code>&#x8F6C;&#x6362;&#x4E3A;&#x5176;&#x4ED6;&#x7C7B;&#x578B;(&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x542B;&#x6709;&#x4E00;&#x4E2A;<code>Read</code>&#x7C7B;&#x578B;&#x7684;&#x53C2;&#x6570;)&#x3002;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x540C;&#x65F6;&#x6267;&#x884C;&#x6709;&#x6548;&#x6027;&#x9A8C;&#x8BC1;&#x548C;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x64CD;&#x4F5C;&#xFF0C;&#x8FD4;&#x56DE;&#x7684;&#x7ED3;&#x679C;&#x7C7B;&#x578B;&#x662F;<code>JsResult</code>&#x3002;<code>JsResult</code>&#x901A;&#x8FC7;&#x4E24;&#x4E2A;&#x7C7B;&#x5B9E;&#x73B0;&#xFF1A;</p>
+<ul>
+<li>JsSuccess&#x2014;&#x2014;&#x8868;&#x793A;&#x9A8C;&#x8BC1;/&#x8F6C;&#x6362;&#x6210;&#x529F;&#x5E76;&#x5C01;&#x88C5;&#x7ED3;&#x679C;&#x3002;</li>
+<li>JsError&#x2014;&#x2014;&#x8868;&#x793A;&#x9A8C;&#x8BC1;/&#x8F6C;&#x6362;&#x4E0D;&#x6210;&#x529F;&#xFF0C;&#x5E76;&#x5305;&#x542B;&#x6709;&#x9519;&#x8BEF;&#x5217;&#x8868;&#x3002;</li>
+</ul>
+<p>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x591A;&#x79CD;&#x6A21;&#x5F0F;&#x6765;&#x5904;&#x7406;&#x9A8C;&#x8BC1;&#x7ED3;&#x679C;:</p>
+<pre><code class="lang-scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">json</span> =</span> { ... }
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">nameResult</span>:</span> <span class="hljs-type">JsResult</span>[<span class="hljs-type">String</span>] = (json \ <span class="hljs-string">&quot;name&quot;</span>).validate[<span class="hljs-type">String</span>]
+
+<span class="hljs-comment">// Pattern matching</span>
+nameResult <span class="hljs-keyword">match</span> {
+  <span class="hljs-keyword">case</span> s: <span class="hljs-type">JsSuccess</span>[<span class="hljs-type">String</span>] =&gt; println(<span class="hljs-string">&quot;Name: &quot;</span> + s.get)
+  <span class="hljs-keyword">case</span> e: <span class="hljs-type">JsError</span> =&gt; println(<span class="hljs-string">&quot;Errors: &quot;</span> + <span class="hljs-type">JsError</span>.toFlatJson(e).toString()) 
+}
+
+<span class="hljs-comment">// Fallback value</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">nameOrFallback</span> =</span> nameResult.getOrElse(<span class="hljs-string">&quot;Undefined&quot;</span>)
+
+<span class="hljs-comment">// map</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">nameUpperResult</span>:</span> <span class="hljs-type">JsResult</span>[<span class="hljs-type">String</span>] = nameResult.map(_.toUpperCase())
+
+<span class="hljs-comment">// fold</span>
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">nameOption</span>:</span> <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>] = nameResult.fold(
+  invalid = {
+    fieldErrors =&gt; fieldErrors.foreach(x =&gt; {
+      println(<span class="hljs-string">&quot;field: &quot;</span> + x._1 + <span class="hljs-string">&quot;, errors: &quot;</span> + x._2)
+    })
+    <span class="hljs-type">None</span>
+  },
+  valid = { 
+    name =&gt; <span class="hljs-type">Some</span>(name)
+  }
+)
+</code></pre>
+<h3 id="%E7%94%B1jsvalue%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%A8%A1%E5%9E%8B%EF%BC%88model%EF%BC%89">&#x7531;JsValue&#x8F6C;&#x6362;&#x4E3A;&#x6A21;&#x578B;&#xFF08;model&#xFF09;</h3>
+<p>&#x5982;&#x679C;&#x8981;&#x5C06;JsValue&#x8F6C;&#x6362;&#x4E3A;&#x6A21;&#x578B;&#xFF0C;&#x4F60;&#x8981;&#x5B9A;&#x4E49;&#x9690;&#x5F0F;<code>Reads[T]</code>&#x8F6C;&#x6362;&#x5668;&#xFF0C;&#x5176;&#x4E2D;T&#x662F;&#x6A21;&#x578B;&#x7684;&#x7C7B;&#x578B;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x6B64;&#x5904;&#x5B9E;&#x73B0;Reads&#x6240;&#x7528;&#x7684;&#x6A21;&#x5F0F;&#x548C;&#x81EA;&#x5B9A;&#x4E49;&#x6709;&#x6548;&#x6027;&#x7684;&#x6280;&#x672F;&#x7EC6;&#x8282;&#x5728;<a href="ScalaJsonCombinators.htmlnull">JSON Reads/Writes/Formats &#x9009;&#x62E9;&#x5668;</a>&#x4E00;&#x8282;&#x4E2D;&#x6709;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;&#x3002;</p>
+<pre><code class="lang-scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Location</span>(</span>lat: <span class="hljs-type">Double</span>, long: <span class="hljs-type">Double</span>)
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Resident</span>(</span>name: <span class="hljs-type">String</span>, age: <span class="hljs-type">Int</span>, role: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>])
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Place</span>(</span>name: <span class="hljs-type">String</span>, location: <span class="hljs-type">Location</span>, residents: <span class="hljs-type">Seq</span>[<span class="hljs-type">Resident</span>])
+<span class="hljs-keyword">import</span> play.api.libs.json._
+<span class="hljs-keyword">import</span> play.api.libs.functional.syntax._
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">locationReads</span>:</span> <span class="hljs-type">Reads</span>[<span class="hljs-type">Location</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;lat&quot;</span>).read[<span class="hljs-type">Double</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;long&quot;</span>).read[<span class="hljs-type">Double</span>]
+)(<span class="hljs-type">Location</span>.apply _)
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">residentReads</span>:</span> <span class="hljs-type">Reads</span>[<span class="hljs-type">Resident</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;name&quot;</span>).read[<span class="hljs-type">String</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;age&quot;</span>).read[<span class="hljs-type">Int</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;role&quot;</span>).readNullable[<span class="hljs-type">String</span>]
+)(<span class="hljs-type">Resident</span>.apply _)
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">placeReads</span>:</span> <span class="hljs-type">Reads</span>[<span class="hljs-type">Place</span>] = (
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;name&quot;</span>).read[<span class="hljs-type">String</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;location&quot;</span>).read[<span class="hljs-type">Location</span>] and
+  (<span class="hljs-type">JsPath</span> \ <span class="hljs-string">&quot;residents&quot;</span>).read[<span class="hljs-type">Seq</span>[<span class="hljs-type">Resident</span>]]
+)(<span class="hljs-type">Place</span>.apply _)
+
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">json</span> =</span> { ... }
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">placeResult</span>:</span> <span class="hljs-type">JsResult</span>[<span class="hljs-type">Place</span>] = json.validate[<span class="hljs-type">Place</span>]
+<span class="hljs-comment">// JsSuccess(Place(...),)</span>
+
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">residentResult</span>:</span> <span class="hljs-type">JsResult</span>[<span class="hljs-type">Resident</span>] = (json \ <span class="hljs-string">&quot;residents&quot;</span>)(<span class="hljs-number">1</span>).validate[<span class="hljs-type">Resident</span>]
+<span class="hljs-comment">// JsSuccess(Resident(Bigwig,6,Some(Owsla)),)</span>
+</code></pre>
+<p><strong>&#x4E0B;&#x4E00;&#x8282;&#xFF1A;</strong> <a href="ScalaJsonHttp.htmlnull">JSON with HTTP</a></p>
 
                     
                     </section>

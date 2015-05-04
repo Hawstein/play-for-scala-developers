@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="8.1" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="8.1" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,6 +1087,148 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="accessing-an-sql-database">Accessing an SQL database</h1>
+<h2 id="%E9%85%8D%E7%BD%AE-jdbc%E8%BF%9E%E6%8E%A5%E6%B1%A0">&#x914D;&#x7F6E; JdbC&#x8FDE;&#x63A5;&#x6C60;</h2>
+<p>Play&#x6846;&#x67B6;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x7BA1;&#x7406;JDBC&#x8FDE;&#x63A5;&#x6C60;&#x7684;&#x63D2;&#x4EF6;.&#x4F60;&#x53EF;&#x4EE5;&#x50CF;&#x914D;&#x7F6E;&#x4EFB;&#x4F55;&#x6570;&#x636E;&#x5E93;&#x4E00;&#x6837;&#x9488;&#x5BF9;&#x4F60;&#x7684;&#x9700;&#x6C42;&#x5BF9;&#x5B83;&#x8FDB;&#x884C;&#x914D;&#x7F6E;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x6FC0;&#x6D3B;&#x6570;&#x636E;&#x5E93;&#x63D2;&#x4EF6;&#xFF0C;&#x8BF7;&#x5C06;jdbc&#x52A0;&#x5165;&#x5230;&#x4F60;&#x7684;&#x6784;&#x5EFA;&#x5173;&#x8054;&#x5173;&#x7CFB;&#x4E2D;&#xFF1A;</p>
+<p>libraryDependencies += jdbc</p>
+<p>&#x63A5;&#x7740;&#x4F60;&#x5FC5;&#x987B;&#x5728; conf/application.conf &#x6587;&#x4EF6;&#x4E2D;&#x914D;&#x7F6E;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#x6C60;&#x3002;&#x4E3A;&#x4E86;&#x4F7F;&#x7528;&#x4FBF;&#x5229;&#xFF0C;&#x9ED8;&#x8BA4;&#x7684;JDBC&#x6570;&#x636E;&#x6E90;&#x5FC5;&#x987B;&#x8C03;&#x7528;&#x5E76;&#x4E14;&#x76F8;&#x5173;&#x8054;&#x7684;&#x914D;&#x7F6E;&#x5C5E;&#x6027;&#x5E94;&#x8BE5;&#x4E3A;db.default.driver&#x548C;db.default.url.</p>
+<p>&#x5982;&#x679C;&#x914D;&#x7F6E;&#x4E0D;&#x6B63;&#x786E;&#x6216;&#x6709;&#x6240;&#x9057;&#x6F0F;&#x5728;&#x4F60;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x4F60;&#x5C06;&#x4F1A;&#x76F4;&#x63A5;&#x5F97;&#x5230;&#x5982;&#x4E0B;&#x7684;&#x901A;&#x77E5;&#xFF1A;</p>
+<p><img src="https://www.playframework.com/documentation/2.3.x/resources/manual/scalaGuide/main/sql/images/dbError.png" alt="dberror"></p>
+<pre><code>&#x6CE8;&#x610F;: &#x4F60;&#x6700;&#x597D;&#x7528;&#x53CC;&#x5F15;&#x53F7;&#x5305;&#x4F4F;JDBC URL&#x7684;&#x914D;&#x7F6E;&#x503C;&#xFF0C;&#x56E0;&#x4E3A;&apos;:&apos;&#x5728;&#x914D;&#x7F6E;&#x8BED;&#x6CD5;&#x4E2D;&#x4E3A;&#x53CD;&#x8F6C;&#x5B57;&#x7B26;&#x3002;
+</code></pre><h2 id="h2%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%95%E6%93%8E%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7">H2&#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x914D;&#x7F6E;&#x5C5E;&#x6027;</h2>
+<h1 id="%E4%BD%BF%E7%94%A8h2%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%95%E6%93%8E%E2%80%9D%E5%9F%BA%E4%BA%8E%E5%86%85%E5%AD%98%E2%80%9C%E6%A8%A1%E5%BC%8F%E4%BD%9C%E4%B8%BA%E9%BB%98%E8%AE%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE">&#x4F7F;&#x7528;H2&#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x201D;&#x57FA;&#x4E8E;&#x5185;&#x5B58;&#x201C;&#x6A21;&#x5F0F;&#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x7684;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;</h1>
+<p>db.default.driver=org.h2.Driver
+db.default.url=&quot;jdbc:h2:mem:play&quot;</p>
+<h1 id="%E4%BD%BF%E7%94%A8h2%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%95%E6%93%8E%E2%80%9D%E6%8C%81%E4%B9%85%E5%8C%96%E2%80%9C%E6%A8%A1%E5%BC%8F%E4%BD%9C%E4%B8%BA%E9%BB%98%E8%AE%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE">&#x4F7F;&#x7528;H2&#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x201D;&#x6301;&#x4E45;&#x5316;&#x201C;&#x6A21;&#x5F0F;&#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x7684;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;</h1>
+<p>db.default.driver=org.h2.Driver
+db.default.url=&quot;jdbc:h2:/path/to/db-file&quot;</p>
+<p>&#x5173;&#x4E8E;H2&#x6570;&#x636E;&#x5E93;&#x66F4;&#x8BE6;&#x7EC6;&#x7684;&#x4FE1;&#x606F;&#x8BF7;&#x53C2;&#x8003; <a href="http://www.h2database.com/html/cheatSheet.html" target="_blank">http://www.h2database.com/html/cheatSheet.html</a></p>
+<p>SQLite &#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x8FDE;&#x63A5;&#x5C5E;&#x6027;</p>
+<h1 id="%E4%BD%BF%E7%94%A8sqlite%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%95%E6%93%8E%E6%9C%80%E4%B8%BA%E9%BB%98%E8%AE%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE">&#x4F7F;&#x7528;SQLite&#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x6700;&#x4E3A;&#x9ED8;&#x8BA4;&#x7684;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;</h1>
+<p>db.default.driver=org.sqlite.JDBC
+db.default.url=&quot;jdbc:sqlite:/path/to/db-file&quot;</p>
+<p>PostgreSQL&#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x8FDE;&#x63A5;&#x5C5E;&#x6027;</p>
+<h1 id="%E4%BD%BF%E7%94%A8postgresql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%95%E6%93%8E%E4%BD%9C%E4%B8%BA%E9%BB%98%E8%AE%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE">&#x4F7F;&#x7528;PostgreSQL&#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x7684;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;</h1>
+<p>db.default.driver=org.postgresql.Driver
+db.default.url=&quot;jdbc:postgresql://database.example.com/playdb&quot;</p>
+<p>MySQL &#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x8FDE;&#x63A5;&#x5C5E;&#x6027;</p>
+<h1 id="%E4%BD%BF%E7%94%A8mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%95%E6%93%8E%E4%BD%9C%E4%B8%BA%E9%BB%98%E8%AE%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE">&#x4F7F;&#x7528;MySQL&#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x7684;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;</h1>
+<h1 id="%E4%BB%A5playdbuser%E4%B8%BA%E7%94%A8%E6%88%B7%E8%BF%9E%E6%8E%A5playdb">&#x4EE5;playdbuser&#x4E3A;&#x7528;&#x6237;&#x8FDE;&#x63A5;playdb</h1>
+<p>db.default.driver=com.mysql.jdbc.Driver
+db.default.url=&quot;jdbc:mysql://localhost/playdb&quot;
+db.default.user=playdbuser
+db.default.password=&quot;a strong password&quot;</p>
+<p>&#x5982;&#x4F55;&#x5728;&#x547D;&#x4EE4;&#x7A97;&#x53E3;&#x4E2D;&#x67E5;&#x770B;SQL&#x8868;&#x8FBE;&#x5F0F;&#xFF1F;</p>
+<p>db.default.logStatements=true</p>
+<p>logger.com.jolbox=DEBUG // for EBean</p>
+<p>&#x5982;&#x4F55;&#x914D;&#x7F6E;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x6E90;&#xFF1F;</p>
+<h1 id="%E8%AE%A2%E8%B4%AD%E8%80%85%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE">&#x8BA2;&#x8D2D;&#x8005;&#x7684;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;</h1>
+<p>db.orders.driver=org.h2.Driver
+db.orders.url=&quot;jdbc:h2:mem:orders&quot;</p>
+<h1 id="%E6%B6%88%E8%B4%B9%E8%80%85%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE">&#x6D88;&#x8D39;&#x8005;&#x7684;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;</h1>
+<p>db.customers.driver=org.h2.Driver
+db.customers.url=&quot;jdbc:h2:mem:customers&quot;</p>
+<p>&#x914D;&#x7F6E;JDBC&#x9A71;&#x52A8;</p>
+<p>Play&#x6846;&#x67B6;&#x4EC5;&#x53EF;&#x4EE5;&#x548C;h2&#x6570;&#x636E;&#x5E93;&#x9A71;&#x52A8;&#x8FDB;&#x884C;&#x6346;&#x7ED1;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x4E3A;&#x4E86;&#x5728;&#x5E94;&#x7528;&#x73AF;&#x5883;&#x4E2D;&#x4F7F;&#x7528;&#x4F60;&#x5FC5;&#x987B;&#x5C06;&#x4F60;&#x7684;&#x6570;&#x636E;&#x5E93;&#x9A71;&#x52A8;&#x6DFB;&#x52A0;&#x4E3A;&#x4F9D;&#x8D56;&#x5305;&#x3002;
+&#x4F8B;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;MySQL5&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x4E3A;&#x8BE5;&#x8FDE;&#x63A5;&#x5668;&#x6DFB;&#x52A0;&#x5982;&#x4E0B;&#x7684;&#x76F8;&#x5173;&#x4F9D;&#x8D56;&#xFF1A;
+libraryDependencies += &quot;mysql&quot; % &quot;mysql-connector-java&quot; % &quot;5.1.27&quot;</p>
+<p>&#x6216;&#x8005;&#x5982;&#x679C;&#x8BE5;&#x9A71;&#x52A8;&#x65E0;&#x6CD5;&#x4ECE;&#x8F6F;&#x4EF6;&#x4ED3;&#x5E93;&#x4E2D;&#x627E;&#x5230;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5C06;&#x5176;&#x653E;&#x5230;&#x4F60;&#x9879;&#x76EE;&#x4E2D;&#x7684;&#x975E;&#x7BA1;&#x7406;&#x7684;&#x5173;&#x8054;&#x5E93;&#x76EE;&#x5F55;&#x4E0B;&#x3002;</p>
+<p>&#x8BBF;&#x95EE;JDBC&#x6570;&#x636E;&#x6E90;</p>
+<p>play.api.db&#x8F6F;&#x4EF6;&#x5305;&#x63D0;&#x4F9B;&#x4E86;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;&#x6570;&#x636E;&#x6E90;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<p>import play.api.db._</p>
+<p>val ds = DB.getDataSource()</p>
+<p>&#x83B7;&#x53D6;&#x4E00;&#x4E2A;JDBC&#x8FDE;&#x63A5;
+&#x8FD9;&#x91CC;&#x6709;&#x51E0;&#x79CD;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x4E00;&#x4E2A;JDBC&#x8FDE;&#x63A5;&#x3002;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x5F0F;&#x4E3A;&#xFF1A;</p>
+<p>val connection = DB.getConnection()</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h1 id="%E4%BB%A5%E4%B8%8B%E7%9A%84%E4%BB%A3%E7%A0%81%E5%90%91%E4%BD%A0%E5%B1%95%E7%A4%BA%E4%BA%86%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84jdbc%E5%A6%82%E4%BD%95%E5%92%8Cmysql5-%E4%B8%80%E8%B5%B7%E4%BD%BF%E7%94%A8%E7%9A%84%E4%BE%8B%E5%AD%90%EF%BC%9A">&#x4EE5;&#x4E0B;&#x7684;&#x4EE3;&#x7801;&#x5411;&#x4F60;&#x5C55;&#x793A;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;JDBC&#x5982;&#x4F55;&#x548C;MySQL5.*&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</h1>
+<p>Following code show you a JDBC example very simple, working with MySQL 5.<em>:
+&#x4EE5;&#x4E0B;&#x7684;&#x4EE3;&#x7801;&#x5411;&#x4F60;&#x5C55;&#x793A;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;JDBC&#x5982;&#x4F55;&#x548C;MySQL5.</em>&#x5DE5;&#x4F5C;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>0fc41b591c9c89c9673778306d7e226fe93c14d0</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>package controllers
+import play.api.Play.current
+import play.api.mvc.<em>
+import play.api.db.</em></p>
+<p>object Application extends Controller {</p>
+<p>def index = Action {
+    var outString = &quot;Number is &quot;
+    val conn = DB.getConnection()
+    try {
+      val stmt = conn.createStatement
+      val rs = stmt.executeQuery(&quot;SELECT 9 as testkey &quot;)
+      while (rs.next()) {
+        outString += rs.getString(&quot;testkey&quot;)
+      }
+    } finally {
+      conn.close()
+    }
+    Ok(outString)
+  }</p>
+<p>}</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h1 id="%E4%BD%86%E6%98%AF%E4%BD%A0%E5%BF%85%E9%A1%BB%E8%B0%83%E7%94%A8close-%E5%9C%A8%E6%9F%90%E4%B8%80%E7%82%B9%E4%B8%8A%E7%9A%84%E6%89%93%E5%BC%80%E7%9A%84%E8%BF%9E%E6%8E%A5%E8%BF%94%E5%9B%9E%E5%88%B0%E8%BF%9E%E6%8E%A5%E6%B1%A0%E3%80%82%E5%8F%A6%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F%E6%98%AF%E5%88%A9%E7%94%A8play%E6%A1%86%E6%9E%B6%E6%9D%A5%E5%85%B3%E9%97%AD%E8%AF%A5%E8%BF%9E%E6%8E%A5%EF%BC%9A">&#x4F46;&#x662F;&#x4F60;&#x5FC5;&#x987B;&#x8C03;&#x7528;close()&#x5728;&#x67D0;&#x4E00;&#x70B9;&#x4E0A;&#x7684;&#x6253;&#x5F00;&#x7684;&#x8FDE;&#x63A5;&#x8FD4;&#x56DE;&#x5230;&#x8FDE;&#x63A5;&#x6C60;&#x3002;&#x53E6;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x662F;&#x5229;&#x7528;Play&#x6846;&#x67B6;&#x6765;&#x5173;&#x95ED;&#x8BE5;&#x8FDE;&#x63A5;&#xFF1A;</h1>
+<p>&#x4F46;&#x662F;&#x4F60;&#x5FC5;&#x987B;&#x8C03;&#x7528;close()&#x5728;&#x67D0;&#x4E00;&#x70B9;&#x4E0A;&#x7684;&#x6253;&#x5F00;&#x7684;&#x8FDE;&#x63A5;&#x8FD4;&#x56DE;&#x5230;&#x8FDE;&#x63A5;&#x6C60;&#x3002;&#x53E6;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x662F;&#x5229;&#x7528;Play&#x6846;&#x67B6;&#x4E3A;&#x5173;&#x95ED;&#x8BE5;&#x8FDE;&#x63A5;&#xFF1A;</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>0fc41b591c9c89c9673778306d7e226fe93c14d0</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>// &#x8BBF;&#x95EE;&#x201C;&#x9ED8;&#x8BA4;&#x201D;&#x6570;&#x636E;&#x5E93;</p>
+<p>DB.withConnection { conn =&gt;</p>
+<p>// &#x6839;&#x636E;&#x4F60;&#x7684;&#x9700;&#x6C42;&#x914D;&#x7F6E;&#x8FDE;&#x63A5;
+}</p>
+<p>&#x975E;&#x9ED8;&#x8BA4;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;&#xFF1A;</p>
+<p>// &#x8BBF;&#x95EE;&#x201C;&#x8BA2;&#x9605;&#x8005;&#x201D;&#x6570;&#x636E;&#x5E93;&#x800C;&#x4E0D;&#x662F;&#x201C;&#x9ED8;&#x8BA4;&#x201D;&#x6570;&#x636E;&#x5E93;</p>
+<p>DB.withConnection(&quot;orders&quot;) { conn =&gt;</p>
+<p>// &#x6839;&#x636E;&#x4F60;&#x7684;&#x9700;&#x6C42;&#x914D;&#x7F6E;&#x8FDE;&#x63A5;
+}</p>
+<p>&#x5728;&#x6700;&#x540E;&#x7684;&#x4EE3;&#x7801;&#x6BB5;&#x4E2D;&#x8FDE;&#x63A5;&#x4F1A;&#x81EA;&#x52A8;&#x5173;&#x95ED;&#x3002;</p>
+<pre><code>&#x5EFA;&#x8BAE;: &#x6BCF;&#x4E2A;&#x4E0E;&#x6B64;&#x8FDE;&#x63A5;&#x76F8;&#x5173;&#x8054;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x548C;&#x7ED3;&#x679C;&#x96C6;&#x4E5F;&#x4F1A;&#x540C;&#x65F6;&#x5173;&#x95ED;
+</code></pre><p>&#x53D8;&#x91CF;&#x662F;&#x7528;&#x6765;&#x8BBE;&#x5B9A;&#x8FDE;&#x63A5;&#x7684;&#x81EA;&#x52A8;&#x63D0;&#x4EA4;&#x4E3A;&#x975E;&#x6CD5;&#x7684;&#x5E76;&#x4E14;&#x5BF9;&#x8BE5;&#x4EE3;&#x7801;&#x6BB5;&#x8FDB;&#x884C;&#x4E8B;&#x52A1;&#x7BA1;&#x7406;
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<p>=======</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>0fc41b591c9c89c9673778306d7e226fe93c14d0
+DB.withTransaction { conn =&gt;</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>// &#x6839;&#x636E;&#x4F60;&#x7684;&#x9700;&#x6C42;&#x914D;&#x7F6E;&#x8FDE;&#x63A5;
+}</p>
 
                     
                     </section>

@@ -35,7 +35,7 @@
     
 
         
-    <div class="book" data-level="14.2" data-basepath=".." data-revision="Fri Mar 13 2015 02:41:07 GMT+0800 (CST)">
+    <div class="book" data-level="14.2" data-basepath=".." data-revision="Tue May 05 2015 01:57:38 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -1087,7 +1087,192 @@
                     <section class="normal" id="section-">
                     
                         <h1 id="writing-functional-tests-with-scalatest">Writing functional tests with ScalaTest</h1>
+<h2 id="%E7%94%A8scalatest%E5%86%99%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95">&#x7528;ScalaTest&#x5199;&#x529F;&#x80FD;&#x6D4B;&#x8BD5;</h2>
+<p>&#x4E3A;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x7F16;&#x5199;&#x6D4B;&#x8BD5;&#x53EF;&#x662F;&#x4E00;&#x4E2A;&#x590D;&#x6742;&#x7684;&#x8FC7;&#x7A0B;&#x3002;Play&#x63D0;&#x4F9B;&#x4E86;&#x5E2E;&#x52A9;&#x624B;&#x518C;&#x548C;&#x5E94;&#x7528;&#x5B58;&#x6839;&#x3002;&#x5E76;&#x4E14;ScalaTest&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x6574;&#x5408;&#x5E93;&#xFF0C;<a href="http://scalatest.org/plus/play" target="_blank">ScalaTest + Play</a>,&#x4F7F;&#x6D4B;&#x8BD5;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x53D8;&#x5F97;&#x5C3D;&#x53EF;&#x80FD;&#x7B80;&#x5355;&#x3002;</p>
+<h1 id="%E6%80%BB%E8%A7%88">&#x603B;&#x89C8;</h1>
+<p>&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#x4F4D;&#x4E8E;&#x201C;test&#x201D;&#x76EE;&#x5F55;&#x4E0B;&#x3002;</p>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;Play&#x63A7;&#x5236;&#x53F0;&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;&#x3002;</p>
+<pre><code>&#x70B9;&#x51FB;test&#x8FD0;&#x884C;&#x6240;&#x6709;&#x6D4B;&#x8BD5;&#x3002;
+&#x70B9;&#x51FB;&#x7C7B;&#x540D;&#x540E;&#x8DDF;&#x968F;&#x7684;test-only&#xFF0C;&#x6BD4;&#x5982;&#xFF0C;test-only my.namespace.MySpec &#x6765;&#x8FD0;&#x884C;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x7C7B;&#x3002;
+&#x70B9;&#x51FB;test-quick&#x8FD0;&#x884C;&#x53EA;&#x6709;&#x5DF2;&#x7ECF;&#x5931;&#x8D25;&#x7684;&#x6D4B;&#x8BD5;&#x3002;
+&#x8F93;&#x5165;&#x4E00;&#x4E2A;&#x524D;&#x9762;&#x5E26;~&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x6BD4;&#x5982; ~test-quick&#x6765;&#x6301;&#x7EED;&#x6027;&#x7684;&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;&#x3002;
+&#x8FD0;&#x884C;test:console&#x6765;&#x5728;&#x63A7;&#x5236;&#x53F0;&#x4E2D;&#x67E5;&#x770B;&#x6D4B;&#x8BD5;&#x5E2E;&#x52A9;&#x624B;&#x518C;&#x5982; FakeApplication.
+</code></pre><p>&#x5728;Play&#x4E2D;&#x6D4B;&#x8BD5;&#x662F;&#x57FA;&#x4E8E;SBT,<a href="http://www.scala-sbt.org/0.13.0/docs/Detailed-Topics/Testing" target="_blank">testing SBT</a>&#x7AE0;&#x8282;&#x4E2D;&#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x52A0;&#x8BE6;&#x7EC6;&#x7684;&#x4FE1;&#x606F;&#x3002;</p>
+<h2 id="%E4%BD%BF%E7%94%A8-scalatest-play">&#x4F7F;&#x7528; ScalaTest + Play</h2>
+<p>&#x4E3A;&#x4E86;&#x80FD;&#x591F;&#x4F7F;&#x7528;ScalaTest + Play, &#x4F60;&#x5C06;&#x9700;&#x8981;&#x5C06;&#x5B83;&#x6DFB;&#x52A0;&#x5230;&#x4F60;&#x7684;&#x6784;&#x5EFA;&#x4E2D;&#xFF0C;&#x901A;&#x8FC7;&#x6539;&#x53D8;projects/Build.scala &#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code>val appDependencies = Seq(
+      // &#x5728;&#x6B64;&#x5904;&#x6DFB;&#x52A0;&#x4F60;&#x7684;&#x9879;&#x76EE;&#x4F9D;&#x8D56;,
+      &quot;org.scalatestplus&quot; %% &quot;play&quot; % &quot;1.1.0&quot; % &quot;test&quot;
+)
+</code></pre><p>&#x4F60;&#x4E0D;&#x9700;&#x8981;&#x663E;&#x6027;&#x7684;&#x6DFB;&#x52A0;ScalaTest&#x5230;&#x4F60;&#x7684;&#x6784;&#x5EFA;&#x4E2D;&#x3002;&#x9002;&#x5F53;&#x7248;&#x672C;&#x7684;ScalaTest&#x4F1A;&#x4F5C;&#x4E3A;ScalaTest + Play&#x7684;&#x4E00;&#x4E2A;&#x8FC7;&#x6E21;&#x7684;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x3002;&#x4F60;&#x5C06;&#x9700;&#x8981;&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x548C;&#x4F60;&#x7684;Play&#x7248;&#x672C;&#x5339;&#x914D;&#x7684;&#x4E00;&#x4E2A;&#x7248;&#x672C;&#x7684;ScalaTest + Play&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;ScalaTest + Play&#x7684;<a href="http://www.scalatest.org/plus/play/versions" target="_blank">versions</a>&#x9875;&#x9762;&#x3002;</p>
+<p><a href="http://scalatest.org/plus/play" target="_blank">ScalaTest + Play</a>&#x4E2D;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6269;&#x5C55;PlaySpec&#x7684;&#x7279;&#x6027;&#x6765;&#x5B9A;&#x4E49;&#x6D4B;&#x8BD5;&#x7C7B;&#x3002;</p>
+<p>&#x4F8B;&#x5982;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code>import collection.mutable.Stack
+import org.scalatestplus.play._
 
+class StackSpec extends PlaySpec {
+
+      &quot;A Stack&quot; must {
+        &quot;pop values in last-in-first-out order&quot; in {
+          val stack = new Stack[Int]
+          stack.push(1)
+          stack.push(2)
+          stack.pop() mustBe 2
+          stack.pop() mustBe 1
+        }
+        &quot;throw NoSuchElementException if an empty stack is popped&quot; in {
+              val emptyStack = new Stack[Int]
+              a [NoSuchElementException] must be thrownBy {
+                emptyStack.pop()
+                  }
+            }
+          }
+    }
+</code></pre><p>&#x4F60;&#x6216;&#x8005;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;<a href="http://scalatest.org/user_guide/defining_base_classes" target="_blank">&#x5B9A;&#x4E49;&#x81EA;&#x5DF1;&#x7684;&#x57FA;&#x7C7B;</a>&#x6765;&#x66FF;&#x6362;&#x4F7F;&#x7528;PlaySpec.</p>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x4E0E;Play&#x4E00;&#x8D77;&#x6216;&#x5728;IntelliJ IDEA(&#x4F7F;&#x7528;<a href="http://blog.jetbrains.com/scala/" target="_blank">Scala plugin</a>)&#x6216;Eclipse(&#x4F7F;&#x7528;<a href="http://scala-ide.org/" target="_blank">Scala IDE</a>&#x548C; <a href="http://scalatest.org/user_guide/using_scalatest_with_eclipse" target="_blank">ScalaTest Eclipse plugin</a>)&#x4E2D;&#x8FD0;&#x884C;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x3002;&#x8BF7;&#x901A;&#x8FC7;<a href="https://www.playframework.com/documentation/2.3.x/IDE" target="_blank">IDE&#x9875;&#x9762;</a>&#x6765;&#x83B7;&#x53D6;&#x66F4;&#x591A;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;&#x3002;</p>
+<h2 id="%E9%80%82%E9%85%8D%E5%99%A8">&#x9002;&#x914D;&#x5668;</h2>
+<p>PlaySpec&#x6DF7;&#x5408;&#x4E86;ScalaTest&#x7684;MustMatchers,&#x6240;&#x4EE5;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4F7F;&#x7528;ScalaTest&#x7684;&#x9002;&#x914D;&#x5668;DSL&#x6765;&#x5199;&#x58F0;&#x660E;&#x53D8;&#x91CF;&#xFF1A;</p>
+<pre><code>&#x201C;Hello world&#x201D; must endWith (&quot;world&quot;)
+</code></pre><p>&#x8BF7;&#x53C2;&#x8003;MustMatchers&#x7684;&#x6587;&#x6863;&#x6765;&#x83B7;&#x53D6;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#x3002;</p>
+<h2 id="mockito">Mockito</h2>
+<p>&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4F7F;&#x7528;mocks&#x6765;&#x9694;&#x79BB;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x9700;&#x8981;&#x7684;&#x5916;&#x90E8;&#x4F9D;&#x8D56;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7684;&#x7C7B;&#x4F9D;&#x8D56;&#x4E8E;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x7C7B;DataService,&#x4F60;&#x53EF;&#x4EE5;&#x4E3A;&#x4F60;&#x7684;&#x7C7B;&#x91C7;&#x96C6;&#x9002;&#x5F53;&#x7684;&#x6570;&#x636E;&#x800C;&#x4E0D;&#x9700;&#x8981;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A;DataService&#x5BF9;&#x8C61;&#x3002;</p>
+<p>ScalaTest&#x901A;&#x8FC7;MockitoSuger&#x7279;&#x6027;&#x63D0;&#x4F9B;&#x4E0E;<a href="https://code.google.com/p/mockito/" target="_blank">Mockito</a>&#x96C6;&#x6210;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x4F7F;&#x7528;Mockito&#xFF0C;&#x6DF7;&#x5408;MockitoSUger&#x5230;&#x4F60;&#x7684;&#x6D4B;&#x8BD5;&#x7C7B;&#x4E2D;&#x7136;&#x540E;&#x4F7F;&#x7528;Mockito&#x5E93;&#x6765;&#x6A21;&#x62DF;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#xFF1A;</p>
+<pre><code>case class Data(retrievalDate: java.util.Date)
+
+trait DataService {
+      def findData: Data
+}
+
+import org.scalatest._
+import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.play._
+
+import org.mockito.Mockito._
+
+class ExampleMockitoSpec extends PlaySpec with MockitoSugar {
+
+      &quot;MyService#isDailyData&quot; should {
+        &quot;return true if the data is from today&quot; in {
+              val mockDataService = mock[DataService]
+              when(mockDataService.findData) thenReturn Data(new java.util.Date())
+
+              val myService = new MyService() {
+                override def dataService = mockDataService
+              }
+
+              val actual = myService.isDailyData
+              actual mustBe true
+            }
+          }
+    }
+</code></pre><p>&#x6A21;&#x62DF;&#x5BF9;&#x4E8E;&#x6D4B;&#x8BD5;&#x7C7B;&#x7684;&#x516C;&#x5171;&#x65B9;&#x6CD5;&#x662F;&#x975E;&#x5E38;&#x6709;&#x7528;&#x7684;&#x3002;&#x6A21;&#x62DF;&#x5BF9;&#x8C61;&#x548C;&#x79C1;&#x6709;&#x65B9;&#x6CD5;&#x662F;&#x53EF;&#x80FD;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x96BE;&#x4EE5;&#x5B9E;&#x73B0;&#x3002;</p>
+<h2 id="%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B">&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x6A21;&#x578B;</h2>
+<p>Play&#x4E0D;&#x9700;&#x8981;&#x901A;&#x8FC7;&#x6A21;&#x5F0F;&#x53BB;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x6570;&#x636E;&#x5E93;&#x6570;&#x636E;&#x8BBF;&#x95EE;&#x5C42;&#x3002;&#x800C;&#x4E14;&#xFF0C;&#x5982;&#x679C;&#x5E94;&#x7528;&#x4F7F;&#x7528;Anorm&#x6216;Slick,&#x8BE5;&#x6A21;&#x5F0F;&#x5F80;&#x5F80;&#x5C06;&#x62E5;&#x6709;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x8BBF;&#x95EE;&#x7684;&#x5185;&#x90E8;&#x5F15;&#x7528;&#x3002;</p>
+<pre><code>import anorm._
+import anorm.SqlParser._
+
+case class User(id: String, name: String, email: String) {
+       def roles = DB.withConnection { implicit connection =&gt;
+     ...
+    }
+}
+</code></pre><p>&#x5BF9;&#x4E8E;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#xFF0C;&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x5FAE;&#x5999;&#x7684;&#x6A21;&#x62DF;roles&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x4FDD;&#x6301;&#x6A21;&#x5F0F;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x903B;&#x8F91;&#x4E0A;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#x5206;&#x79BB;&#xFF0C;&#x5E76;&#x62BD;&#x8C61;&#x6570;&#x636E;&#x5E93;&#x7684;&#x8BBF;&#x95EE;&#x4E8E;&#x4E00;&#x4E2A;&#x4ED3;&#x5E93;&#x5C42;&#x7684;&#x540E;&#x9762;&#x3002;</p>
+<pre><code>case class Role(name:String)
+
+case class User(id: String, name: String, email:String)
+
+trait UserRepository {
+      def roles(user:User) : Set[Role]
+}
+
+class AnormUserRepository extends UserRepository {
+      import anorm._
+      import anorm.SqlParser._
+
+      def roles(user:User) : Set[Role] = {
+        ...
+      }
+}
+</code></pre><p>&#x7136;&#x540E;&#x901A;&#x8FC7;&#x670D;&#x52A1;&#x8BBF;&#x95EE;&#x5B83;&#x4EEC;&#xFF1A;</p>
+<pre><code>class UserService(userRepository : UserRepository) {
+
+      def isAdmin(user:User) : Boolean = {
+        userRepository.roles(user).contains(Role(&quot;ADMIN&quot;))
+      }
+}
+</code></pre><p>&#x901A;&#x8FC7;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C; isAdmin&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6A21;&#x62DF;&#x51FA;UserRepository&#x5F15;&#x7528;&#x5E76;&#x4F20;&#x9012;&#x5176;&#x5230;&#x8BE5;&#x670D;&#x52A1;&#x4E2D;&#x6765;&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<pre><code>class UserServiceSpec extends PlaySpec with MockitoSugar {
+
+      &quot;UserService#isAdmin&quot; should {
+        &quot;be true when the role is admin&quot; in {
+              val userRepository = mock[UserRepository]
+              when(userRepository.roles(any[User])) thenReturn Set(Role(&quot;ADMIN&quot;))
+
+              val userService = new UserService(userRepository)
+
+              val actual = userService.isAdmin(User(&quot;11&quot;, &quot;Steve&quot;, &quot;user@example.org&quot;))
+              actual mustBe true
+            }
+          }
+    }
+</code></pre><h2 id="%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%8E%A7%E5%88%B6%E5%99%A8">&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x63A7;&#x5236;&#x5668;</h2>
+<p>&#x5728;Play&#x4E2D;&#x63A7;&#x5236;&#x5668;&#x88AB;&#x5B9A;&#x4E49;&#x4E3A;&#x5BF9;&#x8C61;&#xFF0C;&#x6240;&#x4EE5;&#x66F4;&#x96BE;&#x6765;&#x8FDB;&#x884C;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x3002;&#x5728;Play&#x4E2D;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;<a href="https://www.playframework.com/documentation/2.3.x/ScalaDependencyInjection" target="_blank">&#x4F9D;&#x8D56;&#x6CE8;&#x5165;</a>&#x4F7F;&#x7528;getControllerInstance&#x6765;&#x7F13;&#x89E3;&#x3002;&#x53E6;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x53BB;&#x5DE7;&#x5999;&#x5904;&#x7406;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x7684;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x662F;&#x9488;&#x5BF9;&#x8FD9;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;<a href="http://www.naildrivin5.com/scalatour/wiki_pages/ExplcitlyTypedSelfReferences" target="_blank">&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x81EA;&#x5F15;&#x7528;</a>&#x7684;&#x4E00;&#x79CD;&#x7279;&#x8D28;&#xFF1A;</p>
+<pre><code>trait ExampleController {
+      this: Controller =&gt;
+
+      def index() = Action {
+        Ok(&quot;ok&quot;)
+      }
+}
+
+object ExampleController extends Controller with ExampleController
+</code></pre><p>&#x5E76;&#x63A5;&#x7740;&#x6D4B;&#x8BD5;&#x8FD9;&#x4E2A;&#x7279;&#x8D28;&#xFF1A;</p>
+<pre><code>import scala.concurrent.Future
+
+import org.scalatest._
+import org.scalatestplus.play._
+
+import play.api.mvc._
+import play.api.test._
+import play.api.test.Helpers._
+
+class ExampleControllerSpec extends PlaySpec with Results {
+
+      class TestController() extends Controller with ExampleController
+
+      &quot;Example Page#index&quot; should {
+        &quot;should be valid&quot; in {
+          val controller = new TestController()
+          val result: Future[SimpleResult] = controller.index().apply(FakeRequest())
+          val bodyText: String = contentAsString(result)
+          bodyText mustBe &quot;ok&quot;
+        }
+      }
+}
+</code></pre><h2 id="%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%9F%BA%E6%9C%AC%E5%8A%A8%E4%BD%9C">&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x57FA;&#x672C;&#x52A8;&#x4F5C;</h2>
+<p>&#x6D4B;&#x8BD5;Action&#x6216;Filter&#x9700;&#x8981;&#x6D4B;&#x8BD5;&#x4E00;&#x4E2A;EssentialAction(<a href="https://www.playframework.com/documentation/2.3.x/HttpApi" target="_blank">&#x5173;&#x4E8E;&#x4EC0;&#x4E48;&#x662F;EssentialAction&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;</a>)</p>
+<p>&#x5BF9;&#x6B64;&#xFF0C;&#x6D4B;&#x8BD5;Helpers.call&#x53EF;&#x4EE5;&#x50CF;&#x8FD9;&#x6837;&#x4F7F;&#x7528;&#xFF1A;</p>
+<pre><code>class ExampleEssentialActionSpec extends PlaySpec {
+
+      &quot;An essential action&quot; should {
+        &quot;can parse a JSON body&quot; in {
+              val action: EssentialAction = Action { request =&gt;
+            val value = (request.body.asJson.get \ &quot;field&quot;).as[String]
+            Ok(value)
+          }
+
+              val request = FakeRequest(POST, &quot;/&quot;).withJsonBody(Json.parse(&quot;&quot;&quot;{ &quot;field&quot;: &quot;value&quot; }&quot;&quot;&quot;))
+
+              val result = call(action, request)
+
+              status(result) mustEqual OK
+              contentAsString(result) mustEqual &quot;value&quot;
+        }
+      }
+}
+</code></pre>
                     
                     </section>
                 
