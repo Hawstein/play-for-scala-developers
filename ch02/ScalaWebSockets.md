@@ -44,7 +44,7 @@ class MyWebSocketActor(out: ActorRef) extends Actor {
 
 ### 检测 WebSocket 何时关闭
 
-如果 WebSocket 已经关闭，Play 会自动停掉 actor。这意味着你可以通过实现 `postStop` 方法来清理 WebSocket 可能使用的资源。例如：
+如果 WebSocket 已经关闭，Play 会自动停掉 actor。这意味着你可以通过实现 `postStop` 方法来清理 WebSocket 可能已经使用的资源。例如：
 
 ```scala
 override def postStop() = {

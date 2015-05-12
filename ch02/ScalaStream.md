@@ -112,11 +112,11 @@ def index = Action {
 
 ## 分块响应
 
-到现在为止，流处理文件内容工作的非常好，主要是因为能够在流处理之前算出文本长度。但是如果是动态计算，还没有得出长度的内容呢？
+到现在为止，流处理文件内容工作的非常好，主要是因为能够在流处理之前算出文本长度。但是如果是动态文本，无法确定文本大小呢？
 
 对于这样的响应，我们需要使用 **分块传输编码** （Chunked transfer encoding）。
 
-**分块传输编码**（Chunked transfer encoding）是一种定义在 Hypertext Transfer Protocol（HTTP）1.1 版本中的数据传输机制，其中 web 服务器会将文本分块处理。它使用了 `Transfer-Encoding` HTTP 响应报头而非 `Content-Length` 报头，如果你没有使用 `Content-Length` 的话，则必须使用这个报头。由于没有 `Content-Length`，服务器无需在开始传输响应到客户端（通常是 web 客户端）之前就知道内容的长度。 Web 服务器在知道内容总长前就能够传输动态生成的内容响应。
+**分块传输编码**（Chunked transfer encoding）是一种定义在 Hypertext Transfer Protocol（HTTP）1.1 版本中的数据传输机制，其中 web 服务器会将文本连续分块处理。它使用了 `Transfer-Encoding` HTTP 响应报头而非 `Content-Length` 报头，如果你没有使用 `Content-Length` 的话，则必须使用这个报头。由于没有 `Content-Length`，服务器无需在开始传输响应到客户端（通常是 web 客户端）之前就知道内容的长度。 Web 服务器在知道内容总长前就能够传输动态生成的内容响应。
 
 在发送每个数据块前，都会先发送块的大小，客户端能够依此判断是否已完整接收该数据块。数据传输会在收到一个长度为零的数据块后终结。
 
